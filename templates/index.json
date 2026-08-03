@@ -178,6 +178,73 @@
         "padding_bottom": 20
       }
     },
+    "editorial_categories_dMDQGL": {
+      "type": "editorial-categories",
+      "blocks": {
+        "category_dwF8BR": {
+          "type": "category",
+          "settings": {
+            "collection": "women",
+            "title": "",
+            "cta_text": "EXPLORE NOW",
+            "custom_link": "",
+            "desktop_focal_point": "center center",
+            "mobile_focal_point": "center center",
+            "image_alt": ""
+          }
+        },
+        "category_fcBREX": {
+          "type": "category",
+          "settings": {
+            "collection": "girl",
+            "image": "shopify://shop_images/Contrario_Kids_Alternative_Dress_for_Girls_Dark_Play_Print_2_52e77b44-3331-4751-9a98-aaed5f94a513.png",
+            "title": "",
+            "cta_text": "EXPLORE NOW",
+            "custom_link": "",
+            "desktop_focal_point": "center center",
+            "mobile_focal_point": "center center",
+            "image_alt": ""
+          }
+        }
+      },
+      "block_order": [
+        "category_dwF8BR",
+        "category_fcBREX"
+      ],
+      "disabled": true,
+      "name": "Editorial categories",
+      "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "heading_alignment": "left",
+        "heading_color": "#FFFFFF",
+        "background_color": "#111111",
+        "max_width": 1440,
+        "desktop_card_height": 480,
+        "mobile_card_height": 500,
+        "column_gap": 16,
+        "row_gap": 16,
+        "mobile_gap": 12,
+        "mobile_rail": true,
+        "desktop_gutter": 24,
+        "mobile_gutter": 16,
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "enable_grayscale": true,
+        "image_brightness": 85,
+        "overlay_color": "#000000",
+        "overlay_opacity": 20,
+        "image_zoom": 104,
+        "title_color": "#FFFFFF",
+        "title_size": 42,
+        "title_size_mobile": 34,
+        "cta_color": "#C8FF00",
+        "cta_size": 11,
+        "accent_color": "#C8FF00",
+        "content_alignment": "left",
+        "content_inset": 24
+      }
+    },
     "17691903791e1195b2": {
       "type": "_blocks",
       "blocks": {
@@ -631,6 +698,7 @@
     "campaign_hero_CnDeBL",
     "17680796693645433c",
     "image_with_text_wUMzb4",
+    "editorial_categories_dMDQGL",
     "17691903791e1195b2",
     "rich_text_EG8bAg",
     "featured_collection",
