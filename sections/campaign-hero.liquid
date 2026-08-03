@@ -112,7 +112,7 @@
                   style="--heading-color: {{ block.settings.color }}; --heading-size: {{ block.settings.size_desktop }}px; --heading-size-mobile: {{ block.settings.size_mobile }}px; --heading-weight: {{ block.settings.weight }}; --heading-leading: {{ block.settings.line_height | divided_by: 100.0 }}; --heading-tracking: {{ block.settings.letter_spacing | divided_by: 1000.0 }}em;"
                   {{ block.shopify_attributes }}
                 >
-                  {{ block.settings.heading }}
+                  {{ block.settings.heading | newline_to_br }}
                 </{{ block.settings.heading_level }}>
               {%- endif -%}
 
@@ -316,7 +316,7 @@
     {
       "type": "heading", "name": "Heading", "limit": 1,
       "settings": [
-        { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "ONE LIFE.<br>ONE CHANCE." },
+        { "type": "textarea", "id": "heading", "label": "Heading", "default": "ONE LIFE.\nONE CHANCE.", "info": "Use a new line to control line breaks." },
         { "type": "select", "id": "heading_level", "label": "Heading level", "default": "h1", "options": [ { "value": "h1", "label": "H1" }, { "value": "h2", "label": "H2" }, { "value": "h3", "label": "H3" } ]},
         { "type": "color", "id": "color", "label": "Color", "default": "#FFFFFF" },
         { "type": "range", "id": "size_desktop", "label": "Desktop size", "min": 36, "max": 140, "step": 2, "unit": "px", "default": 72 },
@@ -370,7 +370,7 @@
         "desktop_content_position": "bottom-left", "mobile_content_position": "bottom-left"
       },
       "blocks": [
-        { "type": "heading", "settings": { "heading": "ONE LIFE.<br>ONE CHANCE.", "size_desktop": 72, "size_mobile": 42, "uppercase": true } },
+        { "type": "heading", "settings": { "heading": "ONE LIFE.\nONE CHANCE.", "size_desktop": 72, "size_mobile": 42, "uppercase": true } },
         { "type": "buttons", "settings": { "button_label_1": "SHOP NEW ARRIVALS", "button_background_1": "#B8F000", "button_text_color_1": "#050505" } }
       ]
     }

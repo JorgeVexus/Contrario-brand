@@ -55,6 +55,10 @@ for (const type of ['eyebrow', 'heading', 'text', 'buttons']) {
 
 const headingLevels = blocks.heading.settings.find(({ id }) => id === 'heading_level').options.map(({ value }) => value);
 assert.deepEqual(headingLevels, ['h1', 'h2', 'h3'], 'heading levels are semantic and constrained');
+const headingSetting = blocks.heading.settings.find(({ id }) => id === 'heading');
+assert.equal(headingSetting.type, 'textarea', 'multiline heading uses a Shopify-safe textarea');
+assert.doesNotMatch(headingSetting.default, /<br\s*\/?\s*>/i, 'heading default contains no forbidden br tag');
+assert.match(source, /block\.settings\.heading\s*\|\s*newline_to_br/, 'heading newlines render as visual line breaks');
 
 const preset = schema.presets.find(({ name }) => name === 'Campaign hero');
 assert.ok(preset, 'Campaign hero preset exists');
@@ -63,5 +67,6 @@ assert.equal(preset.settings.overlay_style, 'gradient-left', 'preset starts with
 assert.equal(preset.settings.desktop_content_position, 'bottom-left', 'preset starts bottom-left');
 assert.ok(preset.blocks.some(({ type }) => type === 'heading'), 'preset includes heading');
 assert.ok(preset.blocks.some(({ type }) => type === 'buttons'), 'preset includes CTA');
+assert.doesNotMatch(JSON.stringify(preset), /<br\s*\/?\s*>/i, 'preset contains no forbidden br tag');
 
 console.log('campaign hero regression checks passed');
