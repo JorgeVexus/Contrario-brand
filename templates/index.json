@@ -1,1 +1,651 @@
-{"sections":{"17680796693645433c":{"type":"_blocks","blocks":{"ai_gen_block_9367062_KbFLKc":{"type":"ai_gen_block_9367062","settings":{"image":"shopify:\/\/shop_images\/fcc9d086-c52f-4262-b619-8a0c4bc1e552.png","image_height":400,"image_height_mobile":500,"image_fit":"cover","image_position":"center","border_radius":0,"show_overlay":false,"overlay_color":"#000000","overlay_opacity":30,"show_content":false,"heading":"Welcome to our store","text":"<p>Discover our latest collection<\/p>","heading_size":48,"text_size":18,"text_alignment":"center","text_color":"#ffffff","content_max_width":600,"button_text":"Shop now","button_link":"shopify:\/\/collections\/all","button_color":"#662481","button_hover_color":"#000000","button_text_color":"#ffffff","button_text_size":16,"button_border_radius":0,"padding_top":0,"padding_bottom":0,"padding_left":50,"padding_right":50,"padding_top_mobile":0,"padding_bottom_mobile":0,"padding_left_mobile":0,"padding_right_mobile":0},"blocks":{}}},"block_order":["ai_gen_block_9367062_KbFLKc"],"settings":{}},"image_with_text_wUMzb4":{"type":"image-with-text","blocks":{"caption_fg7eAK":{"type":"caption","settings":{"caption":"CONTRARIO","text_style":"caption-with-letter-spacing","text_size":"medium"}},"heading_gMVNjQ":{"type":"heading","settings":{"heading":"Wear the Rebellion","heading_size":"h2"}},"button_DftKka":{"type":"button","settings":{"button_label":"Shop Now","button_link":"shopify:\/\/collections\/all","button_style_secondary":true}}},"block_order":["caption_fg7eAK","heading_gMVNjQ","button_DftKka"],"name":"t:sections.image-with-text.presets.name","settings":{"image":"shopify:\/\/shop_images\/Hero_Image-1.jpg","height":"large","desktop_image_width":"large","layout":"image_first","image_behavior":"none","content_layout":"no-overlap","desktop_content_position":"top","desktop_content_alignment":"left","mobile_content_alignment":"left","section_color_scheme":"scheme-1","color_scheme":"scheme-3","padding_top":48,"padding_bottom":20}},"17691903791e1195b2":{"type":"_blocks","blocks":{"ai_gen_block_9f87bfe_phHK4N":{"type":"ai_gen_block_9f87bfe","name":"Category card navigator","settings":{"cards_visible_desktop":4,"cards_visible_mobile":2,"container_width":1300,"section_padding_top":40,"section_padding_bottom":12,"card_gap":20,"background_color":"#ffffff","arrow_background":"#424142","arrow_color":"#ffffff","card_height":200,"card_height_mobile":150,"card_border_radius":12,"card_padding":15,"card_background_color":"#1d1d1d","enable_border":true,"border_width":1,"border_style":"solid","border_color":"#ffffff","enable_hover_border":false,"hover_border_color":"#ffffff","enable_shadow":true,"shadow_horizontal":4,"shadow_vertical":2,"shadow_blur":0,"shadow_spread":0,"shadow_color":"#424142","enable_hover_shadow":true,"hover_shadow_horizontal":0,"hover_shadow_vertical":8,"hover_shadow_blur":24,"hover_shadow_spread":0,"hover_shadow_color":"#0000004d","overlay_gradient":"linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%)","overlay_opacity":0.4,"hover_overlay_opacity":0.6,"hover_image_opacity":0.3,"text_size":22,"text_size_mobile":14,"text_weight":"400","text_color":"#ffffff","text_transform":"none","letter_spacing":1.5,"hover_effect":"scale(1.02)","card_1_enabled":true,"card_1_title":"Shop Womens Products","card_1_link":"shopify:\/\/collections\/women","card_1_image":"shopify:\/\/shop_images\/hf_20260127_233920_6d2c62a9-3ff9-455e-b9cf-179ebe2436d1.png","card_2_enabled":true,"card_2_title":"Shop Mens Products","card_2_link":"shopify:\/\/collections\/accessories","card_2_image":"shopify:\/\/shop_images\/Accesories-hat-hero.png","card_3_enabled":true,"card_3_title":"Shop Girls Products","card_3_link":"shopify:\/\/collections\/girl","card_3_image":"shopify:\/\/shop_images\/It_s_Just_a_Game_Contrario_Kids_ABCD_Dress_Editorial_Campaign_2.png","card_4_enabled":false,"card_4_title":"Shop Boys Products","card_4_link":"shopify:\/\/collections\/all","card_4_image":"shopify:\/\/shop_images\/Contrario_Kids_Voodoo_Doll_Black_T-Shirt_Gray_Leggings_Set_4.png","card_5_enabled":true,"card_5_title":"Shop Accessories","card_5_link":"shopify:\/\/collections\/accessories","card_5_image":"shopify:\/\/shop_images\/Contrario_One_Life_One_Fucking_Chance_Premium_Fitted_Caps_Washington_D.C_2.png","card_6_enabled":false,"card_6_title":"SHOP ACCESSORIES","card_6_link":"","card_7_enabled":false,"card_7_title":"SHOP SALE","card_7_link":"","card_8_enabled":false,"card_8_title":"SHOP NEW ARRIVALS","card_8_link":"","custom_css":""},"blocks":{}}},"block_order":["ai_gen_block_9f87bfe_phHK4N"],"settings":{}},"rich_text_EG8bAg":{"type":"rich-text","blocks":{"caption_KALhFd":{"type":"caption","settings":{"caption":"FEATURED PRODUCTS","text_style":"subtitle","text_size":"small"}}},"block_order":["caption_KALhFd"],"name":"t:sections.rich-text.presets.name","settings":{"desktop_content_position":"left","content_alignment":"left","color_scheme":"","full_width":true,"padding_top":40,"padding_bottom":8}},"featured_collection":{"type":"featured-collection","custom_css":[".title-wrapper--no-top-margin > .title {text-align: center;}"],"settings":{"collection":"amazon","products_to_show":3,"title":"","heading_size":"h2","description":"","show_description":false,"description_style":"body","columns_desktop":3,"enable_desktop_slider":false,"full_width":false,"show_view_all":true,"view_all_style":"link","color_scheme":"scheme-5","image_ratio":"portrait","image_shape":"default","show_secondary_image":true,"show_vendor":false,"show_rating":false,"quick_add":"bulk","columns_mobile":"1","swipe_on_mobile":true,"padding_top":12,"padding_bottom":48}},"17386375318778a401":{"type":"apps","custom_css":[],"settings":{"include_margins":false}},"image_with_text_DqUibD":{"type":"image-with-text","blocks":{"caption_9nWNe7":{"type":"caption","settings":{"caption":"CONTRARIO","text_style":"caption-with-letter-spacing","text_size":"medium"}},"heading_gx8en7":{"type":"heading","settings":{"heading":"Zero age limit. Maximum personality","heading_size":"h2"}},"button_VCkdDf":{"type":"button","settings":{"button_label":"Shop Now","button_link":"shopify:\/\/collections\/girl","button_style_secondary":true}}},"block_order":["caption_9nWNe7","heading_gx8en7","button_VCkdDf"],"name":"t:sections.image-with-text.presets.name","settings":{"image":"shopify:\/\/shop_images\/Black_Skull_Lightning_Kids_Outfit_Set_Contrario_4.png","height":"large","desktop_image_width":"large","layout":"text_first","image_behavior":"none","content_layout":"no-overlap","desktop_content_position":"bottom","desktop_content_alignment":"left","mobile_content_alignment":"left","section_color_scheme":"scheme-1","color_scheme":"scheme-3","padding_top":48,"padding_bottom":20}},"rich_text_Yff7ew":{"type":"rich-text","blocks":{"caption_GidmTh":{"type":"caption","settings":{"caption":"SWEET REBELLION AWAITS","text_style":"subtitle","text_size":"small"}}},"block_order":["caption_GidmTh"],"custom_css":[".rich-text {background-color: #ffffff !important;}"],"settings":{"desktop_content_position":"left","content_alignment":"left","color_scheme":"scheme-2","full_width":true,"padding_top":24,"padding_bottom":12}},"featured_collection_49mUea":{"type":"featured-collection","settings":{"collection":"girl","products_to_show":4,"title":"","heading_size":"h1","description":"","show_description":false,"description_style":"subtitle","columns_desktop":4,"enable_desktop_slider":false,"full_width":false,"show_view_all":true,"view_all_style":"link","color_scheme":"scheme-3","image_ratio":"portrait","image_shape":"default","show_secondary_image":true,"show_vendor":false,"show_rating":false,"quick_add":"bulk","columns_mobile":"2","swipe_on_mobile":false,"padding_top":12,"padding_bottom":100}},"blocks_Jn3BPr":{"type":"_blocks","name":"Hero image banner","settings":{}},"image_banner_8dgyJq":{"type":"image-banner","blocks":{"heading_HnrbHf":{"type":"heading","settings":{"heading":"Bold threads, pure attitude.","heading_size":"h0"}},"text_dm88NT":{"type":"text","settings":{"text":"","text_style":"body"}},"buttons_FcRTzJ":{"type":"buttons","settings":{"button_label_1":"Shop Now","button_link_1":"shopify:\/\/collections","button_style_secondary_1":false,"button_label_2":"","button_link_2":"","button_style_secondary_2":false}}},"block_order":["heading_HnrbHf","text_dm88NT","buttons_FcRTzJ"],"custom_css":["h2.banner__heading.inline-richtext.h1 {\/* display: none; *\/ opacity: 0;}"],"settings":{"image":"shopify:\/\/shop_images\/Banner_women.jpg","image_overlay_opacity":10,"image_height":"large","image_behavior":"ambient","desktop_content_position":"middle-right","desktop_content_alignment":"right","show_text_box":false,"color_scheme":"scheme-4","stack_images_on_mobile":false,"mobile_content_alignment":"right","show_text_below":false}},"multicolumn_P8NqrX":{"type":"multicolumn","blocks":{"column_Wifdkh":{"type":"column","settings":{"title":"<strong>Erick <\/strong>","text":"<p><em>\"I recently got this awesome middle finger print blouse for my girlfriend, and she couldn’t stop smiling! The moment she unwrapped it, her ayes lit up with joy.\"<\/em><\/p>","link_label":"","link":""}},"column_AwrxAW":{"type":"column","settings":{"title":"<strong>Yerlyn<\/strong>","text":"<p><em>\"I bought this printed blouse kinda cautiously, but now I’m totally blown away. The material quality is top-notch, super soft to the touch, and feels really comfy when I put it on.\"<\/em><\/p>","link_label":"","link":""}},"column_4tPPG9":{"type":"column","settings":{"title":"<strong>Wendy<\/strong>","text":"<p><em>\"What I appreciate most about this blouse is its adaptability. It pairs perfectly with jeans for a relaxed look or with tailored pants for a formal event. Moreover, I always receive numerous compliments when I wear it, which makes me feel fantastic.\"<\/em><\/p>","link_label":"","link":""}}},"block_order":["column_Wifdkh","column_AwrxAW","column_4tPPG9"],"custom_css":[".multicolumn.background-primary .multicolumn-card {background: none !important;}"],"settings":{"title":"<strong>Testimonials<\/strong>","heading_size":"h2","image_width":"full","image_ratio":"adapt","button_label":"","button_link":"","columns_desktop":3,"column_alignment":"left","background_style":"primary","color_scheme":"","columns_mobile":"1","swipe_on_mobile":true,"padding_top":72,"padding_bottom":72}},"blocks_KYHtdC":{"type":"_blocks","name":"Hero image banner","settings":{}},"blocks_kr4igx":{"type":"_blocks","name":"Hero image banner","settings":{}},"176920190739ac9d8a":{"type":"apps","settings":{"include_margins":true}},"1739078344f2758c42":{"type":"apps","blocks":{"gsc_instagram_feed_instafeed_YhTDbR":{"type":"shopify:\/\/apps\/gsc-instagram-feed\/blocks\/instafeed\/96970b1b-b770-454f-b16b-51f47e1aa4ed","settings":{"widget_id":"GSC-nveAJuGhVQBsjjZ"}}},"block_order":["gsc_instagram_feed_instafeed_YhTDbR"],"settings":{"include_margins":false}},"1770475528dd45d5ec":{"type":"_blocks","blocks":{"ai_gen_block_85deb32_iygy8Y":{"type":"ai_gen_block_85deb32","settings":{"container_max_width":1400,"section_height":100,"desktop_width_percent":100,"desktop_padding_top":30,"desktop_padding_bottom":40,"mobile_padding_top":30,"mobile_padding_bottom":30,"background_color":"#0b0510","text_color":"#ffffff","left_image":"shopify:\/\/shop_images\/available_at_amazon_en_vertical_wht.png","image_width":130,"heading":"Prefer Prime shipping?","heading_font":"montserrat_n4","heading_size":32,"subheading":"Shop our official Amazon storefront","subheading_font":"montserrat_n3","subheading_size":15,"right_column_type":"cta","cta_text":"Shop Now","cta_link":"https:\/\/us.amazon.com\/stores\/CONTRARIOBRANDCLOTHING\/page\/CB1B2F12-F0FD-4416-8D77-42B28335B61D?lp_asin=B0DKPJZH7Q&ref_=cm_sw_r_ud_sf_stores_9ZN3F82HHTH060N36TE4 Check out CONTRARIO BRAND CLOTHING on Amazon","cta_font":"montserrat_n4","cta_font_size":16,"cta_bg_color":"#ffffff","cta_hover_bg_color":"#e0e0e0","cta_text_color":"#000000","cta_border_radius":4,"right_image_link":"","secondary_image_width":150},"blocks":{}}},"block_order":["ai_gen_block_85deb32_iygy8Y"],"settings":{}},"1769896081030649c0":{"type":"_blocks","settings":{}}},"order":["17680796693645433c","image_with_text_wUMzb4","17691903791e1195b2","rich_text_EG8bAg","featured_collection","17386375318778a401","image_with_text_DqUibD","rich_text_Yff7ew","featured_collection_49mUea","blocks_Jn3BPr","image_banner_8dgyJq","multicolumn_P8NqrX","blocks_KYHtdC","blocks_kr4igx","176920190739ac9d8a","1739078344f2758c42","1770475528dd45d5ec","1769896081030649c0"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "campaign_hero_CnDeBL": {
+      "type": "campaign-hero",
+      "blocks": {
+        "heading_n3qGmL": {
+          "type": "heading",
+          "settings": {
+            "heading": "ONE LIFE.\nONE CHANCE.",
+            "heading_level": "h1",
+            "color": "#FFFFFF",
+            "size_desktop": 140,
+            "size_mobile": 42,
+            "weight": "700",
+            "uppercase": true,
+            "line_height": 92,
+            "letter_spacing": -50
+          }
+        },
+        "buttons_XtGiAq": {
+          "type": "buttons",
+          "settings": {
+            "full_width_mobile": false,
+            "button_label_1": "SHOP NEW ARRIVALS",
+            "button_link_1": "shopify://collections/all",
+            "button_style_1": "primary",
+            "button_background_1": "#b8f000",
+            "button_text_color_1": "#050505",
+            "button_border_1": "#B8F000",
+            "button_hover_background_1": "#FFFFFF",
+            "button_hover_text_color_1": "#050505",
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_2": "outline",
+            "button_background_2": "#000000",
+            "button_text_color_2": "#FFFFFF",
+            "button_border_2": "#FFFFFF",
+            "button_hover_background_2": "#FFFFFF",
+            "button_hover_text_color_2": "#050505"
+          }
+        }
+      },
+      "block_order": [
+        "heading_n3qGmL",
+        "buttons_XtGiAq"
+      ],
+      "name": "Campaign hero",
+      "settings": {
+        "image": "shopify://shop_images/CONTRARIO_BRAND_FAQ.png",
+        "image_alt": "",
+        "desktop_height": "medium",
+        "mobile_height": "medium",
+        "desktop_focal_point": "center center",
+        "mobile_focal_point": "center center",
+        "enable_grayscale": true,
+        "image_brightness": 85,
+        "overlay_style": "gradient-left",
+        "overlay_color": "#000000",
+        "overlay_opacity": 50,
+        "desktop_content_position": "bottom-left",
+        "desktop_alignment": "left",
+        "content_max_width": 900,
+        "desktop_padding_horizontal": 52,
+        "desktop_padding_vertical": 64,
+        "mobile_content_position": "bottom-left",
+        "mobile_alignment": "left",
+        "content_max_width_mobile": 520,
+        "mobile_padding_horizontal": 24,
+        "mobile_padding_vertical": 32,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "enable_image_motion": true
+      }
+    },
+    "17680796693645433c": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_9367062_KbFLKc": {
+          "type": "ai_gen_block_9367062",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/fcc9d086-c52f-4262-b619-8a0c4bc1e552.png",
+            "image_height": 400,
+            "image_height_mobile": 500,
+            "image_fit": "cover",
+            "image_position": "center",
+            "border_radius": 0,
+            "show_overlay": false,
+            "overlay_color": "#000000",
+            "overlay_opacity": 30,
+            "show_content": false,
+            "heading": "Welcome to our store",
+            "text": "<p>Discover our latest collection</p>",
+            "heading_size": 48,
+            "text_size": 18,
+            "text_alignment": "center",
+            "text_color": "#ffffff",
+            "content_max_width": 600,
+            "button_text": "Shop now",
+            "button_link": "shopify://collections/all",
+            "button_color": "#662481",
+            "button_hover_color": "#000000",
+            "button_text_color": "#ffffff",
+            "button_text_size": 16,
+            "button_border_radius": 0,
+            "padding_top": 0,
+            "padding_bottom": 0,
+            "padding_left": 50,
+            "padding_right": 50,
+            "padding_top_mobile": 0,
+            "padding_bottom_mobile": 0,
+            "padding_left_mobile": 0,
+            "padding_right_mobile": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_9367062_KbFLKc"
+      ],
+      "settings": {}
+    },
+    "image_with_text_wUMzb4": {
+      "type": "image-with-text",
+      "blocks": {
+        "caption_fg7eAK": {
+          "type": "caption",
+          "settings": {
+            "caption": "CONTRARIO",
+            "text_style": "caption-with-letter-spacing",
+            "text_size": "medium"
+          }
+        },
+        "heading_gMVNjQ": {
+          "type": "heading",
+          "settings": {
+            "heading": "Wear the Rebellion",
+            "heading_size": "h2"
+          }
+        },
+        "button_DftKka": {
+          "type": "button",
+          "settings": {
+            "button_label": "Shop Now",
+            "button_link": "shopify://collections/all",
+            "button_style_secondary": true
+          }
+        }
+      },
+      "block_order": [
+        "caption_fg7eAK",
+        "heading_gMVNjQ",
+        "button_DftKka"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/Hero_Image-1.jpg",
+        "height": "large",
+        "desktop_image_width": "large",
+        "layout": "image_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "scheme-1",
+        "color_scheme": "scheme-3",
+        "padding_top": 48,
+        "padding_bottom": 20
+      }
+    },
+    "17691903791e1195b2": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_9f87bfe_phHK4N": {
+          "type": "ai_gen_block_9f87bfe",
+          "name": "Category card navigator",
+          "settings": {
+            "cards_visible_desktop": 4,
+            "cards_visible_mobile": 2,
+            "container_width": 1300,
+            "section_padding_top": 40,
+            "section_padding_bottom": 12,
+            "card_gap": 20,
+            "background_color": "#ffffff",
+            "arrow_background": "#424142",
+            "arrow_color": "#ffffff",
+            "card_height": 200,
+            "card_height_mobile": 150,
+            "card_border_radius": 12,
+            "card_padding": 15,
+            "card_background_color": "#1d1d1d",
+            "enable_border": true,
+            "border_width": 1,
+            "border_style": "solid",
+            "border_color": "#ffffff",
+            "enable_hover_border": false,
+            "hover_border_color": "#ffffff",
+            "enable_shadow": true,
+            "shadow_horizontal": 4,
+            "shadow_vertical": 2,
+            "shadow_blur": 0,
+            "shadow_spread": 0,
+            "shadow_color": "#424142",
+            "enable_hover_shadow": true,
+            "hover_shadow_horizontal": 0,
+            "hover_shadow_vertical": 8,
+            "hover_shadow_blur": 24,
+            "hover_shadow_spread": 0,
+            "hover_shadow_color": "#0000004d",
+            "overlay_gradient": "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%)",
+            "overlay_opacity": 0.4,
+            "hover_overlay_opacity": 0.6,
+            "hover_image_opacity": 0.3,
+            "text_size": 22,
+            "text_size_mobile": 14,
+            "text_weight": "400",
+            "text_color": "#ffffff",
+            "text_transform": "none",
+            "letter_spacing": 1.5,
+            "hover_effect": "scale(1.02)",
+            "card_1_enabled": true,
+            "card_1_title": "Shop Womens Products",
+            "card_1_link": "shopify://collections/women",
+            "card_1_image": "shopify://shop_images/hf_20260127_233920_6d2c62a9-3ff9-455e-b9cf-179ebe2436d1.png",
+            "card_2_enabled": true,
+            "card_2_title": "Shop Mens Products",
+            "card_2_link": "shopify://collections/accessories",
+            "card_2_image": "shopify://shop_images/Accesories-hat-hero.png",
+            "card_3_enabled": true,
+            "card_3_title": "Shop Girls Products",
+            "card_3_link": "shopify://collections/girl",
+            "card_3_image": "shopify://shop_images/It_s_Just_a_Game_Contrario_Kids_ABCD_Dress_Editorial_Campaign_2.png",
+            "card_4_enabled": false,
+            "card_4_title": "Shop Boys Products",
+            "card_4_link": "shopify://collections/all",
+            "card_4_image": "shopify://shop_images/Contrario_Kids_Voodoo_Doll_Black_T-Shirt_Gray_Leggings_Set_4.png",
+            "card_5_enabled": true,
+            "card_5_title": "Shop Accessories",
+            "card_5_link": "shopify://collections/accessories",
+            "card_5_image": "shopify://shop_images/Contrario_One_Life_One_Fucking_Chance_Premium_Fitted_Caps_Washington_D.C_2.png",
+            "card_6_enabled": false,
+            "card_6_title": "SHOP ACCESSORIES",
+            "card_6_link": "",
+            "card_7_enabled": false,
+            "card_7_title": "SHOP SALE",
+            "card_7_link": "",
+            "card_8_enabled": false,
+            "card_8_title": "SHOP NEW ARRIVALS",
+            "card_8_link": "",
+            "custom_css": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_9f87bfe_phHK4N"
+      ],
+      "settings": {}
+    },
+    "rich_text_EG8bAg": {
+      "type": "rich-text",
+      "blocks": {
+        "caption_KALhFd": {
+          "type": "caption",
+          "settings": {
+            "caption": "FEATURED PRODUCTS",
+            "text_style": "subtitle",
+            "text_size": "small"
+          }
+        }
+      },
+      "block_order": [
+        "caption_KALhFd"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "left",
+        "content_alignment": "left",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 8
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "custom_css": [
+        ".title-wrapper--no-top-margin > .title {text-align: center;}"
+      ],
+      "settings": {
+        "collection": "amazon",
+        "products_to_show": 3,
+        "title": "",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 3,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "link",
+        "color_scheme": "scheme-5",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "bulk",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 12,
+        "padding_bottom": 48
+      }
+    },
+    "17386375318778a401": {
+      "type": "apps",
+      "custom_css": [],
+      "settings": {
+        "include_margins": false
+      }
+    },
+    "image_with_text_DqUibD": {
+      "type": "image-with-text",
+      "blocks": {
+        "caption_9nWNe7": {
+          "type": "caption",
+          "settings": {
+            "caption": "CONTRARIO",
+            "text_style": "caption-with-letter-spacing",
+            "text_size": "medium"
+          }
+        },
+        "heading_gx8en7": {
+          "type": "heading",
+          "settings": {
+            "heading": "Zero age limit. Maximum personality",
+            "heading_size": "h2"
+          }
+        },
+        "button_VCkdDf": {
+          "type": "button",
+          "settings": {
+            "button_label": "Shop Now",
+            "button_link": "shopify://collections/girl",
+            "button_style_secondary": true
+          }
+        }
+      },
+      "block_order": [
+        "caption_9nWNe7",
+        "heading_gx8en7",
+        "button_VCkdDf"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/Black_Skull_Lightning_Kids_Outfit_Set_Contrario_4.png",
+        "height": "large",
+        "desktop_image_width": "large",
+        "layout": "text_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "bottom",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "scheme-1",
+        "color_scheme": "scheme-3",
+        "padding_top": 48,
+        "padding_bottom": 20
+      }
+    },
+    "rich_text_Yff7ew": {
+      "type": "rich-text",
+      "blocks": {
+        "caption_GidmTh": {
+          "type": "caption",
+          "settings": {
+            "caption": "SWEET REBELLION AWAITS",
+            "text_style": "subtitle",
+            "text_size": "small"
+          }
+        }
+      },
+      "block_order": [
+        "caption_GidmTh"
+      ],
+      "custom_css": [
+        ".rich-text {background-color: #ffffff !important;}"
+      ],
+      "settings": {
+        "desktop_content_position": "left",
+        "content_alignment": "left",
+        "color_scheme": "scheme-2",
+        "full_width": true,
+        "padding_top": 24,
+        "padding_bottom": 12
+      }
+    },
+    "featured_collection_49mUea": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "girl",
+        "products_to_show": 4,
+        "title": "",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "subtitle",
+        "columns_desktop": 4,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "link",
+        "color_scheme": "scheme-3",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "bulk",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 12,
+        "padding_bottom": 100
+      }
+    },
+    "blocks_Jn3BPr": {
+      "type": "_blocks",
+      "name": "Hero image banner",
+      "settings": {}
+    },
+    "image_banner_8dgyJq": {
+      "type": "image-banner",
+      "blocks": {
+        "heading_HnrbHf": {
+          "type": "heading",
+          "settings": {
+            "heading": "Bold threads, pure attitude.",
+            "heading_size": "h0"
+          }
+        },
+        "text_dm88NT": {
+          "type": "text",
+          "settings": {
+            "text": "",
+            "text_style": "body"
+          }
+        },
+        "buttons_FcRTzJ": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "Shop Now",
+            "button_link_1": "shopify://collections",
+            "button_style_secondary_1": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_HnrbHf",
+        "text_dm88NT",
+        "buttons_FcRTzJ"
+      ],
+      "custom_css": [
+        "h2.banner__heading.inline-richtext.h1 {/* display: none; */ opacity: 0;}"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/Banner_women.jpg",
+        "image_overlay_opacity": 10,
+        "image_height": "large",
+        "image_behavior": "ambient",
+        "desktop_content_position": "middle-right",
+        "desktop_content_alignment": "right",
+        "show_text_box": false,
+        "color_scheme": "scheme-4",
+        "stack_images_on_mobile": false,
+        "mobile_content_alignment": "right",
+        "show_text_below": false
+      }
+    },
+    "multicolumn_P8NqrX": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_Wifdkh": {
+          "type": "column",
+          "settings": {
+            "title": "<strong>Erick </strong>",
+            "text": "<p><em>\"I recently got this awesome middle finger print blouse for my girlfriend, and she couldn’t stop smiling! The moment she unwrapped it, her ayes lit up with joy.\"</em></p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_AwrxAW": {
+          "type": "column",
+          "settings": {
+            "title": "<strong>Yerlyn</strong>",
+            "text": "<p><em>\"I bought this printed blouse kinda cautiously, but now I’m totally blown away. The material quality is top-notch, super soft to the touch, and feels really comfy when I put it on.\"</em></p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_4tPPG9": {
+          "type": "column",
+          "settings": {
+            "title": "<strong>Wendy</strong>",
+            "text": "<p><em>\"What I appreciate most about this blouse is its adaptability. It pairs perfectly with jeans for a relaxed look or with tailored pants for a formal event. Moreover, I always receive numerous compliments when I wear it, which makes me feel fantastic.\"</em></p>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_Wifdkh",
+        "column_AwrxAW",
+        "column_4tPPG9"
+      ],
+      "custom_css": [
+        ".multicolumn.background-primary .multicolumn-card {background: none !important;}"
+      ],
+      "settings": {
+        "title": "<strong>Testimonials</strong>",
+        "heading_size": "h2",
+        "image_width": "full",
+        "image_ratio": "adapt",
+        "button_label": "",
+        "button_link": "",
+        "columns_desktop": 3,
+        "column_alignment": "left",
+        "background_style": "primary",
+        "color_scheme": "",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
+    },
+    "blocks_KYHtdC": {
+      "type": "_blocks",
+      "name": "Hero image banner",
+      "settings": {}
+    },
+    "blocks_kr4igx": {
+      "type": "_blocks",
+      "name": "Hero image banner",
+      "settings": {}
+    },
+    "176920190739ac9d8a": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "1739078344f2758c42": {
+      "type": "apps",
+      "blocks": {
+        "gsc_instagram_feed_instafeed_YhTDbR": {
+          "type": "shopify://apps/gsc-instagram-feed/blocks/instafeed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
+          "settings": {
+            "widget_id": "GSC-nveAJuGhVQBsjjZ"
+          }
+        }
+      },
+      "block_order": [
+        "gsc_instagram_feed_instafeed_YhTDbR"
+      ],
+      "settings": {
+        "include_margins": false
+      }
+    },
+    "1770475528dd45d5ec": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_85deb32_iygy8Y": {
+          "type": "ai_gen_block_85deb32",
+          "settings": {
+            "container_max_width": 1400,
+            "section_height": 100,
+            "desktop_width_percent": 100,
+            "desktop_padding_top": 30,
+            "desktop_padding_bottom": 40,
+            "mobile_padding_top": 30,
+            "mobile_padding_bottom": 30,
+            "background_color": "#0b0510",
+            "text_color": "#ffffff",
+            "left_image": "shopify://shop_images/available_at_amazon_en_vertical_wht.png",
+            "image_width": 130,
+            "heading": "Prefer Prime shipping?",
+            "heading_font": "montserrat_n4",
+            "heading_size": 32,
+            "subheading": "Shop our official Amazon storefront",
+            "subheading_font": "montserrat_n3",
+            "subheading_size": 15,
+            "right_column_type": "cta",
+            "cta_text": "Shop Now",
+            "cta_link": "https://us.amazon.com/stores/CONTRARIOBRANDCLOTHING/page/CB1B2F12-F0FD-4416-8D77-42B28335B61D?lp_asin=B0DKPJZH7Q&ref_=cm_sw_r_ud_sf_stores_9ZN3F82HHTH060N36TE4 Check out CONTRARIO BRAND CLOTHING on Amazon",
+            "cta_font": "montserrat_n4",
+            "cta_font_size": 16,
+            "cta_bg_color": "#ffffff",
+            "cta_hover_bg_color": "#e0e0e0",
+            "cta_text_color": "#000000",
+            "cta_border_radius": 4,
+            "right_image_link": "",
+            "secondary_image_width": 150
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_85deb32_iygy8Y"
+      ],
+      "settings": {}
+    },
+    "1769896081030649c0": {
+      "type": "_blocks",
+      "settings": {}
+    }
+  },
+  "order": [
+    "campaign_hero_CnDeBL",
+    "17680796693645433c",
+    "image_with_text_wUMzb4",
+    "17691903791e1195b2",
+    "rich_text_EG8bAg",
+    "featured_collection",
+    "17386375318778a401",
+    "image_with_text_DqUibD",
+    "rich_text_Yff7ew",
+    "featured_collection_49mUea",
+    "blocks_Jn3BPr",
+    "image_banner_8dgyJq",
+    "multicolumn_P8NqrX",
+    "blocks_KYHtdC",
+    "blocks_kr4igx",
+    "176920190739ac9d8a",
+    "1739078344f2758c42",
+    "1770475528dd45d5ec",
+    "1769896081030649c0"
+  ]
+}
