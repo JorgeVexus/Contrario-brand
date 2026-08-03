@@ -59,6 +59,9 @@ const headingSetting = blocks.heading.settings.find(({ id }) => id === 'heading'
 assert.equal(headingSetting.type, 'textarea', 'multiline heading uses a Shopify-safe textarea');
 assert.doesNotMatch(headingSetting.default, /<br\s*\/?\s*>/i, 'heading default contains no forbidden br tag');
 assert.match(source, /block\.settings\.heading\s*\|\s*newline_to_br/, 'heading newlines render as visual line breaks');
+assert.match(source, /\.campaign-hero__heading\s*\{[^}]*font-size:\s*var\(--heading-size\)/, 'desktop heading uses the exact editor size');
+assert.match(source, /@media screen and \(max-width: 749px\)[\s\S]*\.campaign-hero__heading\s*\{[^}]*font-size:\s*var\(--heading-size-mobile\)/, 'mobile heading uses the exact editor size');
+assert.doesNotMatch(source, /var\(--heading-size(?:-mobile)?\)\s*[/*]/, 'heading size variables are not used in invalid CSS arithmetic');
 
 const preset = schema.presets.find(({ name }) => name === 'Campaign hero');
 assert.ok(preset, 'Campaign hero preset exists');
