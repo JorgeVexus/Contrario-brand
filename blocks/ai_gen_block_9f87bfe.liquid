@@ -1,0 +1,1145 @@
+{% doc %}
+  @prompt
+    Create a custom Shopify section like a modern category navigator inspired by clean apparel brands: a horizontal row (or swipeable carousel on mobile) of large dark/gray rectangular cards with white text overlays (e.g., 'SHOP MENS SIZES', 'SHOP WOMENS SIZES', 'SHOP KIDS SIZES', 'SHOP HOODIES', 'SHOP STICKERS', 'SHOP ACCESSORIES'). Each card is a separate block with:
+    
+    Editable text/title
+    Optional background image upload
+    Required link/URL field for redirection
+    Customizable card width, height, padding, text size, hover effects
+    If more cards than fit the screen width, auto-convert to horizontal scroll/carousel (finger-swipe on mobile, arrows on desktop). Black/gray theme by default, fully responsive., Refine the previously generated category navigation section (the horizontal row/carousel of clickable cards for categories like SHOP MENS SIZES, SHOP WOMENS SIZES, etc.) with these improvements:
+    
+    Add settings to control how many cards are displayed/visible at the same time: - A "Number of cards to show on desktop" setting (slider or number input, range 1–8, default 6) — this sets how many cards fit in one row/view before scrolling/carousel kicks in. - A "Number of cards to show on mobile" setting (slider or number input, range 1–4, default 2 or 1.5 for partial peek) — controls visible items in the swipeable carousel on smaller screens.
+    
+    
+    
+    Make sure it's fully responsive and uses best practices for carousels (e.g., CSS scroll-snap or a lightweight library if needed). Generate clean, editable Liquid/CSS/JS code so I can tweak it later if required., - A "Custom CSS" textarea or code input setting (like the built-in Custom CSS in many themes/sections) where I can write raw CSS that applies only to this section (e.g., targeting .card-class, .carousel-wrapper, etc.).
+    - Make it appear at the bottom of the section settings panel in the customizer.
+    - The generated code should inject this custom CSS properly (e.g., via a <style> tag scoped to the section, or output in the Liquid file with {{ section.settings.custom_css }} wrapped in <style>).
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% liquid
+  assign cards_desktop = block.settings.cards_visible_desktop
+  assign cards_mobile = block.settings.cards_visible_mobile
+  assign gap = block.settings.card_gap
+  assign container_padding = 40
+  
+  assign card_width_desktop_calc = 'calc((100% - ' | append: container_padding | append: 'px - (' | append: gap | append: 'px * (' | append: cards_desktop | append: ' - 1))) / ' | append: cards_desktop | append: ')'
+  assign card_width_mobile_calc = 'calc((100% - ' | append: container_padding | append: 'px - (' | append: gap | append: 'px * (' | append: cards_mobile | append: ' - 1))) / ' | append: cards_mobile | append: ')'
+%}
+
+{% style %}
+  .ai-category-navigator-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    position: relative;
+    padding: {{ block.settings.section_padding_top }}px 0 {{ block.settings.section_padding_bottom }}px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-category-navigator__container-{{ ai_gen_id }} {
+    position: relative;
+    max-width: {{ block.settings.container_width }}px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .ai-category-navigator__wrapper-{{ ai_gen_id }} {
+    position: relative;
+    overflow: hidden;
+    padding: 8px 0;
+  }
+
+  .ai-category-navigator__track-{{ ai_gen_id }} {
+    display: flex;
+    gap: {{ gap }}px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-snap-type: x mandatory;
+    padding: 4px 0;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ai-category-navigator__track-{{ ai_gen_id }}::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ai-category-navigator__arrow-{{ ai_gen_id }} {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    background-color: {{ block.settings.arrow_background }};
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 2;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.9;
+    transition: opacity 0.3s ease, transform 0.2s ease;
+  }
+
+  .ai-category-navigator__arrow-{{ ai_gen_id }}:hover {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .ai-category-navigator__arrow-{{ ai_gen_id }}:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+
+  .ai-category-navigator__arrow-{{ ai_gen_id }}--left {
+    left: 10px;
+  }
+
+  .ai-category-navigator__arrow-{{ ai_gen_id }}--right {
+    right: 10px;
+  }
+
+  .ai-category-navigator__arrow-{{ ai_gen_id }} svg {
+    width: 24px;
+    height: 24px;
+    fill: {{ block.settings.arrow_color }};
+  }
+
+  .ai-category-card-{{ ai_gen_id }} {
+    position: relative;
+    flex: 0 0 auto;
+    width: {{ card_width_desktop_calc }};
+    height: {{ block.settings.card_height }}px;
+    border-radius: {{ block.settings.card_border_radius }}px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    scroll-snap-align: start;
+    {% if block.settings.enable_border %}
+      border: {{ block.settings.border_width }}px {{ block.settings.border_style }} {{ block.settings.border_color }};
+    {% endif %}
+    {% if block.settings.enable_shadow %}
+      box-shadow: {{ block.settings.shadow_horizontal }}px {{ block.settings.shadow_vertical }}px {{ block.settings.shadow_blur }}px {{ block.settings.shadow_spread }}px {{ block.settings.shadow_color }};
+    {% endif %}
+  }
+
+  .ai-category-card-{{ ai_gen_id }}:hover {
+    transform: {{ block.settings.hover_effect }};
+    {% if block.settings.enable_hover_shadow %}
+      box-shadow: {{ block.settings.hover_shadow_horizontal }}px {{ block.settings.hover_shadow_vertical }}px {{ block.settings.hover_shadow_blur }}px {{ block.settings.hover_shadow_spread }}px {{ block.settings.hover_shadow_color }};
+    {% elsif block.settings.enable_shadow %}
+      box-shadow: {{ block.settings.shadow_horizontal }}px {{ block.settings.shadow_vertical | plus: 4 }}px {{ block.settings.shadow_blur | plus: 8 }}px {{ block.settings.shadow_spread }}px {{ block.settings.shadow_color }};
+    {% endif %}
+    {% if block.settings.enable_hover_border %}
+      border-color: {{ block.settings.hover_border_color }};
+    {% endif %}
+  }
+
+  .ai-category-card__link-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .ai-category-card__background-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: {{ block.settings.card_background_color }};
+    transition: transform 0.3s ease;
+  }
+
+  .ai-category-card-{{ ai_gen_id }}:hover .ai-category-card__background-{{ ai_gen_id }} {
+    transform: scale(1.05);
+  }
+
+  .ai-category-card__image-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .ai-category-card-{{ ai_gen_id }}:hover .ai-category-card__image-{{ ai_gen_id }} {
+    transform: scale(1.05);
+    opacity: {{ block.settings.hover_image_opacity }};
+  }
+
+  .ai-category-card__overlay-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: {{ block.settings.overlay_gradient }};
+    opacity: {{ block.settings.overlay_opacity }};
+    transition: opacity 0.3s ease;
+  }
+
+  .ai-category-card-{{ ai_gen_id }}:hover .ai-category-card__overlay-{{ ai_gen_id }} {
+    opacity: {{ block.settings.hover_overlay_opacity }};
+  }
+
+  .ai-category-card__content-{{ ai_gen_id }} {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: {{ block.settings.card_padding }}px;
+    z-index: 1;
+  }
+
+  .ai-category-card__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size }}px;
+    font-weight: {{ block.settings.text_weight }};
+    color: {{ block.settings.text_color }};
+    text-align: center;
+    text-transform: {{ block.settings.text_transform }};
+    letter-spacing: {{ block.settings.letter_spacing }}px;
+    line-height: 1.2;
+    margin: 0;
+    transition: transform 0.3s ease;
+  }
+
+  .ai-category-card-{{ ai_gen_id }}:hover .ai-category-card__title-{{ ai_gen_id }} {
+    transform: translateY(-4px);
+  }
+
+  @media (min-width: 750px) {
+    .ai-category-navigator__arrow-{{ ai_gen_id }}.visible {
+      display: flex;
+    }
+  }
+
+  @media (max-width: 749px) {
+    .ai-category-card-{{ ai_gen_id }} {
+      width: {{ card_width_mobile_calc }};
+      height: {{ block.settings.card_height_mobile }}px;
+    }
+
+    .ai-category-card__title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.text_size_mobile }}px;
+    }
+
+    .ai-category-navigator__container-{{ ai_gen_id }} {
+      padding: 0 10px;
+    }
+  }
+
+  {% if block.settings.custom_css != blank %}
+    {{ block.settings.custom_css }}
+  {% endif %}
+{% endstyle %}
+
+<category-navigator-{{ ai_gen_id }} 
+  class="ai-category-navigator-{{ ai_gen_id }}" 
+  data-cards-desktop="{{ cards_desktop }}"
+  data-cards-mobile="{{ cards_mobile }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-category-navigator__container-{{ ai_gen_id }}">
+    <div class="ai-category-navigator__wrapper-{{ ai_gen_id }}">
+      <button class="ai-category-navigator__arrow-{{ ai_gen_id }} ai-category-navigator__arrow-{{ ai_gen_id }}--left" aria-label="Previous categories">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+        </svg>
+      </button>
+      
+      <div class="ai-category-navigator__track-{{ ai_gen_id }}">
+        {% for i in (1..8) %}
+          {% liquid
+            assign title_key = 'card_' | append: i | append: '_title'
+            assign link_key = 'card_' | append: i | append: '_link'
+            assign image_key = 'card_' | append: i | append: '_image'
+            assign enabled_key = 'card_' | append: i | append: '_enabled'
+            
+            assign card_title = block.settings[title_key]
+            assign card_link = block.settings[link_key]
+            assign card_image = block.settings[image_key]
+            assign card_enabled = block.settings[enabled_key]
+          %}
+          
+          {% if card_enabled %}
+            <div class="ai-category-card-{{ ai_gen_id }}">
+              {% if card_link != blank %}
+                <a href="{{ card_link }}" class="ai-category-card__link-{{ ai_gen_id }}">
+              {% else %}
+                <div class="ai-category-card__link-{{ ai_gen_id }}">
+              {% endif %}
+                
+                <div class="ai-category-card__background-{{ ai_gen_id }}">
+                  {% if card_image %}
+                    <img
+                      src="{{ card_image | image_url: width: 800 }}"
+                      alt="{{ card_title | escape }}"
+                      class="ai-category-card__image-{{ ai_gen_id }}"
+                      loading="lazy"
+                      width="800"
+                      height="800"
+                    >
+                  {% endif %}
+                </div>
+                
+                <div class="ai-category-card__overlay-{{ ai_gen_id }}"></div>
+                
+                <div class="ai-category-card__content-{{ ai_gen_id }}">
+                  <h3 class="ai-category-card__title-{{ ai_gen_id }}">
+                    {{ card_title }}
+                  </h3>
+                </div>
+              
+              {% if card_link != blank %}
+                </a>
+              {% else %}
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <button class="ai-category-navigator__arrow-{{ ai_gen_id }} ai-category-navigator__arrow-{{ ai_gen_id }}--right" aria-label="Next categories">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</category-navigator-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class CategoryNavigator{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.track = this.querySelector('.ai-category-navigator__track-{{ ai_gen_id }}');
+        this.leftArrow = this.querySelector('.ai-category-navigator__arrow-{{ ai_gen_id }}--left');
+        this.rightArrow = this.querySelector('.ai-category-navigator__arrow-{{ ai_gen_id }}--right');
+        this.cards = this.querySelectorAll('.ai-category-card-{{ ai_gen_id }}');
+        this.cardsDesktop = parseInt(this.dataset.cardsDesktop) || 6;
+        this.cardsMobile = parseFloat(this.dataset.cardsMobile) || 2;
+        this.currentIndex = 0;
+      }
+
+      connectedCallback() {
+        this.setupEventListeners();
+        this.checkArrowVisibility();
+        
+        window.addEventListener('resize', () => {
+          this.checkArrowVisibility();
+          this.updateArrowStates();
+        });
+        
+        this.track.addEventListener('scroll', () => this.updateArrowStates());
+      }
+
+      setupEventListeners() {
+        this.leftArrow.addEventListener('click', () => this.scrollCards('left'));
+        this.rightArrow.addEventListener('click', () => this.scrollCards('right'));
+
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        this.track.addEventListener('mousedown', (e) => {
+          isDown = true;
+          this.track.style.cursor = 'grabbing';
+          this.track.style.scrollSnapType = 'none';
+          startX = e.pageX - this.track.offsetLeft;
+          scrollLeft = this.track.scrollLeft;
+        });
+
+        this.track.addEventListener('mouseleave', () => {
+          isDown = false;
+          this.track.style.cursor = 'grab';
+          this.track.style.scrollSnapType = 'x mandatory';
+        });
+
+        this.track.addEventListener('mouseup', () => {
+          isDown = false;
+          this.track.style.cursor = 'grab';
+          this.track.style.scrollSnapType = 'x mandatory';
+        });
+
+        this.track.addEventListener('mousemove', (e) => {
+          if (!isDown) return;
+          e.preventDefault();
+          const x = e.pageX - this.track.offsetLeft;
+          const walk = (x - startX) * 2;
+          this.track.scrollLeft = scrollLeft - walk;
+        });
+
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        this.track.addEventListener('touchstart', (e) => {
+          touchStartX = e.changedTouches[0].screenX;
+        });
+
+        this.track.addEventListener('touchend', (e) => {
+          touchEndX = e.changedTouches[0].screenX;
+          this.handleSwipe(touchStartX, touchEndX);
+        });
+      }
+
+      handleSwipe(startX, endX) {
+        const swipeThreshold = 50;
+        const diff = startX - endX;
+        
+        if (Math.abs(diff) > swipeThreshold) {
+          if (diff > 0) {
+            this.scrollCards('right');
+          } else {
+            this.scrollCards('left');
+          }
+        }
+      }
+
+      scrollCards(direction) {
+        const isMobile = window.innerWidth < 750;
+        const visibleCards = isMobile ? this.cardsMobile : this.cardsDesktop;
+        const cardWidth = this.cards[0].offsetWidth;
+        const gap = parseInt(getComputedStyle(this.track).gap) || 16;
+        const scrollDistance = (cardWidth + gap) * Math.floor(visibleCards);
+
+        if (direction === 'left') {
+          this.track.scrollBy({ left: -scrollDistance, behavior: 'smooth' });
+        } else {
+          this.track.scrollBy({ left: scrollDistance, behavior: 'smooth' });
+        }
+      }
+
+      checkArrowVisibility() {
+        const hasOverflow = this.track.scrollWidth > this.track.clientWidth;
+        const isMobile = window.innerWidth < 750;
+        
+        if (hasOverflow && !isMobile) {
+          this.leftArrow.classList.add('visible');
+          this.rightArrow.classList.add('visible');
+          this.track.style.cursor = 'grab';
+          this.updateArrowStates();
+        } else {
+          this.leftArrow.classList.remove('visible');
+          this.rightArrow.classList.remove('visible');
+          this.track.style.cursor = 'default';
+        }
+      }
+
+      updateArrowStates() {
+        const isAtStart = this.track.scrollLeft <= 1;
+        const isAtEnd = this.track.scrollLeft + this.track.clientWidth >= this.track.scrollWidth - 1;
+
+        this.leftArrow.style.opacity = isAtStart ? '0.3' : '0.9';
+        this.leftArrow.style.pointerEvents = isAtStart ? 'none' : 'auto';
+        
+        this.rightArrow.style.opacity = isAtEnd ? '0.3' : '0.9';
+        this.rightArrow.style.pointerEvents = isAtEnd ? 'none' : 'auto';
+      }
+    }
+
+    customElements.define('category-navigator-{{ ai_gen_id }}', CategoryNavigator{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Category navigator",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "cards_visible_desktop",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "label": "Cards to show on desktop",
+      "default": 4,
+      "info": "Number of cards visible at once on desktop"
+    },
+    {
+      "type": "range",
+      "id": "cards_visible_mobile",
+      "min": 1,
+      "max": 4,
+      "step": 0.5,
+      "label": "Cards to show on mobile",
+      "default": 1.5,
+      "info": "Number of cards visible at once on mobile. Use 1.5 or 2.5 for partial peek effect"
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "min": 1000,
+      "max": 1600,
+      "step": 100,
+      "unit": "px",
+      "label": "Container width",
+      "default": 1600
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "min": 8,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Gap between cards",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Navigation arrows"
+    },
+    {
+      "type": "color",
+      "id": "arrow_background",
+      "label": "Arrow background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "arrow_color",
+      "label": "Arrow color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Card style"
+    },
+    {
+      "type": "range",
+      "id": "card_height",
+      "min": 200,
+      "max": 500,
+      "step": 10,
+      "unit": "px",
+      "label": "Card height on desktop",
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "card_height_mobile",
+      "min": 150,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "label": "Card height on mobile",
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Card border radius",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Card padding",
+      "default": 30
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background",
+      "default": "#2a2a2a"
+    },
+    {
+      "type": "header",
+      "content": "Border"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_border",
+      "label": "Enable border",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Width",
+      "default": 2
+    },
+    {
+      "type": "select",
+      "id": "border_style",
+      "label": "Style",
+      "options": [
+        {
+          "value": "solid",
+          "label": "Solid"
+        },
+        {
+          "value": "dashed",
+          "label": "Dashed"
+        },
+        {
+          "value": "dotted",
+          "label": "Dotted"
+        }
+      ],
+      "default": "solid"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Color",
+      "default": "#333333"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_hover_border",
+      "label": "Enable hover border color",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "hover_border_color",
+      "label": "Hover border color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Shadow"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_shadow",
+      "label": "Enable shadow",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "shadow_horizontal",
+      "min": -20,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Horizontal offset",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "shadow_vertical",
+      "min": -20,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Vertical offset",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "shadow_blur",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Blur radius",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "shadow_spread",
+      "min": -10,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Spread",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "shadow_color",
+      "label": "Color",
+      "default": "rgba(0,0,0,0.15)"
+    },
+    {
+      "type": "header",
+      "content": "Hover shadow"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_hover_shadow",
+      "label": "Enable custom hover shadow",
+      "default": false,
+      "info": "If disabled, hover will enhance the default shadow"
+    },
+    {
+      "type": "range",
+      "id": "hover_shadow_horizontal",
+      "min": -20,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Horizontal offset",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "hover_shadow_vertical",
+      "min": -20,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Vertical offset",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "hover_shadow_blur",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Blur radius",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "hover_shadow_spread",
+      "min": -10,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Spread",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "hover_shadow_color",
+      "label": "Color",
+      "default": "rgba(0,0,0,0.3)"
+    },
+    {
+      "type": "header",
+      "content": "Overlay"
+    },
+    {
+      "type": "text",
+      "id": "overlay_gradient",
+      "label": "Overlay gradient",
+      "default": "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%)"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "label": "Overlay opacity",
+      "default": 0.5
+    },
+    {
+      "type": "range",
+      "id": "hover_overlay_opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "label": "Hover overlay opacity",
+      "default": 0.7
+    },
+    {
+      "type": "range",
+      "id": "hover_image_opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "label": "Hover image opacity",
+      "default": 0.8
+    },
+    {
+      "type": "header",
+      "content": "Text style"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 14,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Text size on desktop",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "text_size_mobile",
+      "min": 12,
+      "max": 36,
+      "step": 2,
+      "unit": "px",
+      "label": "Text size on mobile",
+      "default": 18
+    },
+    {
+      "type": "select",
+      "id": "text_weight",
+      "label": "Text weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "800",
+          "label": "Extra bold"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "text_transform",
+      "label": "Text transform",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        },
+        {
+          "value": "capitalize",
+          "label": "Capitalize"
+        }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "range",
+      "id": "letter_spacing",
+      "min": 0,
+      "max": 5,
+      "step": 0.5,
+      "unit": "px",
+      "label": "Letter spacing",
+      "default": 1.5
+    },
+    {
+      "type": "header",
+      "content": "Hover effects"
+    },
+    {
+      "type": "select",
+      "id": "hover_effect",
+      "label": "Hover effect",
+      "options": [
+        {
+          "value": "translateY(-8px)",
+          "label": "Lift up"
+        },
+        {
+          "value": "scale(1.02)",
+          "label": "Scale up"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "default": "translateY(-8px)"
+    },
+    {
+      "type": "header",
+      "content": "Card 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_1_enabled",
+      "label": "Enable card 1",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "card_1_title",
+      "label": "Title",
+      "default": "SHOP MENS SIZES"
+    },
+    {
+      "type": "url",
+      "id": "card_1_link",
+      "label": "Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_1_image",
+      "label": "Background image"
+    },
+    {
+      "type": "header",
+      "content": "Card 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_2_enabled",
+      "label": "Enable card 2",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "card_2_title",
+      "label": "Title",
+      "default": "SHOP WOMENS SIZES"
+    },
+    {
+      "type": "url",
+      "id": "card_2_link",
+      "label": "Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_2_image",
+      "label": "Background image"
+    },
+    {
+      "type": "header",
+      "content": "Card 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_3_enabled",
+      "label": "Enable card 3",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "card_3_title",
+      "label": "Title",
+      "default": "SHOP KIDS SIZES"
+    },
+    {
+      "type": "url",
+      "id": "card_3_link",
+      "label": "Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_3_image",
+      "label": "Background image"
+    },
+    {
+      "type": "header",
+      "content": "Card 4"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_4_enabled",
+      "label": "Enable card 4",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "card_4_title",
+      "label": "Title",
+      "default": "SHOP HOODIES"
+    },
+    {
+      "type": "url",
+      "id": "card_4_link",
+      "label": "Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_4_image",
+      "label": "Background image"
+    },
+    {
+      "type": "header",
+      "content": "Card 5"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_5_enabled",
+      "label": "Enable card 5",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "card_5_title",
+      "label": "Title",
+      "default": "SHOP STICKERS"
+    },
+    {
+      "type": "url",
+      "id": "card_5_link",
+      "label": "Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_5_image",
+      "label": "Background image"
+    },
+    {
+      "type": "header",
+      "content": "Card 6"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_6_enabled",
+      "label": "Enable card 6",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "card_6_title",
+      "label": "Title",
+      "default": "SHOP ACCESSORIES"
+    },
+    {
+      "type": "url",
+      "id": "card_6_link",
+      "label": "Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_6_image",
+      "label": "Background image"
+    },
+    {
+      "type": "header",
+      "content": "Card 7"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_7_enabled",
+      "label": "Enable card 7",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "card_7_title",
+      "label": "Title",
+      "default": "SHOP SALE"
+    },
+    {
+      "type": "url",
+      "id": "card_7_link",
+      "label": "Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_7_image",
+      "label": "Background image"
+    },
+    {
+      "type": "header",
+      "content": "Card 8"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_8_enabled",
+      "label": "Enable card 8",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "card_8_title",
+      "label": "Title",
+      "default": "SHOP NEW ARRIVALS"
+    },
+    {
+      "type": "url",
+      "id": "card_8_link",
+      "label": "Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_8_image",
+      "label": "Background image"
+    },
+    {
+      "type": "header",
+      "content": "Custom CSS"
+    },
+    {
+      "type": "html",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "Add custom CSS to target block elements. Use classes like .ai-category-card-{{ ai_gen_id }}, .ai-category-navigator__track-{{ ai_gen_id }}, etc."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category navigator"
+    }
+  ]
+}
+{% endschema %}

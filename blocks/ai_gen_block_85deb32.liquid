@@ -1,0 +1,563 @@
+{% doc %}
+  @prompt
+    Generate a custom three-column banner section for my homepage with a dark, minimalist aesthetic.
+    
+    Layout Structure:
+    
+    Column 1 (Left): Set as an image/icon container. It should hold a small brand logo or delivery icon (max-width 150px).
+    
+    Column 2 (Middle): A text block containing a Heading and a Subheading. The text must be left-aligned with tight line spacing.
+    
+    Column 3 (Right): A Call-to-Action (CTA) button or a secondary image link.
+    
+    Design Specifications:
+    
+    Background: Solid dark hex code #0B0510.
+    
+    Typography: Text color should be white. Use a clean, sans-serif font.
+    
+    Spacing: Include admin controls for 'Desktop Top/Bottom Padding' and 'Mobile Top/Bottom Padding'. Ensure the columns use a 'Flex' layout to stay vertically centered.
+    
+    Responsiveness: On mobile, ensure the columns stack or scale down gracefully so the text remains legible.
+    
+    Functionality: Provide 'Image Width' and 'Section Height' sliders in the sidebar settings so I can manage the scale manually.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-three-column-banner-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background-color: {{ block.settings.background_color }};
+    padding-top: {{ block.settings.desktop_padding_top }}px;
+    padding-bottom: {{ block.settings.desktop_padding_bottom }}px;
+  }
+
+  .ai-three-column-banner__container-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    max-width: {{ block.settings.container_max_width }}px;
+    margin: 0 auto;
+    padding: 0 20px;
+    min-height: {{ block.settings.section_height }}px;
+  }
+
+  .ai-three-column-banner__column-{{ ai_gen_id }} {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  .ai-three-column-banner__column--left-{{ ai_gen_id }} {
+    justify-content: flex-start;
+  }
+
+  .ai-three-column-banner__column--middle-{{ ai_gen_id }} {
+    justify-content: center;
+    flex: 2;
+  }
+
+  .ai-three-column-banner__column--right-{{ ai_gen_id }} {
+    justify-content: flex-end;
+  }
+
+  .ai-three-column-banner__image-wrapper-{{ ai_gen_id }} {
+    max-width: {{ block.settings.image_width }}px;
+    width: 100%;
+  }
+
+  .ai-three-column-banner__image-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .ai-three-column-banner__image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80px;
+  }
+
+  .ai-three-column-banner__image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: auto;
+    max-width: 80px;
+    opacity: 0.3;
+  }
+
+  .ai-three-column-banner__text-block-{{ ai_gen_id }} {
+    text-align: left;
+    width: 100%;
+  }
+
+  .ai-three-column-banner__heading-{{ ai_gen_id }} {
+    font-family: {{ block.settings.heading_font.family }}, {{ block.settings.heading_font.fallback_families }};
+    font-weight: {{ block.settings.heading_font.weight }};
+    font-size: {{ block.settings.heading_size }}px;
+    line-height: 1.2;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 8px 0;
+  }
+
+  .ai-three-column-banner__subheading-{{ ai_gen_id }} {
+    font-family: {{ block.settings.subheading_font.family }}, {{ block.settings.subheading_font.fallback_families }};
+    font-weight: {{ block.settings.subheading_font.weight }};
+    font-size: {{ block.settings.subheading_size }}px;
+    line-height: 1.4;
+    color: {{ block.settings.text_color }};
+    margin: 0;
+  }
+
+  .ai-three-column-banner__cta-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    background-color: {{ block.settings.cta_bg_color }};
+    color: {{ block.settings.cta_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.cta_border_radius }}px;
+    font-family: {{ block.settings.cta_font.family }}, {{ block.settings.cta_font.fallback_families }};
+    font-weight: {{ block.settings.cta_font.weight }};
+    font-size: {{ block.settings.cta_font_size }}px;
+    transition: background-color 0.3s ease;
+  }
+
+  .ai-three-column-banner__cta-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.cta_hover_bg_color }};
+  }
+
+  .ai-three-column-banner__secondary-image-wrapper-{{ ai_gen_id }} {
+    max-width: {{ block.settings.secondary_image_width }}px;
+    width: 100%;
+  }
+
+  .ai-three-column-banner__secondary-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .ai-three-column-banner__secondary-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80px;
+  }
+
+  .ai-three-column-banner__secondary-image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: auto;
+    max-width: 80px;
+    opacity: 0.3;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-three-column-banner-{{ ai_gen_id }} {
+      padding-top: {{ block.settings.mobile_padding_top }}px;
+      padding-bottom: {{ block.settings.mobile_padding_bottom }}px;
+    }
+
+    .ai-three-column-banner__container-{{ ai_gen_id }} {
+      flex-direction: column;
+      gap: 20px;
+      min-height: auto;
+    }
+
+    .ai-three-column-banner__column-{{ ai_gen_id }} {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .ai-three-column-banner__column--middle-{{ ai_gen_id }} {
+      flex: 1;
+    }
+
+    .ai-three-column-banner__text-block-{{ ai_gen_id }} {
+      text-align: center;
+    }
+
+    .ai-three-column-banner__heading-{{ ai_gen_id }} {
+      font-size: {{ block.settings.heading_size | times: 0.8 }}px;
+    }
+
+    .ai-three-column-banner__subheading-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subheading_size | times: 0.9 }}px;
+    }
+
+    .ai-three-column-banner__cta-{{ ai_gen_id }} {
+      font-size: {{ block.settings.cta_font_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<three-column-banner-{{ ai_gen_id }} class="ai-three-column-banner-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-three-column-banner__container-{{ ai_gen_id }}">
+    <div class="ai-three-column-banner__column-{{ ai_gen_id }} ai-three-column-banner__column--left-{{ ai_gen_id }}">
+      <div class="ai-three-column-banner__image-wrapper-{{ ai_gen_id }}">
+        {% if block.settings.left_image %}
+          <img
+            src="{{ block.settings.left_image | image_url: width: 300 }}"
+            alt="{{ block.settings.left_image.alt | escape }}"
+            class="ai-three-column-banner__image-{{ ai_gen_id }}"
+            loading="lazy"
+            width="{{ block.settings.left_image.width }}"
+            height="{{ block.settings.left_image.height }}"
+          >
+        {% else %}
+          <div class="ai-three-column-banner__image-placeholder-{{ ai_gen_id }}">
+            {{ 'image' | placeholder_svg_tag }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="ai-three-column-banner__column-{{ ai_gen_id }} ai-three-column-banner__column--middle-{{ ai_gen_id }}">
+      <div class="ai-three-column-banner__text-block-{{ ai_gen_id }}">
+        {% if block.settings.heading != blank %}
+          <h2 class="ai-three-column-banner__heading-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+        {% endif %}
+        {% if block.settings.subheading != blank %}
+          <p class="ai-three-column-banner__subheading-{{ ai_gen_id }}">{{ block.settings.subheading }}</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="ai-three-column-banner__column-{{ ai_gen_id }} ai-three-column-banner__column--right-{{ ai_gen_id }}">
+      {% if block.settings.right_column_type == 'cta' %}
+        {% if block.settings.cta_text != blank %}
+          <a
+            href="{{ block.settings.cta_link }}"
+            class="ai-three-column-banner__cta-{{ ai_gen_id }}"
+          >
+            {{ block.settings.cta_text }}
+          </a>
+        {% endif %}
+      {% else %}
+        <div class="ai-three-column-banner__secondary-image-wrapper-{{ ai_gen_id }}">
+          {% if block.settings.right_image %}
+            {% if block.settings.right_image_link != blank %}
+              <a href="{{ block.settings.right_image_link }}">
+                <img
+                  src="{{ block.settings.right_image | image_url: width: 300 }}"
+                  alt="{{ block.settings.right_image.alt | escape }}"
+                  class="ai-three-column-banner__secondary-image-{{ ai_gen_id }}"
+                  loading="lazy"
+                  width="{{ block.settings.right_image.width }}"
+                  height="{{ block.settings.right_image.height }}"
+                >
+              </a>
+            {% else %}
+              <img
+                src="{{ block.settings.right_image | image_url: width: 300 }}"
+                alt="{{ block.settings.right_image.alt | escape }}"
+                class="ai-three-column-banner__secondary-image-{{ ai_gen_id }}"
+                loading="lazy"
+                width="{{ block.settings.right_image.width }}"
+                height="{{ block.settings.right_image.height }}"
+              >
+            {% endif %}
+          {% else %}
+            <div class="ai-three-column-banner__secondary-image-placeholder-{{ ai_gen_id }}">
+              {{ 'image' | placeholder_svg_tag }}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</three-column-banner-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ThreeColumnBanner{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+      }
+    }
+
+    customElements.define('three-column-banner-{{ ai_gen_id }}', ThreeColumnBanner{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Three column banner",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "container_max_width",
+      "label": "Container max width",
+      "min": 1000,
+      "max": 1600,
+      "step": 100,
+      "unit": "px",
+      "default": 1400
+    },
+    {
+      "type": "range",
+      "id": "section_height",
+      "label": "Section height",
+      "min": 100,
+      "max": 400,
+      "step": 20,
+      "unit": "px",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "desktop_padding_top",
+      "label": "Desktop top padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "desktop_padding_bottom",
+      "label": "Desktop bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "label": "Mobile top padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "label": "Mobile bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#0B0510"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Left column"
+    },
+    {
+      "type": "image_picker",
+      "id": "left_image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "label": "Image width",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "default": 150
+    },
+    {
+      "type": "header",
+      "content": "Middle column"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Premium Streetwear"
+    },
+    {
+      "type": "font_picker",
+      "id": "heading_font",
+      "label": "Heading font",
+      "default": "montserrat_n4"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 16,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Bold designs for rebels and misfits"
+    },
+    {
+      "type": "font_picker",
+      "id": "subheading_font",
+      "label": "Subheading font",
+      "default": "montserrat_n3"
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "label": "Subheading size",
+      "min": 12,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Right column"
+    },
+    {
+      "type": "select",
+      "id": "right_column_type",
+      "label": "Content type",
+      "options": [
+        {
+          "value": "cta",
+          "label": "CTA button"
+        },
+        {
+          "value": "image",
+          "label": "Image link"
+        }
+      ],
+      "default": "cta"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "cta_text",
+      "label": "CTA text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA link"
+    },
+    {
+      "type": "font_picker",
+      "id": "cta_font",
+      "label": "CTA font",
+      "default": "montserrat_n4"
+    },
+    {
+      "type": "range",
+      "id": "cta_font_size",
+      "label": "CTA font size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "cta_bg_color",
+      "label": "CTA background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "cta_hover_bg_color",
+      "label": "CTA hover background",
+      "default": "#E0E0E0"
+    },
+    {
+      "type": "color",
+      "id": "cta_text_color",
+      "label": "CTA text color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "cta_border_radius",
+      "label": "CTA border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "image_picker",
+      "id": "right_image",
+      "label": "Secondary image"
+    },
+    {
+      "type": "url",
+      "id": "right_image_link",
+      "label": "Secondary image link"
+    },
+    {
+      "type": "range",
+      "id": "secondary_image_width",
+      "label": "Secondary image width",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "default": 150
+    }
+  ],
+  "presets": [
+    {
+      "name": "Three column banner"
+    }
+  ]
+}
+{% endschema %}
