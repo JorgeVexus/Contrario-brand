@@ -1,6 +1,13 @@
 {{ 'section-editorial-lookbook.css' | asset_url | stylesheet_tag }}
 {{ 'quick-add.css' | asset_url | stylesheet_tag }}
+{{ 'quick-order-list.css' | asset_url | stylesheet_tag }}
+{{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
+
 <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'quick-add-bulk.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'quick-order-list.js' | asset_url }}" defer="defer"></script>
 
 {%- style -%}
   #EditorialLookbook-{{ section.id }} {
@@ -12,7 +19,7 @@
 
 <section
   id="EditorialLookbook-{{ section.id }}"
-  class="editorial-lookbook{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+  class="editorial-lookbook collection-quick-add-bulk{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
 >
   <div class="editorial-lookbook__container">
     <div class="editorial-lookbook__header">
@@ -59,7 +66,7 @@
                 <div class="editorial-card__badge">NEW</div>
               {%- endif -%}
 
-              {%- render 'quick-add-button', product: product -%}
+              {%- render 'quick-add-button', product: product, section_id: section.id -%}
             </div>
 
             <div class="editorial-card__info">
@@ -110,16 +117,123 @@
                 <div class="editorial-card__badge">NEW</div>
               {%- endif -%}
 
-              <button
-                type="button"
-                class="editorial-card__quick-add-btn"
-                aria-label="Quick Add {{ mock_title }}"
-                title="Quick Add"
+              <modal-opener
+                id="QuickBulk-demo-{{ i }}-{{ section.id }}"
+                data-modal="#QuickAddBulk-demo-{{ i }}-{{ section.id }}"
               >
-                <svg viewBox="0 0 16 16" aria-hidden="true">
-                  <path d="M4.5 4V3a3.5 3.5 0 0 1 7 0v1h1.5a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-10a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h1.5zm1 0h5V3a2.5 2.5 0 0 0-5 0v1z" fill="currentColor"/>
-                </svg>
-              </button>
+                <button
+                  id="quick-add-demo-{{ i }}-submit"
+                  type="button"
+                  class="editorial-card__quick-add-btn"
+                  aria-haspopup="dialog"
+                  aria-expanded="false"
+                  aria-label="Choose options for {{ mock_title }}"
+                  data-product-url="/collections/all"
+                >
+                  <svg viewBox="0 0 16 16" aria-hidden="true">
+                    <path d="M4.5 4V3a3.5 3.5 0 0 1 7 0v1h1.5a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-10a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h1.5zm1 0h5V3a2.5 2.5 0 0 0-5 0v1z" fill="currentColor"/>
+                  </svg>
+                </button>
+              </modal-opener>
+
+              <quick-add-modal
+                id="QuickAddBulk-demo-{{ i }}-{{ section.id }}"
+                class="quick-add-modal"
+              >
+                <div
+                  role="dialog"
+                  aria-label="{{ mock_title }}"
+                  aria-modal="true"
+                  class="quick-add-modal__content quick-add-modal__content--bulk global-settings-popup"
+                  tabindex="-1"
+                >
+                  <button
+                    id="ModalClose-demo-{{ i }}"
+                    type="button"
+                    class="quick-add-modal__toggle"
+                    aria-label="Close"
+                  >
+                    <svg viewBox="0 0 14 14" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path d="M1 1l12 12M13 1L1 13"/>
+                    </svg>
+                  </button>
+                  <div
+                    id="QuickAddInfo-demo-{{ i }}"
+                    class="quick-add-modal__content-info quick-add-modal__content-info--bulk"
+                  >
+                    <div class="quick-add__content-info__media">
+                      <div class="quick-add__info">
+                        <div class="quick-add__product-media">
+                          <div class="quick-add__product-container global-media-settings">
+                            <img
+                              src="{{ mock_img | asset_url }}"
+                              alt="{{ mock_title }}"
+                              loading="lazy"
+                              width="533"
+                              height="700"
+                            >
+                          </div>
+                        </div>
+                        <a href="/collections/all" class="link product__view-details animate-arrow small-hide medium-hide">
+                          VIEW FULL DETAILS
+                          <svg viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.5 6h7M6.5 2.5L10 6l-3.5 3.5"/></svg>
+                        </a>
+                      </div>
+                    </div>
+                    <div style="flex: 1; padding: 32px; display: flex; flex-direction: column; justify-content: space-between; background-color: #ffffff;">
+                      <div>
+                        <div class="quick-add-modal__content-info--bulk-details">
+                          <a href="/collections/all" class="full-unstyled-link">
+                            <h3 class="h2" style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 2.25rem; text-transform: uppercase; color: #1a1c1c; margin: 0 0 8px 0;">{{ mock_title }}</h3>
+                          </a>
+                          <p style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 18px; color: #555; margin: 0 0 24px 0;">{{ mock_price }}</p>
+                        </div>
+                        
+                        <div class="quick-add-modal__table-head">
+                          <div>VARIANT</div>
+                          <div style="text-align: center;">QUANTITY</div>
+                          <div style="text-align: right;">PRICE</div>
+                          <div style="text-align: right;">TOTAL</div>
+                        </div>
+
+                        {%- for size in (1..4) -%}
+                          {%- liquid
+                            assign var_name = 'Small'
+                            if size == 2
+                              assign var_name = 'Medium'
+                            elsif size == 3
+                              assign var_name = 'Large'
+                            elsif size == 4
+                              assign var_name = 'Extra Large'
+                            endif
+                          -%}
+                          <div class="quick-add-modal__table-row">
+                            <div class="quick-add-modal__variant-name">{{ var_name }}</div>
+                            <div style="display: flex; justify-content: center;">
+                              <div class="quick-add-modal__qty-picker">
+                                <button type="button" class="quick-add-modal__qty-btn">-</button>
+                                <input type="text" class="quick-add-modal__qty-input" value="{% if size == 1 %}1{% else %}0{% endif %}">
+                                <button type="button" class="quick-add-modal__qty-btn">+</button>
+                              </div>
+                            </div>
+                            <div class="quick-add-modal__price-unit">{{ mock_price }}/ea</div>
+                            <div class="quick-add-modal__price-total">{% if size == 1 %}{{ mock_price }}{% else %}$0.00{% endif %}</div>
+                          </div>
+                        {%- endfor -%}
+                      </div>
+
+                      <div class="quick-add-modal__footer">
+                        <a href="/cart" class="quick-add-modal__view-cart-btn">VIEW CART</a>
+                        <div class="quick-add-modal__summary-wrap">
+                          <div style="font-size: 12px; color: #555555; text-transform: uppercase;">1 TOTAL ITEM</div>
+                          <div class="quick-add-modal__summary-subtotal">{{ mock_price }}</div>
+                          <div class="quick-add-modal__summary-note">Taxes, discounts and shipping calculated at checkout.</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </quick-add-modal>
             </div>
 
             <div class="editorial-card__info">
