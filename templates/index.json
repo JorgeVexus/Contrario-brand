@@ -1,14 +1,13 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
+    "hero_rebellion_figma": {
+      "type": "hero-rebellion",
+      "settings": {
+        "heading": "WEAR THE REBELLION",
+        "button_label": "SHOP NOW",
+        "button_link": "shopify://collections/all"
+      }
+    },
     "campaign_hero_CnDeBL": {
       "type": "campaign-hero",
       "blocks": {
@@ -695,6 +694,7 @@
     }
   },
   "order": [
+    "hero_rebellion_figma",
     "campaign_hero_CnDeBL",
     "17680796693645433c",
     "image_with_text_wUMzb4",
