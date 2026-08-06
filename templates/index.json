@@ -1,11 +1,26 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero_rebellion_figma": {
       "type": "hero-rebellion",
       "settings": {
+        "image_opacity": 80,
+        "show_gradient": true,
+        "desktop_height": "full",
         "heading": "WEAR THE REBELLION",
+        "heading_tag": "h1",
         "button_label": "SHOP NOW",
-        "button_link": "shopify://collections/all"
+        "button_link": "shopify://collections/all",
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     },
     "campaign_hero_CnDeBL": {
@@ -52,6 +67,7 @@
         "heading_n3qGmL",
         "buttons_XtGiAq"
       ],
+      "disabled": true,
       "name": "Campaign hero",
       "settings": {
         "image": "shopify://shop_images/CONTRARIO_BRAND_FAQ.png",
@@ -216,7 +232,7 @@
         "eyebrow": "",
         "heading": "",
         "heading_alignment": "left",
-        "heading_color": "#FFFFFF",
+        "heading_color": "#ffffff",
         "background_color": "#111111",
         "max_width": 1440,
         "desktop_card_height": 480,
@@ -234,12 +250,12 @@
         "overlay_color": "#000000",
         "overlay_opacity": 20,
         "image_zoom": 104,
-        "title_color": "#FFFFFF",
+        "title_color": "#ffffff",
         "title_size": 42,
         "title_size_mobile": 34,
-        "cta_color": "#C8FF00",
+        "cta_color": "#c8ff00",
         "cta_size": 11,
-        "accent_color": "#C8FF00",
+        "accent_color": "#c8ff00",
         "content_alignment": "left",
         "content_inset": 24
       }
