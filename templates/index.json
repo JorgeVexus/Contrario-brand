@@ -23,6 +23,50 @@
         "padding_bottom": 0
       }
     },
+    "bento_categories_figma": {
+      "type": "bento-categories",
+      "blocks": {
+        "cat_women": {
+          "type": "category_card",
+          "settings": {
+            "title": "WOMEN",
+            "card_span": "span-2x2"
+          }
+        },
+        "cat_men": {
+          "type": "category_card",
+          "settings": {
+            "title": "MEN",
+            "card_span": "span-2x1"
+          }
+        },
+        "cat_accessories": {
+          "type": "category_card",
+          "settings": {
+            "title": "ACCESSORIES",
+            "card_span": "span-1x1"
+          }
+        },
+        "cat_kids": {
+          "type": "category_card",
+          "settings": {
+            "title": "KIDS",
+            "card_span": "span-1x1"
+          }
+        }
+      },
+      "block_order": [
+        "cat_women",
+        "cat_men",
+        "cat_accessories",
+        "cat_kids"
+      ],
+      "settings": {
+        "title": "FEATURED CATEGORIES",
+        "subtitle": "EXPLORE THE COLLECTION",
+        "layout_preset": "hero-left"
+      }
+    },
     "campaign_hero_CnDeBL": {
       "type": "campaign-hero",
       "blocks": {
@@ -711,6 +755,7 @@
   },
   "order": [
     "hero_rebellion_figma",
+    "bento_categories_figma",
     "campaign_hero_CnDeBL",
     "17680796693645433c",
     "image_with_text_wUMzb4",

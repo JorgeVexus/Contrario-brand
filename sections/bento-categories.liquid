@@ -1,0 +1,296 @@
+{{ 'section-bento-categories.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  #BentoCategories-{{ section.id }} {
+    --bento-padding-top: {{ section.settings.padding_top }}px;
+    --bento-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --bento-gap: {{ section.settings.grid_gap }}px;
+    --bento-bg-color: {{ section.settings.background_color }};
+    --bento-header-align: {{ section.settings.header_alignment }};
+  }
+{%- endstyle -%}
+
+<section
+  id="BentoCategories-{{ section.id }}"
+  class="bento-categories{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+>
+  <div class="bento-categories__container">
+    {%- if section.settings.title != blank or section.settings.subtitle != blank -%}
+      <div class="bento-categories__header">
+        {%- if section.settings.subtitle != blank -%}
+          <p class="bento-categories__subtitle">{{ section.settings.subtitle }}</p>
+        {%- endif -%}
+        {%- if section.settings.title != blank -%}
+          <h2 class="bento-categories__title">{{ section.settings.title }}</h2>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="bento-categories__grid bento-categories__grid--{{ section.settings.layout_preset }}">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign card_collection = block.settings.collection
+          assign card_title = block.settings.title | default: card_collection.title
+          assign card_link = block.settings.link | default: card_collection.url | default: '#'
+          assign card_image = block.settings.image | default: card_collection.featured_image
+          assign span_class = ''
+          if section.settings.layout_preset == 'dynamic' and block.settings.card_span != 'auto'
+            assign span_class = 'bento-card--' | append: block.settings.card_span
+          endif
+        -%}
+
+        <a
+          href="{{ card_link }}"
+          class="bento-card {{ span_class }}"
+          {{ block.shopify_attributes }}
+        >
+          <div class="bento-card__media">
+            {%- if card_image != blank -%}
+              {{
+                card_image
+                | image_url: width: 1500
+                | image_tag:
+                  class: 'bento-card__image',
+                  widths: '375, 550, 750, 1100, 1500',
+                  sizes: '(min-width: 990px) 50vw, 100vw',
+                  loading: 'lazy',
+                  alt: card_title
+              }}
+            {%- else -%}
+              {%- liquid
+                assign fallback_image_name = 'bento-women.png'
+                if forloop.index == 2
+                  assign fallback_image_name = 'rebellion-hero-bg.png'
+                elsif forloop.index == 3
+                  assign fallback_image_name = 'bento-accessories.png'
+                elsif forloop.index == 4
+                  assign fallback_image_name = 'bento-kids.png'
+                endif
+              -%}
+              <img
+                src="{{ fallback_image_name | asset_url }}"
+                alt="{{ card_title | escape }}"
+                class="bento-card__image"
+                loading="lazy"
+                width="800"
+                height="800"
+              >
+            {%- endif -%}
+          </div>
+
+          <div class="bento-card__overlay"></div>
+
+          <div class="bento-card__badge">
+            <h3 class="bento-card__title">
+              {{ card_title | default: 'CATEGORY' }}
+            </h3>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Bento Categories",
+  "tag": "section",
+  "class": "section-bento-categories",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header Settings"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "FEATURED CATEGORIES"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Section Subtitle",
+      "default": "EXPLORE THE COLLECTION"
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "left",
+      "label": "Header Alignment"
+    },
+    {
+      "type": "header",
+      "content": "Bento Grid Layout Presets"
+    },
+    {
+      "type": "select",
+      "id": "layout_preset",
+      "options": [
+        {
+          "value": "hero-left",
+          "label": "Hero Left (Figma Layout - 1 Large, 1 Wide, 2 Squares)"
+        },
+        {
+          "value": "hero-right",
+          "label": "Hero Right (1 Wide, 2 Squares, 1 Large Right)"
+        },
+        {
+          "value": "dynamic",
+          "label": "Custom Dynamic Spans (Set per card block)"
+        },
+        {
+          "value": "equal",
+          "label": "Equal Grid (Uniform Columns)"
+        }
+      ],
+      "default": "hero-left",
+      "label": "Grid Layout Arrangement"
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Grid Gap Spacing",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category_card",
+      "name": "Category Card",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Custom Category Title (Overrides Collection Title)"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom Card Image (Overrides Collection Image)"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Custom Card Link (Overrides Collection URL)"
+        },
+        {
+          "type": "select",
+          "id": "card_span",
+          "options": [
+            {
+              "value": "auto",
+              "label": "Auto (Determined by Layout Preset)"
+            },
+            {
+              "value": "span-2x2",
+              "label": "Large (2 Columns x 2 Rows)"
+            },
+            {
+              "value": "span-2x1",
+              "label": "Wide (2 Columns x 1 Row)"
+            },
+            {
+              "value": "span-1x2",
+              "label": "Tall (1 Column x 2 Rows)"
+            },
+            {
+              "value": "span-1x1",
+              "label": "Square (1 Column x 1 Row)"
+            }
+          ],
+          "default": "auto",
+          "label": "Card Size Span (Used in Custom Dynamic mode)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bento Categories",
+      "blocks": [
+        {
+          "type": "category_card",
+          "settings": {
+            "title": "WOMEN",
+            "card_span": "span-2x2"
+          }
+        },
+        {
+          "type": "category_card",
+          "settings": {
+            "title": "MEN",
+            "card_span": "span-2x1"
+          }
+        },
+        {
+          "type": "category_card",
+          "settings": {
+            "title": "ACCESSORIES",
+            "card_span": "span-1x1"
+          }
+        },
+        {
+          "type": "category_card",
+          "settings": {
+            "title": "KIDS",
+            "card_span": "span-1x1"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
