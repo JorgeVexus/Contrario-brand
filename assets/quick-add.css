@@ -687,3 +687,138 @@ quick-add-bulk .quantity__input {
   }
 }
 
+/* ==========================================================================
+   Dawn Bulk Modal (quick-order-list) Figma 6:108 Styling Overrides
+   ========================================================================== */
+.quick-add-modal__content--bulk {
+  background-color: #ffffff !important;
+  border: 1px solid #000000 !important;
+  border-radius: 4px !important;
+}
+
+.quick-add-modal__content-info--bulk {
+  display: flex !important;
+  flex-direction: row !important;
+  padding: 0 !important;
+}
+
+.quick-add-modal__content-info--bulk .quick-add__content-info__media {
+  width: 420px !important;
+  min-width: 300px !important;
+  background-color: #f5f5f5 !important;
+  border-right: 2px solid #000000 !important;
+  padding: 32px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+.quick-add-modal__content-info--bulk .quick-add__product-container {
+  background-color: #e2e2e2 !important;
+  border: 2px solid #000000 !important;
+  border-radius: 4px !important;
+  overflow: hidden !important;
+  aspect-ratio: 3 / 4;
+}
+
+.quick-add-modal__content-info--bulk .product__view-details {
+  font-family: 'Bricolage Grotesque', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: #1a1c1c !important;
+  text-transform: uppercase !important;
+  border-bottom: 2px solid #000000 !important;
+  padding-bottom: 4px !important;
+  margin-top: 24px !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.quick-add-modal__content-info--bulk-details h3,
+.quick-add-modal__content-info--bulk-details .h2 {
+  font-family: 'Bricolage Grotesque', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: clamp(1.75rem, 3vw, 2.5rem) !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.03em !important;
+  color: #1a1c1c !important;
+  text-transform: uppercase !important;
+  margin-bottom: 8px !important;
+}
+
+.quick-add-modal__content-info--bulk-details .price {
+  font-family: 'Bricolage Grotesque', sans-serif !important;
+  font-size: 18px !important;
+  color: #555555 !important;
+}
+
+.quick-order-list__table th {
+  font-family: 'Bricolage Grotesque', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #555555 !important;
+  text-transform: uppercase !important;
+  border-bottom: 1px solid #000000 !important;
+}
+
+.quick-order-list__table td {
+  border-bottom: 1px solid #e2e2e2 !important;
+}
+
+.quick-order-list .quantity {
+  border: 1px solid #000000 !important;
+  background-color: #ffffff !important;
+  height: 40px !important;
+  border-radius: 0 !important;
+}
+
+.quick-order-list .quantity__button {
+  background: transparent !important;
+  border: none !important;
+  color: #000000 !important;
+}
+
+.quick-order-list .quantity__input {
+  font-family: 'Bricolage Grotesque', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  color: #1a1c1c !important;
+}
+
+.quick-order-list__total {
+  border-top: 1px solid #000000 !important;
+  padding-top: 24px !important;
+  margin-top: 24px !important;
+}
+
+.quick-order-list__total .button {
+  background-color: #ffffff !important;
+  border: 1px solid #000000 !important;
+  color: #1a1c1c !important;
+  font-family: 'Bricolage Grotesque', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  border-radius: 0 !important;
+}
+
+.quick-order-list__total .button:hover {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+@media screen and (max-width: 989px) {
+  .quick-add-modal__content-info--bulk {
+    flex-direction: column !important;
+  }
+
+  .quick-add-modal__content-info--bulk .quick-add__content-info__media {
+    width: 100% !important;
+    border-right: none !important;
+    border-bottom: 2px solid #000000 !important;
+  }
+}
+
+

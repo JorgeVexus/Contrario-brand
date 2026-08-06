@@ -1,13 +1,18 @@
 {%- comment -%}
-  Renders a Quick Add trigger button for a product.
+  Renders the Quick Add / Choose options trigger and modal.
+  Triggers the Bulk Variant Matrix Modal (Figma 6:108 design).
   Accepts:
   - product: {Object} Product Liquid object
+  - section_id: {String} Section ID
 {%- endcomment -%}
 
 {%- if product != blank -%}
-  <modal-opener data-modal="#QuickAdd-{{ product.id }}">
+  {%- assign current_section_id = section_id | default: section.id -%}
+  {%- assign product_form_id = 'quick-add-' | append: current_section_id | append: '-' | append: product.id -%}
+
+  <modal-opener data-modal="#QuickAddBulk-{{ product.id }}-{{ current_section_id }}">
     <button
-      id="QuickAddToggle-{{ product.id }}"
+      id="{{ product_form_id }}-submit"
       type="button"
       class="editorial-card__quick-add-btn"
       aria-haspopup="dialog"
@@ -25,12 +30,16 @@
       </div>
     </button>
   </modal-opener>
-  <quick-add-modal id="QuickAdd-{{ product.id }}" class="quick-add-modal">
+
+  <quick-add-modal
+    id="QuickAddBulk-{{ product.id }}-{{ current_section_id }}"
+    class="quick-add-modal"
+  >
     <div
       role="dialog"
-      aria-label="{{ 'products.product.choose_options' | t: product_name: product.title }}"
+      aria-label="{{ 'products.product.choose_product_options' | t: product_name: product.title | escape }}"
       aria-modal="true"
-      class="quick-add-modal__content global-settings-popup"
+      class="quick-add-modal__content quick-add-modal__content--bulk global-settings-popup"
       tabindex="-1"
     >
       <button
@@ -43,7 +52,54 @@
           <path d="M1 1l12 12M13 1L1 13"/>
         </svg>
       </button>
-      <div id="QuickAddInfo-{{ product.id }}" class="quick-add-modal__content-info"></div>
+      <div
+        id="QuickAddInfo-{{ product.id }}"
+        class="quick-add-modal__content-info quick-add-modal__content-info--bulk"
+      >
+        <div class="quick-add__content-info__media">
+          <div class="quick-add__info">
+            {%- if product.featured_media -%}
+              <div class="quick-add__product-media">
+                <div class="quick-add__product-container global-media-settings">
+                  <img
+                    srcset="
+                      {%- if product.featured_media.width >= 165 -%}{{ product.featured_media | image_url: width: 165 }} 165w,{%- endif -%}
+                      {%- if product.featured_media.width >= 360 -%}{{ product.featured_media | image_url: width: 360 }} 360w,{%- endif -%}
+                      {%- if product.featured_media.width >= 533 -%}{{ product.featured_media | image_url: width: 533 }} 533w,{%- endif -%}
+                      {{ product.featured_media | image_url }} {{ product.featured_media.width }}w
+                    "
+                    src="{{ product.featured_media | image_url: width: 533 }}"
+                    sizes="(min-width: 990px) 440px, 100vw"
+                    alt="{{ product.featured_media.alt | escape }}"
+                    loading="lazy"
+                    width="533"
+                    height="700"
+                  >
+                </div>
+              </div>
+            {%- endif -%}
+            <a href="{{ product.url }}" class="link product__view-details animate-arrow small-hide medium-hide">
+              {{ 'products.product.view_full_details' | t -}}
+              <svg viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.5 6h7M6.5 2.5L10 6l-3.5 3.5"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="quick-add__content-info__details">
+          <div class="quick-add-modal__content-info--bulk-details">
+            <a href="{{ product.url }}" class="full-unstyled-link">
+              <h3 class="h2">{{ product.title | escape }}</h3>
+            </a>
+            {% render 'price', product: product, price_class: '', show_compare_at_price: true %}
+          </div>
+          <bulk-modal
+            id="QuickBulkModal-{{ product.id }}-{{ current_section_id }}"
+            data-url="{{ product.url }}"
+            data-section-id="{{ current_section_id }}"
+            data-product-id="{{ product.id }}"
+          >
+          </bulk-modal>
+        </div>
+      </div>
     </div>
   </quick-add-modal>
 {%- endif -%}
