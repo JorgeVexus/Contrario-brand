@@ -1,0 +1,218 @@
+{{ 'section-editorial-lookbook.css' | asset_url | stylesheet_tag }}
+{{ 'quick-add.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+
+{%- style -%}
+  #EditorialLookbook-{{ section.id }} {
+    --editorial-padding-top: {{ section.settings.padding_top }}px;
+    --editorial-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --editorial-bg-color: {{ section.settings.background_color }};
+  }
+{%- endstyle -%}
+
+<section
+  id="EditorialLookbook-{{ section.id }}"
+  class="editorial-lookbook{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+>
+  <div class="editorial-lookbook__container">
+    <div class="editorial-lookbook__header">
+      <h2 class="editorial-lookbook__title">
+        {{ section.settings.heading | default: 'NEW ARRIVALS' }}
+      </h2>
+      {%- if section.settings.show_view_all -%}
+        <a
+          href="{{ section.settings.collection.url | default: '/collections/all' }}"
+          class="editorial-lookbook__link"
+        >
+          <span>{{ section.settings.view_all_label | default: 'VIEW ALL' }}</span>
+          <svg class="editorial-lookbook__link-icon" viewBox="0 0 12 12" aria-hidden="true">
+            <path d="M2.5 6h7M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="editorial-lookbook__grid">
+      {%- assign collection = section.settings.collection -%}
+      {%- if collection != blank and collection.products_count > 0 -%}
+        {%- for product in collection.products limit: section.settings.products_to_show -%}
+          <div class="editorial-card">
+            <div class="editorial-card__media-wrap">
+              <a href="{{ product.url }}" class="editorial-card__media-link">
+                {%- if product.featured_media != blank -%}
+                  {{
+                    product.featured_media
+                    | image_url: width: 1000
+                    | image_tag:
+                      class: 'editorial-card__image',
+                      widths: '375, 550, 750, 1000',
+                      sizes: '(min-width: 990px) 25vw, (min-width: 550px) 50vw, 100vw',
+                      loading: 'lazy',
+                      alt: product.title
+                  }}
+                {%- else -%}
+                  {{ 'product-1' | placeholder_svg_tag: 'editorial-card__image' }}
+                {%- endif -%}
+              </a>
+
+              {%- if product.tags contains 'new' or forloop.index == 3 -%}
+                <div class="editorial-card__badge">NEW</div>
+              {%- endif -%}
+
+              {%- render 'quick-add-button', product: product -%}
+            </div>
+
+            <div class="editorial-card__info">
+              <a href="{{ product.url }}" class="editorial-card__title">
+                {{ product.title }}
+              </a>
+              <p class="editorial-card__price">
+                {{ product.price | money }}
+              </p>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        {%- comment -%} Mock Lookbook Cards for Demo / Figma Fidelity {%- endcomment -%}
+        {%- for i in (1..4) -%}
+          {%- liquid
+            assign mock_title = 'Mortis Shirt'
+            assign mock_price = '$37.99'
+            assign mock_img = 'rebellion-hero-bg.png'
+            if i == 2
+              assign mock_title = 'Séance Blouse'
+              assign mock_price = '$37.99'
+              assign mock_img = 'bento-women.png'
+            elsif i == 3
+              assign mock_title = 'Dress Contrario Skull Lace'
+              assign mock_price = '$36.99'
+              assign mock_img = 'bento-kids.png'
+            elsif i == 4
+              assign mock_title = 'Black Skull Print Dress'
+              assign mock_price = '$31.99'
+              assign mock_img = 'bento-accessories.png'
+            endif
+          -%}
+          <div class="editorial-card">
+            <div class="editorial-card__media-wrap">
+              <a href="/collections/all" class="editorial-card__media-link">
+                <img
+                  src="{{ mock_img | asset_url }}"
+                  alt="{{ mock_title }}"
+                  class="editorial-card__image"
+                  loading="lazy"
+                  width="600"
+                  height="800"
+                >
+              </a>
+
+              {%- if i == 3 -%}
+                <div class="editorial-card__badge">NEW</div>
+              {%- endif -%}
+
+              <button
+                type="button"
+                class="editorial-card__quick-add-btn"
+                aria-label="Quick Add {{ mock_title }}"
+                title="Quick Add"
+              >
+                <svg viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="M4.5 4V3a3.5 3.5 0 0 1 7 0v1h1.5a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-10a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h1.5zm1 0h5V3a2.5 2.5 0 0 0-5 0v1z" fill="currentColor"/>
+                </svg>
+              </button>
+            </div>
+
+            <div class="editorial-card__info">
+              <a href="/collections/all" class="editorial-card__title">
+                {{ mock_title }}
+              </a>
+              <p class="editorial-card__price">
+                {{ mock_price }}
+              </p>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Editorial Lookbook",
+  "tag": "section",
+  "class": "section-editorial-lookbook",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "NEW ARRIVALS"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 4,
+      "max": 12,
+      "step": 4,
+      "default": 4,
+      "label": "Products to Show"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show View All Link",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "View All Label",
+      "default": "VIEW ALL"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#131313"
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 60
+    }
+  ],
+  "presets": [
+    {
+      "name": "Editorial Lookbook"
+    }
+  ]
+}
+{% endschema %}

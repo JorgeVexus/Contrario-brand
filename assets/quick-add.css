@@ -410,3 +410,280 @@ quick-add-bulk .quantity__input {
 .quantity__input-disabled {
   pointer-events: none;
 }
+
+/* ==========================================================================
+   Figma 6:108 Quick Add Modal Redesign (Clean & Full Responsive)
+   ========================================================================== */
+.quick-add-modal {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+}
+
+.quick-add-modal__content {
+  background-color: #ffffff;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  max-width: 1152px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  padding: 0;
+  overflow: hidden;
+}
+
+.quick-add-modal__toggle {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  background-color: #ffffff;
+  border: 1px solid #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #000000;
+  transition: all 0.25s ease;
+}
+
+.quick-add-modal__toggle:hover {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+/* Modal Info Layout (2 Columns) */
+.quick-add-modal__content-info {
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.quick-add-modal__media-col {
+  width: 440px;
+  min-width: 320px;
+  background-color: #f5f5f5;
+  border-right: 2px solid #000000;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.quick-add-modal__media-frame {
+  background-color: #e2e2e2;
+  border: 2px solid #000000;
+  border-radius: 4px;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  width: 100%;
+}
+
+.quick-add-modal__media-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.quick-add-modal__full-details-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1c1c;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 2px solid #000000;
+  padding-bottom: 4px;
+  margin-top: 24px;
+  align-self: flex-start;
+  transition: opacity 0.2s ease;
+}
+
+.quick-add-modal__full-details-link:hover {
+  opacity: 0.7;
+}
+
+/* Right Details Column */
+.quick-add-modal__details-col {
+  flex: 1;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #ffffff;
+}
+
+.quick-add-modal__header-title {
+  margin: 0 0 8px 0;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: #1a1c1c;
+  text-transform: uppercase;
+}
+
+.quick-add-modal__header-price {
+  margin: 0 0 24px 0;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  color: #555555;
+}
+
+/* Matrix Table Header */
+.quick-add-modal__table-head {
+  display: grid;
+  grid-template-columns: 1.5fr 1.5fr 1fr 1fr;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #000000;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #555555;
+  text-transform: uppercase;
+}
+
+.quick-add-modal__table-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1.5fr 1fr 1fr;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.quick-add-modal__variant-name {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1c1c;
+}
+
+/* Quantity Box */
+.quick-add-modal__qty-picker {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #000000;
+  background: #ffffff;
+  height: 40px;
+  width: 120px;
+}
+
+.quick-add-modal__qty-btn {
+  width: 36px;
+  height: 100%;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.quick-add-modal__qty-input {
+  width: 48px;
+  height: 100%;
+  border: none;
+  text-align: center;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.quick-add-modal__price-unit {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 14px;
+  color: #555555;
+  text-align: right;
+}
+
+.quick-add-modal__price-total {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1c1c;
+  text-align: right;
+}
+
+/* Footer Summary Area */
+.quick-add-modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 24px;
+  border-top: 1px solid #000000;
+  margin-top: 24px;
+}
+
+.quick-add-modal__view-cart-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  background-color: #ffffff;
+  border: 1px solid #000000;
+  color: #1a1c1c;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.quick-add-modal__view-cart-btn:hover {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.quick-add-modal__summary-wrap {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.quick-add-modal__summary-subtotal {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a1c1c;
+  line-height: 1;
+}
+
+.quick-add-modal__summary-note {
+  font-size: 11px;
+  color: #888888;
+}
+
+/* Modal Responsive */
+@media screen and (max-width: 890px) {
+  .quick-add-modal__content-info {
+    flex-direction: column;
+  }
+
+  .quick-add-modal__media-col {
+    width: 100%;
+    border-right: none;
+    border-bottom: 2px solid #000000;
+    padding: 24px;
+  }
+
+  .quick-add-modal__details-col {
+    padding: 24px;
+  }
+
+  .quick-add-modal__table-head,
+  .quick-add-modal__table-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+}
+

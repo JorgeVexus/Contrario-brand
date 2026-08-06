@@ -58,6 +58,15 @@
         "layout_preset": "hero-left"
       }
     },
+    "editorial_lookbook_figma": {
+      "type": "editorial-lookbook",
+      "settings": {
+        "heading": "NEW ARRIVALS",
+        "products_to_show": 4,
+        "show_view_all": true,
+        "view_all_label": "VIEW ALL"
+      }
+    },
     "campaign_hero_CnDeBL": {
       "type": "campaign-hero",
       "blocks": {
@@ -747,6 +756,7 @@
   "order": [
     "hero_rebellion_figma",
     "bento_categories_figma",
+    "editorial_lookbook_figma",
     "campaign_hero_CnDeBL",
     "17680796693645433c",
     "image_with_text_wUMzb4",

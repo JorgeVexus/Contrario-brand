@@ -1,0 +1,237 @@
+.editorial-lookbook {
+  width: 100%;
+  padding-top: var(--editorial-padding-top, 60px);
+  padding-bottom: var(--editorial-padding-bottom, 60px);
+  background-color: var(--editorial-bg-color, #131313);
+  color: #e2e2e2;
+}
+
+.editorial-lookbook__container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.editorial-lookbook__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  margin-bottom: 36px;
+  border-bottom: 1px solid #333333;
+  width: 100%;
+}
+
+.editorial-lookbook__title {
+  margin: 0;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 400;
+  font-size: clamp(1.85rem, 4vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+  color: #e2e2e2;
+  font-variation-settings: 'opsz' 14, 'wdth' 100;
+}
+
+.editorial-lookbook__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #cfc4c5;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.editorial-lookbook__link:hover {
+  color: #ffffff;
+}
+
+.editorial-lookbook__link-icon {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+  transition: transform 0.25s ease;
+}
+
+.editorial-lookbook__link:hover .editorial-lookbook__link-icon {
+  transform: translateX(3px);
+}
+
+/* Staggered Editorial Grid */
+.editorial-lookbook__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  width: 100%;
+}
+
+@media screen and (min-width: 990px) {
+  .editorial-card:nth-child(even) {
+    padding-top: 48px;
+  }
+
+  .editorial-card:nth-child(odd) {
+    padding-bottom: 48px;
+  }
+}
+
+/* Product Card Styling */
+.editorial-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.editorial-card__media-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  background-color: #1b1b1b;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.editorial-card__media-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+}
+
+.editorial-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.editorial-card:hover .editorial-card__image {
+  transform: scale(1.06);
+}
+
+.editorial-card__badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 3;
+  background-color: #131313;
+  border: 1px solid #333333;
+  color: #e2e2e2;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  padding: 6px 10px;
+  text-transform: uppercase;
+}
+
+/* Quick Add Hover Icon Button */
+.editorial-card__quick-add-btn {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  z-index: 4;
+  width: 40px;
+  height: 40px;
+  background-color: #131313;
+  border: 1px solid #333333;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #e2e2e2;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.25s ease, transform 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+  padding: 0;
+}
+
+.editorial-card:hover .editorial-card__quick-add-btn,
+.editorial-card:focus-within .editorial-card__quick-add-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.editorial-card__quick-add-btn:hover {
+  background-color: #e2e2e2;
+  color: #131313;
+  border-color: #e2e2e2;
+}
+
+.editorial-card__quick-add-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+/* Card Info */
+.editorial-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.editorial-card__title {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #e2e2e2;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.editorial-card__title:hover {
+  color: #ffffff;
+}
+
+.editorial-card__price {
+  margin: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 1.2px;
+  color: #cfc4c5;
+}
+
+/* Responsive Breakpoints */
+@media screen and (max-width: 989px) {
+  .editorial-lookbook__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .editorial-card__quick-add-btn {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media screen and (max-width: 549px) {
+  .editorial-lookbook__container {
+    padding: 0 16px;
+  }
+
+  .editorial-lookbook__grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .editorial-card__media-wrap {
+    aspect-ratio: 4 / 5;
+  }
+}
