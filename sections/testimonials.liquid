@@ -1,0 +1,426 @@
+{{ 'section-testimonials.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'testimonials-slider.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign columns_desktop = section.settings.columns_desktop
+  assign enable_carousel = section.settings.enable_carousel
+  assign card_style = section.settings.card_style
+  assign heading_align = section.settings.heading_alignment
+-%}
+
+{%- style -%}
+  #Testimonials-{{ section.id }} {
+    --card-border-radius: {{ section.settings.border_radius }}px;
+    --accent-color: {{ section.settings.accent_color }};
+    --title-color: {{ section.settings.title_color }};
+    background-color: {{ section.settings.background_color }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{%- endstyle -%}
+
+<section
+  id="Testimonials-{{ section.id }}"
+  class="testimonials-section{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+>
+  <div class="testimonials-container">
+    {%- if section.settings.title != blank or section.settings.subtitle != blank -%}
+      <div class="testimonials-header testimonials-header--{{ heading_align }}">
+        {%- if section.settings.subtitle != blank -%}
+          <p class="testimonials-subtitle">{{ section.settings.subtitle | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.title != blank -%}
+          <h2 class="testimonials-title">{{ section.settings.title | escape }}</h2>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <testimonials-slider
+      data-cols-desktop="{{ columns_desktop }}"
+      data-autorotate="{{ section.settings.autorotate }}"
+      data-speed="{{ section.settings.autorotate_speed }}"
+      class="testimonials-slider-wrapper"
+    >
+      <div
+        class="testimonials-track-container"
+        data-testimonials-track
+      >
+        <div class="testimonials-grid testimonials-grid--cols-{{ columns_desktop }}{% unless enable_carousel %} testimonials-grid--static{% endunless %}">
+          {%- for block in section.blocks -%}
+            {%- liquid
+              assign author_name = block.settings.author_name | default: 'Cliente Satisfecho'
+              assign initial = author_name | slice: 0 | upcase
+            -%}
+            <div
+              class="testimonial-card testimonial-card--{{ card_style }}"
+              {{ block.shopify_attributes }}
+            >
+              <div class="testimonial-card__header">
+                {%- if section.settings.show_stars -%}
+                  <div class="testimonial-stars" aria-label="{{ block.settings.rating }} de 5 estrellas">
+                    {%- for i in (1..5) -%}
+                      {%- if i <= block.settings.rating -%}
+                        <svg viewBox="0 0 24 24">
+                          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                        </svg>
+                      {%- else -%}
+                        <svg viewBox="0 0 24 24" style="opacity: 0.3;">
+                          <path d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"/>
+                        </svg>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </div>
+                {%- endif -%}
+
+                {%- if section.settings.show_quotes -%}
+                  <svg class="testimonial-quote-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/>
+                  </svg>
+                {%- endif -%}
+              </div>
+
+              <div class="testimonial-card__body">
+                {%- if block.settings.quote != blank -%}
+                  <p class="testimonial-text">“{{ block.settings.quote | escape }}”</p>
+                {%- endif -%}
+
+                {%- if block.settings.product_name != blank -%}
+                  {%- if block.settings.product_link != blank -%}
+                    <a href="{{ block.settings.product_link }}" class="testimonial-product-tag">
+                      <span>🏷️ {{ block.settings.product_name | escape }}</span>
+                    </a>
+                  {%- else -%}
+                    <span class="testimonial-product-tag">
+                      <span>🏷️ {{ block.settings.product_name | escape }}</span>
+                    </span>
+                  {%- endif -%}
+                {%- endif -%}
+              </div>
+
+              <div class="testimonial-card__footer">
+                <div class="testimonial-avatar">
+                  {%- if block.settings.author_image != blank -%}
+                    {{
+                      block.settings.author_image
+                      | image_url: width: 100
+                      | image_tag:
+                        class: 'testimonial-avatar-img',
+                        widths: '50, 100',
+                        loading: 'lazy',
+                        alt: author_name
+                    }}
+                  {%- else -%}
+                    <span>{{ initial }}</span>
+                  {%- endif -%}
+                </div>
+
+                <div class="testimonial-author-meta">
+                  <div class="testimonial-author-name-wrap">
+                    <h3 class="testimonial-author-name">{{ author_name | escape }}</h3>
+                    {%- if block.settings.verified and section.settings.show_verified_badge -%}
+                      <span class="testimonial-verified-badge" title="Comprador verificado">
+                        <svg viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                      </span>
+                    {%- endif -%}
+                  </div>
+                  {%- if block.settings.author_info != blank -%}
+                    <p class="testimonial-author-info">{{ block.settings.author_info | escape }}</p>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      {%- if enable_carousel and section.blocks.size > 1 -%}
+        <div class="testimonials-controls">
+          <div class="testimonials-dots" data-testimonials-dots></div>
+          <div class="testimonials-arrows">
+            <button
+              type="button"
+              class="testimonials-arrow-btn"
+              data-testimonials-prev
+              aria-label="Testimonio anterior"
+            >
+              <svg viewBox="0 0 24 24">
+                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="testimonials-arrow-btn"
+              data-testimonials-next
+              aria-label="Siguiente testimonio"
+            >
+              <svg viewBox="0 0 24 24">
+                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      {%- endif -%}
+    </testimonials-slider>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonios",
+  "tag": "section",
+  "class": "section-testimonials",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtítulo",
+      "default": "RESEÑAS REALES"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Lo que dicen nuestros clientes"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Alineación del encabezado",
+      "options": [
+        {
+          "value": "left",
+          "label": "Izquierda"
+        },
+        {
+          "value": "center",
+          "label": "Centro"
+        },
+        {
+          "value": "right",
+          "label": "Derecha"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "card_style",
+      "label": "Estilo de tarjeta",
+      "options": [
+        {
+          "value": "clean",
+          "label": "Limpio (Blanco)"
+        },
+        {
+          "value": "glass",
+          "label": "Cristal (Glassmorphism)"
+        },
+        {
+          "value": "dark",
+          "label": "Oscuro Elegante"
+        }
+      ],
+      "default": "clean"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Radio de bordes",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "label": "Columnas en escritorio",
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_carousel",
+      "label": "Habilitar modo carrusel",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "autorotate",
+      "label": "Rotación automática",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "autorotate_speed",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Velocidad de rotación (seg)",
+      "default": 5
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stars",
+      "label": "Mostrar estrellas",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quotes",
+      "label": "Mostrar icono de cita",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_verified_badge",
+      "label": "Mostrar insignia verificado",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Color de fondo",
+      "default": "#f8f9fa"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Color de texto del título",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Color de acento",
+      "default": "#005bd3"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Relleno superior (px)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Relleno inferior (px)",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonio",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Puntuación (1-5 estrellas)",
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Comentario / Opinión",
+          "default": "La atención al cliente y la rapidez en los envíos de mayoreo superaron todas nuestras expectativas. ¡100% recomendados!"
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "Nombre del autor",
+          "default": "Camila Rodríguez"
+        },
+        {
+          "type": "text",
+          "id": "author_info",
+          "label": "Rol o ubicación",
+          "default": "Compradora Verificada - CDMX"
+        },
+        {
+          "type": "image_picker",
+          "id": "author_image",
+          "label": "Imagen del autor"
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "label": "Comprador verificado",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "product_name",
+          "label": "Producto relacionado",
+          "default": "Lote Velas Aromáticas"
+        },
+        {
+          "type": "url",
+          "id": "product_link",
+          "label": "Enlace del producto"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonios",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "Increíble calidad en los productos de mayoreo. El pedido llegó súper rápido y exactamente como en las fotos. Definitivamente volveremos a comprar.",
+            "author_name": "Valeria Morales",
+            "author_info": "Dueña de Tienda - Guadalajara",
+            "verified": true,
+            "product_name": "Caja 24 Velas Aromáticas"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "Excelente variedad y los mejores precios del mercado. Los lotes de termos e iluminación neón volaron en nuestro negocio.",
+            "author_name": "Carlos Mendoza",
+            "author_info": "Distribuidor Mayorista - Monterrey",
+            "verified": true,
+            "product_name": "Vasos Foco Neón"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "Súper confiable. La atención fue impecable desde la cotización hasta la entrega. Las ganancias por margen de reventa son espectaculares.",
+            "author_name": "Sofia Fernández",
+            "author_info": "Compradora Verificada - CDMX",
+            "verified": true,
+            "product_name": "Set Brochas Profesionales"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
