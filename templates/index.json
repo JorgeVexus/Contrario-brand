@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero_rebellion_figma": {
@@ -209,6 +218,19 @@
         "ai_gen_block_9367062_KbFLKc"
       ],
       "settings": {}
+    },
+    "editorial_lookbook_AgHzTx": {
+      "type": "editorial-lookbook",
+      "settings": {
+        "heading": "NEW ARRIVALS",
+        "collection": "amazon",
+        "products_to_show": 4,
+        "show_view_all": true,
+        "view_all_label": "VIEW ALL",
+        "background_color": "#FFFFFF",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
     },
     "image_with_text_wUMzb4": {
       "type": "image-with-text",
@@ -432,6 +454,7 @@
       "block_order": [
         "caption_KALhFd"
       ],
+      "disabled": true,
       "name": "t:sections.rich-text.presets.name",
       "settings": {
         "desktop_content_position": "left",
@@ -444,6 +467,7 @@
     },
     "featured_collection": {
       "type": "featured-collection",
+      "disabled": true,
       "custom_css": [
         ".title-wrapper--no-top-margin > .title {text-align: center;}"
       ],
@@ -558,6 +582,7 @@
     },
     "featured_collection_49mUea": {
       "type": "featured-collection",
+      "disabled": true,
       "settings": {
         "collection": "girl",
         "products_to_show": 4,
@@ -783,6 +808,7 @@
     "bento_categories_figma",
     "campaign_hero_CnDeBL",
     "17680796693645433c",
+    "editorial_lookbook_AgHzTx",
     "image_with_text_wUMzb4",
     "editorial_categories_dMDQGL",
     "17691903791e1195b2",
