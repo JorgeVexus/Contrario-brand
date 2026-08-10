@@ -13,6 +13,7 @@
 
 {%- style -%}
   #CtaBanner-{{ section.id }} {
+    --cta-bg-color: {{ section.settings.bg_color }};
     --cta-subheading-size: {{ section.settings.subheading_size }}px;
     --cta-subheading-color: {{ section.settings.subheading_color }};
     --cta-heading-size: {{ section.settings.heading_size }}px;
@@ -180,7 +181,7 @@
       "step": 2,
       "unit": "px",
       "label": "Tamaño del título (px)",
-      "default": 42
+      "default": 44
     },
     {
       "type": "color",
@@ -216,7 +217,7 @@
       "type": "richtext",
       "id": "description",
       "label": "Descripción / Texto",
-      "default": "<p>Abastece tu negocio con los mejores precios de mayoreo directamente desde fábrica. Calidad garantizada y envíos a todo el país.</p>"
+      "default": "<p>Abastece tu negocio con los mejores precios de mayoreo directamente desde fábrica. Envíos garantizados a todo el país.</p>"
     },
     {
       "type": "range",
@@ -232,11 +233,17 @@
       "type": "color",
       "id": "description_color",
       "label": "Color de descripción",
-      "default": "#e0e0e0"
+      "default": "#e0e8f5"
     },
     {
       "type": "header",
       "content": "Imagen de Fondo & Overlay"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Color de fondo del contenedor",
+      "default": "#005293"
     },
     {
       "type": "image_picker",
@@ -255,15 +262,15 @@
       "options": [
         {
           "value": "small",
-          "label": "Pequeña (350px)"
+          "label": "Pequeña (320px)"
         },
         {
           "value": "medium",
-          "label": "Mediana (500px)"
+          "label": "Mediana (440px)"
         },
         {
           "value": "large",
-          "label": "Grande (650px)"
+          "label": "Grande (560px)"
         },
         {
           "value": "full",
@@ -280,7 +287,7 @@
       "type": "color",
       "id": "overlay_color",
       "label": "Color de capa superpuesta",
-      "default": "#000000"
+      "default": "#002040"
     },
     {
       "type": "range",
@@ -290,7 +297,7 @@
       "step": 5,
       "unit": "%",
       "label": "Opacidad de la capa (%)",
-      "default": 55
+      "default": 35
     },
     {
       "type": "checkbox",
@@ -337,13 +344,13 @@
       "type": "color",
       "id": "button_1_bg_color",
       "label": "Color de fondo del botón",
-      "default": "#005bd3"
+      "default": "#f5c500"
     },
     {
       "type": "color",
       "id": "button_1_text_color",
       "label": "Color de texto del botón",
-      "default": "#ffffff"
+      "default": "#0d2238"
     },
     {
       "type": "checkbox",
@@ -354,8 +361,7 @@
     {
       "type": "text",
       "id": "button_2_text",
-      "label": "Texto del segundo botón",
-      "default": "Contactar Asesor"
+      "label": "Texto del segundo botón"
     },
     {
       "type": "url",
@@ -499,10 +505,14 @@
       "settings": {
         "subheading": "VENTA POR MAYOREO",
         "heading": "Importamos lo que necesitas",
-        "description": "<p>Abastece tu negocio con los mejores precios de mayoreo directamente desde fábrica. Envíos garantizados a todo el país.</p>",
+        "description": "<p>Abastece tu negocio con los mejores precios de mayoreo directamente desde fábrica.</p>",
         "button_1_text": "Ver Catálogo Mayorista",
         "button_1_link": "shopify://collections/all",
-        "button_2_text": "Contactar Asesor",
+        "button_1_bg_color": "#f5c500",
+        "button_1_text_color": "#0d2238",
+        "bg_color": "#005293",
+        "overlay_color": "#002040",
+        "overlay_opacity": 35,
         "content_alignment": "center",
         "content_position": "center",
         "container_width": "contained"
