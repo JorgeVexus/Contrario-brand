@@ -531,6 +531,7 @@
       "blocks": {
         "caption_GidmTh": {
           "type": "caption",
+          "disabled": true,
           "settings": {
             "caption": "SWEET REBELLION AWAITS",
             "text_style": "subtitle",
@@ -773,84 +774,6 @@
     "1769896081030649c0": {
       "type": "_blocks",
       "settings": {}
-    },
-    "testimonials_section": {
-      "type": "testimonials",
-      "blocks": {
-        "testimonial_1": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "La calidad de los productos de mayoreo y el servicio al cliente superaron todas nuestras expectativas. ¡Entregas rápidas y seguras!",
-            "author_name": "Valeria Morales",
-            "author_info": "Dueña de Tienda - Guadalajara",
-            "verified": true,
-            "product_name": "Caja 24 Velas Aromáticas",
-            "product_link": ""
-          }
-        },
-        "testimonial_2": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "Excelente atención y los mejores precios del mercado. Los lotes de productos neón e iluminación volaron en nuestro negocio.",
-            "author_name": "Carlos Mendoza",
-            "author_info": "Distribuidor Mayorista - Monterrey",
-            "verified": true,
-            "product_name": "Vasos Foco Neón",
-            "product_link": ""
-          }
-        },
-        "testimonial_3": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "Completamente satisfechos. La atención fue impecable desde la cotización hasta la entrega. Márgenes de ganancia increíbles.",
-            "author_name": "Sofia Fernández",
-            "author_info": "Compradora Verificada - CDMX",
-            "verified": true,
-            "product_name": "Set Brochas Profesionales",
-            "product_link": ""
-          }
-        },
-        "testimonial_4": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "Los mejores proveedores para nuestro negocio. Variedad, rapidez en envíos y excelente embalaje en todos los paquetes.",
-            "author_name": "Roberto Garza",
-            "author_info": "Comercio Minorista - Puebla",
-            "verified": true,
-            "product_name": "Lote Vasos Cristal Kawaii",
-            "product_link": ""
-          }
-        }
-      },
-      "block_order": [
-        "testimonial_1",
-        "testimonial_2",
-        "testimonial_3",
-        "testimonial_4"
-      ],
-      "settings": {
-        "subtitle": "LO QUE DICEN NUESTROS CLIENTES",
-        "title": "Reseñas & Experiencias de Mayoreo",
-        "heading_alignment": "center",
-        "card_style": "clean",
-        "border_radius": 16,
-        "columns_desktop": 3,
-        "enable_carousel": true,
-        "autorotate": false,
-        "autorotate_speed": 5,
-        "show_stars": true,
-        "show_quotes": true,
-        "show_verified_badge": true,
-        "background_color": "#f8f9fa",
-        "title_color": "#121212",
-        "accent_color": "#005bd3",
-        "padding_top": 60,
-        "padding_bottom": 60
-      }
     }
   },
   "order": [
@@ -876,7 +799,6 @@
     "176920190739ac9d8a",
     "1739078344f2758c42",
     "1770475528dd45d5ec",
-    "1769896081030649c0",
-    "testimonials_section"
+    "1769896081030649c0"
   ]
 }
