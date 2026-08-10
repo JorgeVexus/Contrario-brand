@@ -697,72 +697,6 @@
         "padding_bottom": 72
       }
     },
-    "testimonials_contrario_3cnf7Y": {
-      "type": "testimonials-contrario",
-      "blocks": {
-        "testimonial_myhRTd": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "Insane quality and heavy weight fabric. Fits exactly how streetwear should. Absolutely top tier.",
-            "author_name": "ALEX V.",
-            "author_info": "VERIFIED BUYER",
-            "verified": true,
-            "product_name": "CONTRARIO HEAVY HOODIE",
-            "product_link": ""
-          }
-        },
-        "testimonial_rmeJkg": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "Unmatched style and attitude. Fast shipping and premium packaging. Will definitely buy again.",
-            "author_name": "MARCUS K.",
-            "author_info": "VERIFIED BUYER",
-            "verified": true,
-            "product_name": "REBELLION OVERSIZED TEE",
-            "product_link": ""
-          }
-        },
-        "testimonial_NyDwrt": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "The fit, structure, and details on this piece are next level. Maximum personality guaranteed.",
-            "author_name": "SOPHIA R.",
-            "author_info": "VERIFIED BUYER",
-            "verified": true,
-            "product_name": "CONTRARIO CARGO PANTS",
-            "product_link": ""
-          }
-        }
-      },
-      "block_order": [
-        "testimonial_myhRTd",
-        "testimonial_rmeJkg",
-        "testimonial_NyDwrt"
-      ],
-      "name": "Testimonios Contrario",
-      "settings": {
-        "subtitle": "VERIFIED REVIEWS",
-        "title": "WHAT THEY SAY",
-        "heading_alignment": "center",
-        "card_style": "dark",
-        "border_radius": 12,
-        "columns_desktop": 3,
-        "enable_carousel": true,
-        "autorotate": false,
-        "autorotate_speed": 5,
-        "show_stars": true,
-        "show_quotes": true,
-        "show_verified_badge": true,
-        "background_color": "#000000",
-        "title_color": "#FFFFFF",
-        "accent_color": "#ffc107",
-        "padding_top": 64,
-        "padding_bottom": 64
-      }
-    },
     "blocks_KYHtdC": {
       "type": "_blocks",
       "name": "Hero image banner",
@@ -862,7 +796,6 @@
     "blocks_Jn3BPr",
     "image_banner_8dgyJq",
     "multicolumn_P8NqrX",
-    "testimonials_contrario_3cnf7Y",
     "blocks_KYHtdC",
     "blocks_kr4igx",
     "176920190739ac9d8a",
