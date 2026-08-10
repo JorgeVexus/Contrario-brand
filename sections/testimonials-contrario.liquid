@@ -1,0 +1,430 @@
+{{ 'section-testimonials-contrario.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'testimonials-slider.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign columns_desktop = section.settings.columns_desktop
+  assign enable_carousel = section.settings.enable_carousel
+  assign card_style = section.settings.card_style
+  assign heading_align = section.settings.heading_alignment
+-%}
+
+{%- style -%}
+  #TestimonialsContrario-{{ section.id }} {
+    --tc-border-radius: {{ section.settings.border_radius }}px;
+    --tc-accent-color: {{ section.settings.accent_color }};
+    --tc-title-color: {{ section.settings.title_color }};
+    --tc-bg-color: {{ section.settings.background_color }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{%- endstyle -%}
+
+<section
+  id="TestimonialsContrario-{{ section.id }}"
+  class="testimonials-contrario{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+>
+  <div class="testimonials-contrario__container">
+    {%- if section.settings.title != blank or section.settings.subtitle != blank -%}
+      <div class="testimonials-contrario__header testimonials-contrario__header--{{ heading_align }}">
+        {%- if section.settings.subtitle != blank -%}
+          <p class="testimonials-contrario__subtitle">{{ section.settings.subtitle | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.title != blank -%}
+          <h2 class="testimonials-contrario__title">{{ section.settings.title | escape }}</h2>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <testimonials-slider
+      data-cols-desktop="{{ columns_desktop }}"
+      data-autorotate="{{ section.settings.autorotate }}"
+      data-speed="{{ section.settings.autorotate_speed }}"
+      class="testimonials-contrario__slider-wrapper"
+    >
+      <div
+        class="testimonials-contrario__track-container"
+        data-testimonials-track
+      >
+        <div class="testimonials-contrario__grid testimonials-contrario__grid--cols-{{ columns_desktop }}{% unless enable_carousel %} testimonials-contrario__grid--static{% endunless %}">
+          {%- for block in section.blocks -%}
+            {%- liquid
+              assign author_name = block.settings.author_name | default: 'MEMBER'
+              assign initial = author_name | slice: 0 | upcase
+            -%}
+            <div
+              class="tc-card tc-card--{{ card_style }}"
+              {{ block.shopify_attributes }}
+            >
+              <div class="tc-card__header">
+                {%- if section.settings.show_stars -%}
+                  <div class="tc-stars" aria-label="{{ block.settings.rating }} de 5 estrellas">
+                    {%- for i in (1..5) -%}
+                      {%- if i <= block.settings.rating -%}
+                        <svg viewBox="0 0 24 24">
+                          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                        </svg>
+                      {%- else -%}
+                        <svg viewBox="0 0 24 24" style="opacity: 0.25;">
+                          <path d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"/>
+                        </svg>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </div>
+                {%- endif -%}
+
+                {%- if section.settings.show_quotes -%}
+                  <svg class="tc-quote-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/>
+                  </svg>
+                {%- endif -%}
+              </div>
+
+              <div class="tc-card__body">
+                {%- if block.settings.quote != blank -%}
+                  <p class="tc-text">“{{ block.settings.quote | escape }}”</p>
+                {%- endif -%}
+
+                {%- if block.settings.product_name != blank -%}
+                  {%- if block.settings.product_link != blank -%}
+                    <a href="{{ block.settings.product_link }}" class="tc-product-tag">
+                      <span>🏷️ {{ block.settings.product_name | escape }}</span>
+                    </a>
+                  {%- else -%}
+                    <span class="tc-product-tag">
+                      <span>🏷️ {{ block.settings.product_name | escape }}</span>
+                    </span>
+                  {%- endif -%}
+                {%- endif -%}
+              </div>
+
+              <div class="tc-card__footer">
+                <div class="tc-avatar">
+                  {%- if block.settings.author_image != blank -%}
+                    {{
+                      block.settings.author_image
+                      | image_url: width: 100
+                      | image_tag:
+                        class: 'tc-avatar-img',
+                        widths: '50, 100',
+                        loading: 'lazy',
+                        alt: author_name
+                    }}
+                  {%- else -%}
+                    <span>{{ initial }}</span>
+                  {%- endif -%}
+                </div>
+
+                <div class="tc-author-meta">
+                  <div class="tc-author-name-wrap">
+                    <h3 class="tc-author-name">{{ author_name | escape }}</h3>
+                    {%- if block.settings.verified and section.settings.show_verified_badge -%}
+                      <span class="tc-verified-badge" title="Comprador verificado">
+                        <svg viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                      </span>
+                    {%- endif -%}
+                  </div>
+                  {%- if block.settings.author_info != blank -%}
+                    <p class="tc-author-info">{{ block.settings.author_info | escape }}</p>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      {%- if enable_carousel and section.blocks.size > 1 -%}
+        <div class="tc-controls">
+          <div class="tc-dots" data-testimonials-dots></div>
+          <div class="tc-arrows">
+            <button
+              type="button"
+              class="tc-arrow-btn"
+              data-testimonials-prev
+              aria-label="Anterior"
+            >
+              <svg viewBox="0 0 24 24">
+                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="tc-arrow-btn"
+              data-testimonials-next
+              aria-label="Siguiente"
+            >
+              <svg viewBox="0 0 24 24">
+                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      {%- endif -%}
+    </testimonials-slider>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonios Contrario",
+  "tag": "section",
+  "class": "section-testimonials-contrario",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtítulo",
+      "default": "VERIFIED REVIEWS"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título principal",
+      "default": "WHAT THEY SAY"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Alineación del encabezado",
+      "options": [
+        {
+          "value": "left",
+          "label": "Izquierda"
+        },
+        {
+          "value": "center",
+          "label": "Centro"
+        },
+        {
+          "value": "right",
+          "label": "Derecha"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "card_style",
+      "label": "Estilo de tarjetas",
+      "options": [
+        {
+          "value": "dark",
+          "label": "Oscuro Marca (Dark)"
+        },
+        {
+          "value": "brutalist",
+          "label": "Brutalist / Industrial"
+        },
+        {
+          "value": "glass",
+          "label": "Cristal (Glass)"
+        },
+        {
+          "value": "clean",
+          "label": "Limpio (Blanco)"
+        }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Radio de bordes (px)",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "label": "Columnas en escritorio",
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_carousel",
+      "label": "Habilitar modo carrusel",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "autorotate",
+      "label": "Rotación automática",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "autorotate_speed",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Velocidad de rotación (seg)",
+      "default": 5
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stars",
+      "label": "Mostrar estrellas",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quotes",
+      "label": "Mostrar icono de cita",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_verified_badge",
+      "label": "Mostrar insignia verificado",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Color de fondo de sección",
+      "default": "#131313"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Color de texto del título",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Color de acento / estrellas",
+      "default": "#ffc107"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Relleno superior (px)",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Relleno inferior (px)",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonio",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Puntuación (1-5 estrellas)",
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Comentario / Opinión",
+          "default": "Insane quality and heavy weight fabric. Fits exactly how streetwear should. 100% recommended."
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "Nombre del autor",
+          "default": "ALEX V."
+        },
+        {
+          "type": "text",
+          "id": "author_info",
+          "label": "Rol o ubicación",
+          "default": "VERIFIED BUYER"
+        },
+        {
+          "type": "image_picker",
+          "id": "author_image",
+          "label": "Imagen del autor"
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "label": "Comprador verificado",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "product_name",
+          "label": "Producto relacionado",
+          "default": "CONTRARIO HEAVY TEE"
+        },
+        {
+          "type": "url",
+          "id": "product_link",
+          "label": "Enlace del producto"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonios Contrario",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "Insane quality and heavy weight fabric. Fits exactly how streetwear should. Absolutely top tier.",
+            "author_name": "ALEX V.",
+            "author_info": "VERIFIED BUYER",
+            "verified": true,
+            "product_name": "CONTRARIO HEAVY HOODIE"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "Unmatched style and attitude. Fast shipping and premium packaging. Will definitely buy again.",
+            "author_name": "MARCUS K.",
+            "author_info": "VERIFIED BUYER",
+            "verified": true,
+            "product_name": "REBELLION OVERSIZED TEE"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "The fit, structure, and details on this piece are next level. Maximum personality guaranteed.",
+            "author_name": "SOPHIA R.",
+            "author_info": "VERIFIED BUYER",
+            "verified": true,
+            "product_name": "CONTRARIO CARGO PANTS"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
