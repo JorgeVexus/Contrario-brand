@@ -1,14 +1,24 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero_rebellion_figma": {
       "type": "hero-rebellion",
       "settings": {
-        "heading": "REBELLION HAS NO AGE LIMIT",
-        "heading_tag": "h1",
-        "desktop_height": "full",
-        "show_gradient": true,
+        "image": "shopify://shop_images/ChatGPT_Image_Aug_6_2026_02_24_49_PM.webp",
         "image_opacity": 80,
-        "button_label": "SHOP COLLECTION",
+        "show_gradient": true,
+        "desktop_height": "full",
+        "heading": "WEAR THE REBELLION",
+        "heading_tag": "h1",
+        "button_label": "SHOP NOW",
         "button_link": "shopify://collections/all",
         "padding_top": 0,
         "padding_bottom": 0
@@ -17,113 +27,207 @@
     "editorial_lookbook_figma": {
       "type": "editorial-lookbook",
       "settings": {
-        "badge_text": "CAMPAIGN 2026",
-        "heading": "AGE IS JUST A NUMBER. ATTITUDE IS EVERYTHING.",
-        "heading_tag": "h2",
-        "subtext": "<p>Breaking boundaries and redefining fashion for those who refuse to conform. Bold silhouettes, raw textures, and timeless rebellion.</p>",
-        "image_aspect_ratio": "portrait",
-        "show_overlay": true,
-        "button_label": "EXPLORE LOOKBOOK",
-        "button_link": "shopify://collections/all",
+        "heading": "NEW ARRIVALS",
+        "collection": "girl",
+        "products_to_show": 4,
+        "show_view_all": true,
+        "view_all_label": "VIEW ALL",
+        "background_color": "#131313",
         "padding_top": 60,
         "padding_bottom": 60
       }
     },
     "bento_categories_figma": {
       "type": "bento-categories",
+      "blocks": {
+        "cat_women": {
+          "type": "category_card",
+          "settings": {
+            "collection": "",
+            "title": "WOMEN",
+            "image": "shopify://shop_images/IvoryOracleTank_8.png",
+            "link": "",
+            "card_span": "span-2x2"
+          }
+        },
+        "cat_men": {
+          "type": "category_card",
+          "settings": {
+            "collection": "",
+            "title": "MEN",
+            "image": "shopify://shop_images/hf_20260202_234938_f2f98cef-9665-419d-a394-b1e7364a2673.jpg",
+            "link": "",
+            "card_span": "span-2x1"
+          }
+        },
+        "cat_accessories": {
+          "type": "category_card",
+          "settings": {
+            "collection": "",
+            "title": "ACCESSORIES",
+            "link": "",
+            "card_span": "span-1x1"
+          }
+        },
+        "cat_kids": {
+          "type": "category_card",
+          "settings": {
+            "collection": "",
+            "title": "KIDS",
+            "link": "",
+            "card_span": "span-1x1"
+          }
+        }
+      },
+      "block_order": [
+        "cat_women",
+        "cat_men",
+        "cat_accessories",
+        "cat_kids"
+      ],
       "settings": {
-        "title": "CURATED CATEGORIES",
+        "card_style": "clean",
+        "border_radius": 4,
+        "title": "FEATURED CATEGORIES",
         "subtitle": "EXPLORE THE COLLECTION",
-        "heading_alignment": "left",
-        "card_1_title": "OUTERWEAR",
-        "card_1_subtitle": "STATEMENT PIECES",
-        "card_1_link": "shopify://collections/all",
-        "card_2_title": "TOPS & TEES",
-        "card_2_subtitle": "ESSENTIAL REBELLION",
-        "card_2_link": "shopify://collections/all",
-        "card_3_title": "ACCESSORIES",
-        "card_3_subtitle": "FINAL TOUCHES",
-        "card_3_link": "shopify://collections/all",
-        "card_4_title": "NEW ARRIVALS",
-        "card_4_subtitle": "JUST DROPPED",
-        "card_4_link": "shopify://collections/all",
-        "card_5_title": "LIMITED EDITION",
-        "card_5_subtitle": "EXCLUSIVE DROPS",
-        "card_5_link": "shopify://collections/all",
+        "header_alignment": "left",
+        "layout_preset": "hero-left",
+        "grid_gap": 24,
+        "background_color": "#ffffff",
         "padding_top": 60,
         "padding_bottom": 60
       }
     },
     "campaign_hero_CnDeBL": {
       "type": "campaign-hero",
-      "settings": {
-        "heading": "REBELLION HAS NO AGE LIMIT",
-        "heading_tag": "h1",
-        "desktop_height": "full",
-        "show_gradient": true,
-        "image_opacity": 80,
-        "button_label": "SHOP COLLECTION",
-        "button_link": "shopify://collections/all",
-        "padding_top": 0,
-        "padding_bottom": 0
-      }
-    },
-    "17680796693645433c": {
-      "type": "marquesina",
       "blocks": {
-        "texto_E3gW4e": {
-          "type": "texto",
+        "heading_n3qGmL": {
+          "type": "heading",
           "settings": {
-            "text": "FREE SHIPPING ON ORDERS OVER $100"
+            "heading": "ONE LIFE.\nONE CHANCE.",
+            "heading_level": "h1",
+            "color": "#ffffff",
+            "size_desktop": 80,
+            "size_mobile": 42,
+            "weight": "700",
+            "uppercase": true,
+            "line_height": 92,
+            "letter_spacing": -50
           }
         },
-        "texto_aXy4N4": {
-          "type": "texto",
+        "buttons_XtGiAq": {
+          "type": "buttons",
           "settings": {
-            "text": "EXPRESS DELIVERY AVAILABLE"
-          }
-        },
-        "texto_X4T6P9": {
-          "type": "texto",
-          "settings": {
-            "text": "NEW SEASON DROPS EVERY WEEK"
+            "full_width_mobile": false,
+            "button_label_1": "SHOP NEW ARRIVALS",
+            "button_link_1": "shopify://collections/all",
+            "button_style_1": "primary",
+            "button_background_1": "#b8f000",
+            "button_text_color_1": "#050505",
+            "button_border_1": "#b8f000",
+            "button_hover_background_1": "#ffffff",
+            "button_hover_text_color_1": "#050505",
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_2": "outline",
+            "button_background_2": "#000000",
+            "button_text_color_2": "#ffffff",
+            "button_border_2": "#ffffff",
+            "button_hover_background_2": "#ffffff",
+            "button_hover_text_color_2": "#050505"
           }
         }
       },
       "block_order": [
-        "texto_E3gW4e",
-        "texto_aXy4N4",
-        "texto_X4T6P9"
+        "heading_n3qGmL",
+        "buttons_XtGiAq"
       ],
+      "disabled": true,
+      "name": "Campaign hero",
       "settings": {
-        "speed": 25,
-        "direction": "left",
-        "pause_on_hover": true,
-        "text_size": 14,
-        "text_weight": "700",
-        "text_transform": "uppercase",
-        "letter_spacing": 2,
-        "gap": 40,
-        "show_separator": true,
-        "separator_symbol": "•",
-        "bg_color": "#121212",
-        "text_color": "#ffffff",
-        "separator_color": "#e63946",
-        "padding_top": 12,
-        "padding_bottom": 12
+        "image": "shopify://shop_images/CONTRARIO_BRAND_FAQ.png",
+        "image_alt": "",
+        "desktop_height": "medium",
+        "mobile_height": "medium",
+        "desktop_focal_point": "center center",
+        "mobile_focal_point": "center center",
+        "enable_grayscale": true,
+        "image_brightness": 85,
+        "overlay_style": "gradient-left",
+        "overlay_color": "#000000",
+        "overlay_opacity": 50,
+        "desktop_content_position": "bottom-left",
+        "desktop_alignment": "left",
+        "content_max_width": 900,
+        "desktop_padding_horizontal": 52,
+        "desktop_padding_vertical": 64,
+        "mobile_content_position": "bottom-left",
+        "mobile_alignment": "left",
+        "content_max_width_mobile": 520,
+        "mobile_padding_horizontal": 24,
+        "mobile_padding_vertical": 32,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "enable_image_motion": true
       }
+    },
+    "17680796693645433c": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_9367062_KbFLKc": {
+          "type": "ai_gen_block_9367062",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/fcc9d086-c52f-4262-b619-8a0c4bc1e552.png",
+            "image_height": 400,
+            "image_height_mobile": 500,
+            "image_fit": "cover",
+            "image_position": "center",
+            "border_radius": 0,
+            "show_overlay": false,
+            "overlay_color": "#000000",
+            "overlay_opacity": 30,
+            "show_content": false,
+            "heading": "Welcome to our store",
+            "text": "<p>Discover our latest collection</p>",
+            "heading_size": 48,
+            "text_size": 18,
+            "text_alignment": "center",
+            "text_color": "#ffffff",
+            "content_max_width": 600,
+            "button_text": "Shop now",
+            "button_link": "shopify://collections/all",
+            "button_color": "#662481",
+            "button_hover_color": "#000000",
+            "button_text_color": "#ffffff",
+            "button_text_size": 16,
+            "button_border_radius": 0,
+            "padding_top": 0,
+            "padding_bottom": 0,
+            "padding_left": 50,
+            "padding_right": 50,
+            "padding_top_mobile": 0,
+            "padding_bottom_mobile": 0,
+            "padding_left_mobile": 0,
+            "padding_right_mobile": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_9367062_KbFLKc"
+      ],
+      "settings": {}
     },
     "editorial_lookbook_AgHzTx": {
       "type": "editorial-lookbook",
       "settings": {
-        "badge_text": "CAMPAIGN 2026",
-        "heading": "AGE IS JUST A NUMBER. ATTITUDE IS EVERYTHING.",
-        "heading_tag": "h2",
-        "subtext": "<p>Breaking boundaries and redefining fashion for those who refuse to conform. Bold silhouettes, raw textures, and timeless rebellion.</p>",
-        "image_aspect_ratio": "portrait",
-        "show_overlay": true,
-        "button_label": "EXPLORE LOOKBOOK",
-        "button_link": "shopify://collections/all",
+        "heading": "NEW ARRIVALS",
+        "collection": "amazon",
+        "products_to_show": 4,
+        "show_view_all": true,
+        "view_all_label": "VIEW ALL",
+        "background_color": "#ffffff",
         "padding_top": 60,
         "padding_bottom": 60
       }
@@ -131,72 +235,118 @@
     "image_with_text_wUMzb4": {
       "type": "image-with-text",
       "blocks": {
-        "heading_rCypa3": {
+        "caption_fg7eAK": {
+          "type": "caption",
+          "settings": {
+            "caption": "CONTRARIO",
+            "text_style": "caption-with-letter-spacing",
+            "text_size": "medium"
+          }
+        },
+        "heading_gMVNjQ": {
           "type": "heading",
           "settings": {
-            "heading": "THE REBELLION MOVEMENT",
-            "heading_size": "h1"
+            "heading": "Wear the Rebellion",
+            "heading_size": "h2"
           }
         },
-        "text_M3c7ef": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Crafted for those who dare to stand out. Our pieces blend contemporary design with unapologetic individuality.</p>",
-            "text_style": "body"
-          }
-        },
-        "button_aLXf6m": {
+        "button_DftKka": {
           "type": "button",
           "settings": {
-            "button_label": "OUR STORY",
+            "button_label": "Shop Now",
             "button_link": "shopify://collections/all",
-            "button_style_secondary": false
+            "button_style_secondary": true
           }
         }
       },
       "block_order": [
-        "heading_rCypa3",
-        "text_M3c7ef",
-        "button_aLXf6m"
+        "caption_fg7eAK",
+        "heading_gMVNjQ",
+        "button_DftKka"
       ],
+      "disabled": true,
+      "name": "t:sections.image-with-text.presets.name",
       "settings": {
-        "height": "medium",
-        "desktop_image_width": "medium",
+        "image": "shopify://shop_images/Hero_Image-1.jpg",
+        "height": "large",
+        "desktop_image_width": "large",
         "layout": "image_first",
-        "desktop_content_position": "middle",
-        "desktop_content_alignment": "left",
-        "content_layout": "no_overlap",
-        "section_color_scheme": "",
-        "color_scheme": "",
         "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
         "mobile_content_alignment": "left",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "section_color_scheme": "scheme-1",
+        "color_scheme": "scheme-3",
+        "padding_top": 48,
+        "padding_bottom": 20
       }
     },
     "editorial_categories_dMDQGL": {
-      "type": "bento-categories",
+      "type": "editorial-categories",
+      "blocks": {
+        "category_dwF8BR": {
+          "type": "category",
+          "settings": {
+            "collection": "women",
+            "title": "",
+            "cta_text": "EXPLORE NOW",
+            "custom_link": "",
+            "desktop_focal_point": "center center",
+            "mobile_focal_point": "center center",
+            "image_alt": ""
+          }
+        },
+        "category_fcBREX": {
+          "type": "category",
+          "settings": {
+            "collection": "girl",
+            "image": "shopify://shop_images/Contrario_Kids_Alternative_Dress_for_Girls_Dark_Play_Print_2_52e77b44-3331-4751-9a98-aaed5f94a513.png",
+            "title": "",
+            "cta_text": "EXPLORE NOW",
+            "custom_link": "",
+            "desktop_focal_point": "center center",
+            "mobile_focal_point": "center center",
+            "image_alt": ""
+          }
+        }
+      },
+      "block_order": [
+        "category_dwF8BR",
+        "category_fcBREX"
+      ],
+      "disabled": true,
+      "name": "Editorial categories",
       "settings": {
-        "title": "CURATED CATEGORIES",
-        "subtitle": "EXPLORE THE COLLECTION",
+        "eyebrow": "",
+        "heading": "",
         "heading_alignment": "left",
-        "card_1_title": "OUTERWEAR",
-        "card_1_subtitle": "STATEMENT PIECES",
-        "card_1_link": "shopify://collections/all",
-        "card_2_title": "TOPS & TEES",
-        "card_2_subtitle": "ESSENTIAL REBELLION",
-        "card_2_link": "shopify://collections/all",
-        "card_3_title": "ACCESSORIES",
-        "card_3_subtitle": "FINAL TOUCHES",
-        "card_3_link": "shopify://collections/all",
-        "card_4_title": "NEW ARRIVALS",
-        "card_4_subtitle": "JUST DROPPED",
-        "card_4_link": "shopify://collections/all",
-        "card_5_title": "LIMITED EDITION",
-        "card_5_subtitle": "EXCLUSIVE DROPS",
-        "card_5_link": "shopify://collections/all",
-        "padding_top": 60,
-        "padding_bottom": 60
+        "heading_color": "#ffffff",
+        "background_color": "#111111",
+        "max_width": 1440,
+        "desktop_card_height": 480,
+        "mobile_card_height": 500,
+        "column_gap": 16,
+        "row_gap": 16,
+        "mobile_gap": 12,
+        "mobile_rail": true,
+        "desktop_gutter": 24,
+        "mobile_gutter": 16,
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "enable_grayscale": true,
+        "image_brightness": 85,
+        "overlay_color": "#000000",
+        "overlay_opacity": 20,
+        "image_zoom": 104,
+        "title_color": "#ffffff",
+        "title_size": 42,
+        "title_size_mobile": 34,
+        "cta_color": "#c8ff00",
+        "cta_size": 11,
+        "accent_color": "#c8ff00",
+        "content_alignment": "left",
+        "content_inset": 24
       }
     },
     "17691903791e1195b2": {
@@ -310,6 +460,7 @@
         "description": "",
         "description_size": 18,
         "description_color": "#cccccc",
+        "image": "shopify://shop_images/hf_20260720_190542_1e0abe50-3029-4074-8123-4ea9bf58f717.png",
         "image_opacity": 80,
         "overlay_color": "#000000",
         "overlay_opacity": 40,
@@ -328,68 +479,117 @@
     "image_with_text_DqUibD": {
       "type": "image-with-text",
       "blocks": {
-        "heading_bLHfaP": {
+        "caption_9nWNe7": {
+          "type": "caption",
+          "settings": {
+            "caption": "CONTRARIO",
+            "text_style": "caption-with-letter-spacing",
+            "text_size": "medium"
+          }
+        },
+        "heading_gx8en7": {
           "type": "heading",
           "settings": {
-            "heading": "SUSTAINABLE MATERIALS",
+            "heading": "Zero age limit. Maximum personality",
             "heading_size": "h2"
           }
         },
-        "text_xK3v8N": {
-          "type": "text",
+        "button_VCkdDf": {
+          "type": "button",
           "settings": {
-            "text": "<p>100% organic cotton, recycled fibers, and eco-conscious dyes. Built to last, designed to reduce impact.</p>",
-            "text_style": "body"
+            "button_label": "Shop Now",
+            "button_link": "shopify://collections/girl",
+            "button_style_secondary": true
           }
         }
       },
       "block_order": [
-        "heading_bLHfaP",
-        "text_xK3v8N"
+        "caption_9nWNe7",
+        "heading_gx8en7",
+        "button_VCkdDf"
       ],
+      "disabled": true,
+      "name": "t:sections.image-with-text.presets.name",
       "settings": {
-        "height": "small",
-        "desktop_image_width": "medium",
+        "image": "shopify://shop_images/Black_Skull_Lightning_Kids_Outfit_Set_Contrario_4.png",
+        "height": "large",
+        "desktop_image_width": "large",
         "layout": "text_first",
-        "desktop_content_position": "middle",
-        "desktop_content_alignment": "left",
-        "content_layout": "no_overlap",
-        "section_color_scheme": "",
-        "color_scheme": "",
         "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "bottom",
+        "desktop_content_alignment": "left",
         "mobile_content_alignment": "left",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "section_color_scheme": "scheme-1",
+        "color_scheme": "scheme-3",
+        "padding_top": 48,
+        "padding_bottom": 20
       }
     },
-    "rich_text_Yff7ew": {
-      "type": "rich-text",
+    "testimonials_contrario_NmD633": {
+      "type": "testimonials-contrario",
       "blocks": {
-        "heading_3Fm8rK": {
-          "type": "heading",
+        "testimonial_znin3q": {
+          "type": "testimonial",
           "settings": {
-            "heading": "JOIN THE REBELLION",
-            "heading_size": "h2"
+            "rating": 5,
+            "quote": "\"I recently got this awesome middle finger print blouse for my girlfriend, and she couldn’t stop smiling! The moment she unwrapped it, her ayes lit up with joy.\"",
+            "author_name": "Erick",
+            "author_info": "VERIFIED BUYER",
+            "verified": true,
+            "product_name": "",
+            "product_link": ""
           }
         },
-        "text_8Lx4Pq": {
-          "type": "text",
+        "testimonial_k3Fz6R": {
+          "type": "testimonial",
           "settings": {
-            "text": "<p>Subscribe for exclusive access to drops, secret sales, and community events.</p>"
+            "rating": 5,
+            "quote": "\"I bought this printed blouse kinda cautiously, but now I’m totally blown away. The material quality is top-notch, super soft to the touch, and feels really comfy when I put it on.\"",
+            "author_name": "Yerlin",
+            "author_info": "VERIFIED BUYER",
+            "verified": true,
+            "product_name": "",
+            "product_link": ""
+          }
+        },
+        "testimonial_PBT4tx": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "\"What I appreciate most about this blouse is its adaptability. It pairs perfectly with jeans for a relaxed look or with tailored pants for a formal event. Moreover, I always receive numerous compliments when I wear it, which makes me feel fantastic.\"",
+            "author_name": "Wendy",
+            "author_info": "VERIFIED BUYER",
+            "verified": true,
+            "product_name": "Ash Tee",
+            "product_link": "shopify://products/ash-tee"
           }
         }
       },
       "block_order": [
-        "heading_3Fm8rK",
-        "text_8Lx4Pq"
+        "testimonial_znin3q",
+        "testimonial_k3Fz6R",
+        "testimonial_PBT4tx"
       ],
+      "name": "Testimonios Contrario",
       "settings": {
-        "desktop_content_position": "center",
-        "content_alignment": "center",
-        "color_scheme": "",
-        "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 40
+        "subtitle": "VERIFIED REVIEWS",
+        "title": "WHAT THEY SAY",
+        "heading_alignment": "center",
+        "card_style": "clean",
+        "border_radius": 0,
+        "columns_desktop": 3,
+        "enable_carousel": true,
+        "autorotate": false,
+        "autorotate_speed": 5,
+        "show_stars": true,
+        "show_quotes": true,
+        "show_verified_badge": true,
+        "background_color": "#ffffff",
+        "title_color": "#121212",
+        "accent_color": "#f59e0b",
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     },
     "featured_collection_49mUea": {
@@ -614,80 +814,6 @@
     "1769896081030649c0": {
       "type": "_blocks",
       "settings": {}
-    },
-    "testimonials_contrario_section": {
-      "type": "testimonials-contrario",
-      "blocks": {
-        "testimonial_1": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "Insane quality and heavy weight fabric. Fits exactly how streetwear should. Absolutely top tier.",
-            "author_name": "ALEX V.",
-            "author_info": "VERIFIED BUYER",
-            "verified": true,
-            "product_name": "CONTRARIO HEAVY HOODIE"
-          }
-        },
-        "testimonial_2": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "Unmatched style and attitude. Fast shipping and premium packaging. Will definitely buy again.",
-            "author_name": "MARCUS K.",
-            "author_info": "VERIFIED BUYER",
-            "verified": true,
-            "product_name": "REBELLION OVERSIZED TEE"
-          }
-        },
-        "testimonial_3": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "The fit, structure, and details on this piece are next level. Maximum personality guaranteed.",
-            "author_name": "SOPHIA R.",
-            "author_info": "VERIFIED BUYER",
-            "verified": true,
-            "product_name": "CONTRARIO CARGO PANTS"
-          }
-        },
-        "testimonial_4": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "Best brand experience so far. Clean design, solid quality, 10/10.",
-            "author_name": "DANIEL T.",
-            "author_info": "VERIFIED BUYER",
-            "verified": true,
-            "product_name": "CONTRARIO CAP"
-          }
-        }
-      },
-      "block_order": [
-        "testimonial_1",
-        "testimonial_2",
-        "testimonial_3",
-        "testimonial_4"
-      ],
-      "settings": {
-        "subtitle": "VERIFIED REVIEWS",
-        "title": "WHAT THEY SAY",
-        "heading_alignment": "center",
-        "card_style": "clean",
-        "border_radius": 0,
-        "columns_desktop": 3,
-        "enable_carousel": true,
-        "autorotate": false,
-        "autorotate_speed": 5,
-        "show_stars": true,
-        "show_quotes": true,
-        "show_verified_badge": true,
-        "background_color": "#ffffff",
-        "title_color": "#121212",
-        "accent_color": "#f59e0b",
-        "padding_top": 64,
-        "padding_bottom": 64
-      }
     }
   },
   "order": [
@@ -703,7 +829,7 @@
     "17386375318778a401",
     "banner_contrario_G9z4Te",
     "image_with_text_DqUibD",
-    "rich_text_Yff7ew",
+    "testimonials_contrario_NmD633",
     "featured_collection_49mUea",
     "blocks_Jn3BPr",
     "image_banner_8dgyJq",
@@ -713,7 +839,6 @@
     "176920190739ac9d8a",
     "1739078344f2758c42",
     "1770475528dd45d5ec",
-    "1769896081030649c0",
-    "testimonials_contrario_section"
+    "1769896081030649c0"
   ]
 }
