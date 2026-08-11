@@ -139,6 +139,7 @@
           "settings": {
             "collection": "accessories",
             "title": "ACCESSORIES",
+            "image": "shopify://shop_images/DC_AFTER_DARK-1.jpg",
             "link": "",
             "card_span": "span-1x1"
           }
