@@ -137,7 +137,7 @@
         "cat_accessories": {
           "type": "category_card",
           "settings": {
-            "collection": "",
+            "collection": "accessories",
             "title": "ACCESSORIES",
             "link": "",
             "card_span": "span-1x1"
