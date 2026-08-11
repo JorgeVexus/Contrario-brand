@@ -390,25 +390,27 @@ a.product__text {
   box-shadow: none !important;
 }
 
-/* Inline Gallery Block */
-.product--gallery-inline {
-  max-width: 60rem;
-  margin: 0 auto;
+/* Responsive visibility for media gallery block */
+@media screen and (min-width: 750px) {
+  .product__media-wrapper--mobile-only {
+    display: none !important;
+  }
 }
 
-.product--gallery-inline .product__info-wrapper {
-  padding: 0;
-  width: 100%;
-}
+@media screen and (max-width: 749px) {
+  .product > .product__media-wrapper--desktop-only {
+    display: none !important;
+  }
 
-.product__media-wrapper--inline {
-  width: 100%;
-  margin: 2.5rem 0;
-  padding-left: 0;
-}
+  .product__media-wrapper--inline {
+    width: 100%;
+    margin: 2.5rem 0;
+    padding-left: 0;
+  }
 
-.product__media-wrapper--inline media-gallery {
-  width: 100%;
+  .product__media-wrapper--inline media-gallery {
+    width: 100%;
+  }
 }
 
 .product--no-media .product__info-container > modal-opener {
