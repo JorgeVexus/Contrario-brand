@@ -117,7 +117,7 @@
         "cat_women": {
           "type": "category_card",
           "settings": {
-            "collection": "",
+            "collection": "women",
             "title": "WOMEN",
             "image": "shopify://shop_images/Mignight_Chaos_Shirt.ig2.png",
             "link": "",
