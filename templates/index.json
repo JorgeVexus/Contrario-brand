@@ -146,7 +146,7 @@
         "cat_kids": {
           "type": "category_card",
           "settings": {
-            "collection": "",
+            "collection": "girl",
             "title": "KIDS",
             "image": "shopify://shop_images/LittleContrari.bornagainst.01-2.png",
             "link": "",
