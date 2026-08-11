@@ -11,7 +11,6 @@
   "sections": {
     "hero_rebellion_figma": {
       "type": "hero-rebellion",
-      "disabled": true,
       "settings": {
         "image": "shopify://shop_images/ChatGPT_Image_Aug_6_2026_02_24_49_PM.webp",
         "image_opacity": 80,
@@ -69,6 +68,7 @@
         "heading_n3qGmL",
         "buttons_XtGiAq"
       ],
+      "disabled": true,
       "name": "Campaign hero",
       "settings": {
         "image": "shopify://shop_images/CONTRARIO_BRAND_FAQ.png",
