@@ -390,6 +390,27 @@ a.product__text {
   box-shadow: none !important;
 }
 
+/* Inline Gallery Block */
+.product--gallery-inline {
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
+.product--gallery-inline .product__info-wrapper {
+  padding: 0;
+  width: 100%;
+}
+
+.product__media-wrapper--inline {
+  width: 100%;
+  margin: 2.5rem 0;
+  padding-left: 0;
+}
+
+.product__media-wrapper--inline media-gallery {
+  width: 100%;
+}
+
 .product--no-media .product__info-container > modal-opener {
   display: block;
   text-align: center;
