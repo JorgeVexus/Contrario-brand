@@ -365,6 +365,29 @@ a.product__text {
 
 .product-form__buttons {
   max-width: 44rem;
+  --shadow-horizontal-offset: 0px;
+  --shadow-vertical-offset: 0px;
+  --shadow-blur-radius: 0px;
+  --shadow-opacity: 0;
+  --buttons-shadow-horizontal-offset: 0px;
+  --buttons-shadow-vertical-offset: 0px;
+  --buttons-shadow-blur-radius: 0px;
+  --buttons-shadow-opacity: 0;
+}
+
+.product-form__buttons .button:before,
+.product-form__buttons .shopify-payment-button__button:before,
+.product-form__buttons .shopify-payment-button__button--unbranded:before,
+.product-form__buttons .shopify-payment-button [role='button']:before {
+  display: none !important;
+  box-shadow: none !important;
+}
+
+.product-form__buttons .button,
+.product-form__buttons .shopify-payment-button,
+.product-form__buttons .shopify-payment-button__button,
+.product-form__buttons .shopify-payment-button [role='button'] {
+  box-shadow: none !important;
 }
 
 .product--no-media .product__info-container > modal-opener {
