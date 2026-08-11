@@ -117,7 +117,7 @@
         "cat_women": {
           "type": "category_card",
           "settings": {
-            "collection": "",
+            "collection": "women",
             "title": "WOMEN",
             "image": "shopify://shop_images/Mignight_Chaos_Shirt.ig2.png",
             "link": "",
@@ -127,7 +127,7 @@
         "cat_men": {
           "type": "category_card",
           "settings": {
-            "collection": "",
+            "collection": "accessories",
             "title": "MEN",
             "image": "shopify://shop_images/hf_20260202_234938_f2f98cef-9665-419d-a394-b1e7364a2673.jpg",
             "link": "",
@@ -137,7 +137,7 @@
         "cat_accessories": {
           "type": "category_card",
           "settings": {
-            "collection": "",
+            "collection": "accessories",
             "title": "ACCESSORIES",
             "link": "",
             "card_span": "span-1x1"
@@ -146,7 +146,7 @@
         "cat_kids": {
           "type": "category_card",
           "settings": {
-            "collection": "",
+            "collection": "girl",
             "title": "KIDS",
             "link": "",
             "card_span": "span-1x1"
