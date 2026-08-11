@@ -12,8 +12,8 @@
     "hero_rebellion_figma": {
       "type": "hero-rebellion",
       "settings": {
-        "image": "shopify://shop_images/ChatGPT_Image_Aug_6_2026_02_24_49_PM.webp",
-        "image_mobile": "shopify://shop_images/mobil_hero_contrario.png",
+        "image": "shopify://shop_images/hf_20260811_222327_a678e1ef-d2c1-4c6f-8192-348f6064fd40.png",
+        "image_mobile": "shopify://shop_images/hf_20260811_222327_a678e1ef-d2c1-4c6f-8192-348f6064fd40.png",
         "image_opacity": 80,
         "show_gradient": true,
         "desktop_height": "full",
