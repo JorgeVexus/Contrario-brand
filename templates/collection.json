@@ -15,7 +15,7 @@
         "ai_gen_block_9367062_ijmUtM": {
           "type": "ai_gen_block_9367062",
           "settings": {
-            "image": "shopify://shop_images/LittleContrari.bornagainst.01-2.png",
+            "image": "{{ closest.collection.metafields.custom.banner_image.value }}",
             "image_height": 650,
             "image_height_mobile": 500,
             "image_fit": "cover",
