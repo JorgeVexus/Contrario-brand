@@ -9,7 +9,7 @@
 
 <section
   id="WholesalePositioning-{{ section.id }}"
-  class="wholesale-positioning {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+  class="wholesale-positioning ws-theme--{{ section.settings.color_scheme | default: 'light' }} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
   data-analytics-section="wholesale_positioning"
 >
   <div class="ws-container">
@@ -56,13 +56,13 @@
             }}
           {%- else -%}
             <div class="wholesale-positioning__visual-img" style="background: radial-gradient(circle at 50% 50%, #202024 0%, #090909 100%); display:flex; align-items:center; justify-content:center;">
-              <span style="font-family: var(--ws-font-mono); font-size: 12px; letter-spacing: 0.15em; color: var(--ws-text-muted);">[EDITORIAL CAMPAIGN]</span>
+              <span style="font-family: var(--ws-font-mono); font-size: 12px; letter-spacing: 0.15em; color: #8e8e93;">[EDITORIAL CAMPAIGN]</span>
             </div>
           {%- endif -%}
 
           <div class="wholesale-positioning__visual-tag">
             <span class="wholesale-positioning__visual-stat">{{ section.settings.visual_tag_left | default: 'LIMITED PRODUCTION' }}</span>
-            <span class="wholesale-positioning__visual-stat" style="color: var(--ws-text-secondary);">{{ section.settings.visual_tag_right | default: 'GLOBAL HUBS: WDC / CDMX' }}</span>
+            <span class="wholesale-positioning__visual-stat" style="opacity: 0.7;">{{ section.settings.visual_tag_right | default: 'GLOBAL HUBS: WDC / CDMX' }}</span>
           </div>
         </div>
       </div>
@@ -76,6 +76,26 @@
   "tag": "section",
   "class": "section",
   "settings": [
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "options": [
+        {
+          "value": "light",
+          "label": "White Clean Light"
+        },
+        {
+          "value": "light-alt",
+          "label": "Soft Off-White Light"
+        },
+        {
+          "value": "dark",
+          "label": "Noir Obsidian Dark"
+        }
+      ],
+      "default": "light"
+    },
     {
       "type": "text",
       "id": "tagline",

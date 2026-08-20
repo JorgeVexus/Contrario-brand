@@ -9,7 +9,7 @@
 
 <section
   id="WholesaleFormSection-{{ section.id }}"
-  class="wholesale-form-section {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+  class="wholesale-form-section ws-theme--{{ section.settings.color_scheme | default: 'light' }} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
   data-analytics-section="wholesale_application_form"
 >
   <div class="ws-container" id="wholesale-form-wrapper">
@@ -261,7 +261,7 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // 10 - Analytics Event Tracking
+    // Analytics Event Tracking
     var wholesaleForm = document.getElementById('ContrarioWholesaleForm');
     if (wholesaleForm) {
       var inputs = wholesaleForm.querySelectorAll('input, select, textarea');
@@ -310,6 +310,26 @@
   "tag": "section",
   "class": "section",
   "settings": [
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "options": [
+        {
+          "value": "light",
+          "label": "White Clean Light"
+        },
+        {
+          "value": "light-alt",
+          "label": "Soft Off-White Light"
+        },
+        {
+          "value": "dark",
+          "label": "Noir Obsidian Dark"
+        }
+      ],
+      "default": "light"
+    },
     {
       "type": "text",
       "id": "sidebar_tag",

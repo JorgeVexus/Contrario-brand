@@ -105,6 +105,7 @@
         "pillar_4"
       ],
       "settings": {
+        "color_scheme": "light",
         "tagline": "// BRAND PHILOSOPHY & HERITAGE",
         "heading": "INDEPENDENT FASHION BORN IN WASHINGTON, DC.",
         "description": "<p>Contrario was created to subvert the ordinary. Driven by underground culture, architectural brutalism, and uncompromising craftsmanship, every silhouette represents an exploration of tension, texture, and defiance. We build limited collection runs for discerning multi-brand retailers.</p>",
@@ -118,6 +119,7 @@
     "wholesale_products": {
       "type": "wholesale-products",
       "settings": {
+        "color_scheme": "light-alt",
         "tagline": "// CURATED WHOLESALE PREVIEW",
         "heading": "KEY STYLES & CAPSULES",
         "description": "A preview of our hero pieces. Full wholesale linesheet with tiered pricing and SKU matrix provided upon buyer qualification.",
@@ -205,6 +207,7 @@
         "term_6"
       ],
       "settings": {
+        "color_scheme": "dark",
         "tagline": "// COMMERCIAL TERMS & POLICIES",
         "heading": "THE WHOLESALE PROGRAM",
         "description": "Clear minimums, agile reorders, and direct fulfillment from our Washington DC & CDMX logistics nodes.",
@@ -215,6 +218,7 @@
     "wholesale_form": {
       "type": "wholesale-form",
       "settings": {
+        "color_scheme": "light",
         "sidebar_tag": "// B2B PARTNERSHIP INTAKE",
         "heading": "APPLY FOR WHOLESALE ACCOUNT",
         "description": "We review boutique applications within 24 to 48 business hours. Once verified, you will receive our wholesale linesheet, lookbook, and direct order access.",

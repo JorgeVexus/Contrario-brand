@@ -9,7 +9,7 @@
 
 <section
   id="WholesaleProgram-{{ section.id }}"
-  class="wholesale-program {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+  class="wholesale-program ws-theme--{{ section.settings.color_scheme | default: 'dark' }} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
   data-analytics-section="wholesale_terms_program"
 >
   <div class="ws-container">
@@ -62,6 +62,26 @@
   "tag": "section",
   "class": "section",
   "settings": [
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "options": [
+        {
+          "value": "dark",
+          "label": "Noir Obsidian Dark (Featured)"
+        },
+        {
+          "value": "light",
+          "label": "White Clean Light"
+        },
+        {
+          "value": "light-alt",
+          "label": "Soft Off-White Light"
+        }
+      ],
+      "default": "dark"
+    },
     {
       "type": "text",
       "id": "tagline",

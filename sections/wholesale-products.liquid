@@ -9,7 +9,7 @@
 
 <section
   id="WholesaleProducts-{{ section.id }}"
-  class="wholesale-products {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+  class="wholesale-products ws-theme--{{ section.settings.color_scheme | default: 'light' }} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
   data-analytics-section="wholesale_product_preview"
 >
   <div class="ws-container">
@@ -45,7 +45,7 @@
                       alt: item.title | escape
                   }}
                 {%- else -%}
-                  <div class="ws-product-card__img" style="background:#1a1a1a;"></div>
+                  <div class="ws-product-card__img" style="background:#eaeaea;"></div>
                 {%- endif -%}
                 <span class="ws-product-card__badge">{{ block.settings.badge | default: 'CORE CAPSULE' }}</span>
               </div>
@@ -87,7 +87,7 @@
                     alt: item.title | escape
                 }}
               {%- else -%}
-                <div class="ws-product-card__img" style="background:#1a1a1a;"></div>
+                <div class="ws-product-card__img" style="background:#eaeaea;"></div>
               {%- endif -%}
               <span class="ws-product-card__badge">WHOLESALE AVAILABLE</span>
             </div>
@@ -116,8 +116,8 @@
         {%- for i in (1..6) -%}
           <div class="ws-product-card">
             <div class="ws-product-card__media">
-              <div class="ws-product-card__img" style="background: #181818; display:flex; align-items:center; justify-content:center;">
-                <span style="font-family:var(--ws-font-mono); font-size:11px; color:#666;">SAMPLE PIECE {{ i }}</span>
+              <div class="ws-product-card__img" style="background: #f0f0f2; display:flex; align-items:center; justify-content:center;">
+                <span style="font-family:var(--ws-font-mono); font-size:11px; color:#888;">SAMPLE PIECE {{ i }}</span>
               </div>
               <span class="ws-product-card__badge">CORE PIECE</span>
             </div>
@@ -154,6 +154,26 @@
   "tag": "section",
   "class": "section",
   "settings": [
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "options": [
+        {
+          "value": "light",
+          "label": "White Clean Light"
+        },
+        {
+          "value": "light-alt",
+          "label": "Soft Off-White Light"
+        },
+        {
+          "value": "dark",
+          "label": "Noir Obsidian Dark"
+        }
+      ],
+      "default": "light"
+    },
     {
       "type": "text",
       "id": "tagline",
