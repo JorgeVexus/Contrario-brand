@@ -48,6 +48,7 @@
         "ticker_4"
       ],
       "settings": {
+        "image": "shopify://shop_images/hf_20260127_233920_6d2c62a9-3ff9-455e-b9cf-179ebe2436d1.png",
         "image_opacity": 45,
         "badge_text": "B2B WHOLESALE // STOCK CONTRARIO",
         "coordinates_text": "[WDC // 38.9072° N, 77.0369° W]",
@@ -107,6 +108,7 @@
         "tagline": "// BRAND PHILOSOPHY & HERITAGE",
         "heading": "INDEPENDENT FASHION BORN IN WASHINGTON, DC.",
         "description": "<p>Contrario was created to subvert the ordinary. Driven by underground culture, architectural brutalism, and uncompromising craftsmanship, every silhouette represents an exploration of tension, texture, and defiance. We build limited collection runs for discerning multi-brand retailers.</p>",
+        "image": "shopify://shop_images/Mignight_Chaos_Shirt.ig2.png",
         "visual_tag_left": "LIMITED PRODUCTION",
         "visual_tag_right": "GLOBAL HUBS: WDC / CDMX",
         "padding_top": 80,
