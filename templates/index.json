@@ -12,8 +12,8 @@
     "hero_rebellion_figma": {
       "type": "hero-rebellion",
       "settings": {
-        "image": "shopify://shop_images/ChatGPT_Image_Aug_6_2026_02_24_49_PM.webp",
-        "image_mobile": "shopify://shop_images/mobil_hero_contrario.png",
+        "image": "shopify://shop_images/hf_20260811_222327_a678e1ef-d2c1-4c6f-8192-348f6064fd40.png",
+        "image_mobile": "shopify://shop_images/hf_20260806_032039_f11b0dda-83a0-4f63-b3e8-9fbba9a56abb.png",
         "image_opacity": 80,
         "show_gradient": true,
         "desktop_height": "full",
@@ -117,9 +117,9 @@
         "cat_women": {
           "type": "category_card",
           "settings": {
-            "collection": "",
+            "collection": "women",
             "title": "WOMEN",
-            "image": "shopify://shop_images/IvoryOracleTank_8.png",
+            "image": "shopify://shop_images/Mignight_Chaos_Shirt.ig2.png",
             "link": "",
             "card_span": "span-2x2"
           }
@@ -127,9 +127,9 @@
         "cat_men": {
           "type": "category_card",
           "settings": {
-            "collection": "",
+            "collection": "accessories",
             "title": "MEN",
-            "image": "shopify://shop_images/hf_20260202_234938_f2f98cef-9665-419d-a394-b1e7364a2673.jpg",
+            "image": "shopify://shop_images/hf_20260804_192828_7b4d9b6c-9aac-46f0-8bc1-93a0c8cc1510.png",
             "link": "",
             "card_span": "span-2x1"
           }
@@ -137,8 +137,9 @@
         "cat_accessories": {
           "type": "category_card",
           "settings": {
-            "collection": "",
+            "collection": "accessories",
             "title": "ACCESSORIES",
+            "image": "shopify://shop_images/DC_AFTER_DARK-1.jpg",
             "link": "",
             "card_span": "span-1x1"
           }
@@ -146,8 +147,9 @@
         "cat_kids": {
           "type": "category_card",
           "settings": {
-            "collection": "",
+            "collection": "girl",
             "title": "KIDS",
+            "image": "shopify://shop_images/LittleContrari.bornagainst.01-2.png",
             "link": "",
             "card_span": "span-1x1"
           }
