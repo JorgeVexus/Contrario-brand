@@ -1,0 +1,264 @@
+{{ 'section-wholesale.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  #WholesaleProducts-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{%- endstyle -%}
+
+<section
+  id="WholesaleProducts-{{ section.id }}"
+  class="wholesale-products {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+  data-analytics-section="wholesale_product_preview"
+>
+  <div class="ws-container">
+    <div class="ws-section-header">
+      <span class="ws-section-tag">{{ section.settings.tagline | default: '// CURATED WHOLESALE PREVIEW' }}</span>
+      <h2 class="ws-section-title">{{ section.settings.heading | default: 'KEY STYLES & CAPSULES' }}</h2>
+      <p class="ws-section-desc">
+        {{ section.settings.description | default: 'A preview of our hero pieces. Full wholesale linesheet with tiered pricing, fabric specs, and SKU matrix provided upon buyer qualification.' }}
+      </p>
+    </div>
+
+    <div class="wholesale-products__grid">
+      {%- liquid
+        assign products_to_display = 0
+        assign collection_products = section.settings.collection.products
+      -%}
+
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          {%- assign item = block.settings.product -%}
+          {%- if item != blank -%}
+            <div class="ws-product-card" {{ block.shopify_attributes }}>
+              <div class="ws-product-card__media">
+                {%- if item.featured_media != blank -%}
+                  {{
+                    item.featured_media
+                    | image_url: width: 800
+                    | image_tag:
+                      class: 'ws-product-card__img',
+                      widths: '375, 550, 750, 800',
+                      sizes: '(min-width: 990px) 25vw, (min-width: 600px) 50vw, 100vw',
+                      loading: 'lazy',
+                      alt: item.title | escape
+                  }}
+                {%- else -%}
+                  <div class="ws-product-card__img" style="background:#1a1a1a;"></div>
+                {%- endif -%}
+                <span class="ws-product-card__badge">{{ block.settings.badge | default: 'CORE CAPSULE' }}</span>
+              </div>
+              <div class="ws-product-card__info">
+                <div>
+                  <span class="ws-product-card__vendor">{{ item.vendor | default: 'CONTRARIO' }}</span>
+                  <h3 class="ws-product-card__title">{{ item.title }}</h3>
+                </div>
+                <div class="ws-product-card__footer">
+                  <span class="ws-product-card__msrp">
+                    {%- if section.settings.show_msrp -%}
+                      MSRP: {{ item.price | money }}
+                    {%- else -%}
+                      INQUIRE B2B
+                    {%- endif -%}
+                  </span>
+                  <a href="#wholesale-form-wrapper" class="ws-product-card__inquire" data-product-title="{{ item.title | escape }}">
+                    Request Specs &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+
+      {%- elsif collection_products.size > 0 -%}
+        {%- for item in collection_products limit: section.settings.products_limit -%}
+          <div class="ws-product-card">
+            <div class="ws-product-card__media">
+              {%- if item.featured_media != blank -%}
+                {{
+                  item.featured_media
+                  | image_url: width: 800
+                  | image_tag:
+                    class: 'ws-product-card__img',
+                    widths: '375, 550, 750, 800',
+                    sizes: '(min-width: 990px) 25vw, (min-width: 600px) 50vw, 100vw',
+                    loading: 'lazy',
+                    alt: item.title | escape
+                }}
+              {%- else -%}
+                <div class="ws-product-card__img" style="background:#1a1a1a;"></div>
+              {%- endif -%}
+              <span class="ws-product-card__badge">WHOLESALE AVAILABLE</span>
+            </div>
+            <div class="ws-product-card__info">
+              <div>
+                <span class="ws-product-card__vendor">{{ item.vendor | default: 'CONTRARIO' }}</span>
+                <h3 class="ws-product-card__title">{{ item.title }}</h3>
+              </div>
+              <div class="ws-product-card__footer">
+                <span class="ws-product-card__msrp">
+                  {%- if section.settings.show_msrp -%}
+                    MSRP: {{ item.price | money }}
+                  {%- else -%}
+                    INQUIRE B2B
+                  {%- endif -%}
+                </span>
+                <a href="#wholesale-form-wrapper" class="ws-product-card__inquire" data-product-title="{{ item.title | escape }}">
+                  Request Specs &rarr;
+                </a>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+
+      {%- else -%}
+        {%- for i in (1..6) -%}
+          <div class="ws-product-card">
+            <div class="ws-product-card__media">
+              <div class="ws-product-card__img" style="background: #181818; display:flex; align-items:center; justify-content:center;">
+                <span style="font-family:var(--ws-font-mono); font-size:11px; color:#666;">SAMPLE PIECE {{ i }}</span>
+              </div>
+              <span class="ws-product-card__badge">CORE PIECE</span>
+            </div>
+            <div class="ws-product-card__info">
+              <div>
+                <span class="ws-product-card__vendor">CONTRARIO</span>
+                <h3 class="ws-product-card__title">ICONIC SILHOUETTE #0{{ i }}</h3>
+              </div>
+              <div class="ws-product-card__footer">
+                <span class="ws-product-card__msrp">WHOLESALE B2B</span>
+                <a href="#wholesale-form-wrapper" class="ws-product-card__inquire">Request Specs &rarr;</a>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    <div class="wholesale-products__cta-bar">
+      <div class="wholesale-products__cta-text">
+        <h4>{{ section.settings.cta_box_title | default: 'LOOKING FOR COMPLETE CATALOG & LINESHEET?' }}</h4>
+        <p>{{ section.settings.cta_box_desc | default: 'We do not publish wholesale pricing publicly. Request the PDF linesheet to review wholesale margins & order minimums.' }}</p>
+      </div>
+      <a href="{{ section.settings.cta_box_link | default: '#wholesale-apply' }}" class="ws-btn ws-btn--primary" data-analytics-event="wholesale_linesheet_bar_click">
+        {{ section.settings.cta_box_button | default: 'REQUEST LINE SHEET' }}
+      </a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Wholesale Products",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Section Tagline",
+      "default": "// CURATED WHOLESALE PREVIEW"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "KEY STYLES & CAPSULES"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Section Description",
+      "default": "A preview of our hero pieces. Full wholesale linesheet with tiered pricing provided upon buyer qualification."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Source Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_limit",
+      "min": 4,
+      "max": 8,
+      "step": 1,
+      "label": "Products to Show",
+      "default": 8
+    },
+    {
+      "type": "checkbox",
+      "id": "show_msrp",
+      "label": "Show Retail MSRP",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cta_box_title",
+      "label": "Linesheet Box Title",
+      "default": "LOOKING FOR COMPLETE CATALOG & LINESHEET?"
+    },
+    {
+      "type": "text",
+      "id": "cta_box_desc",
+      "label": "Linesheet Box Subtext",
+      "default": "We protect boutique margins. Request the private linesheet for B2B pricing."
+    },
+    {
+      "type": "text",
+      "id": "cta_box_button",
+      "label": "Linesheet Box Button",
+      "default": "REQUEST LINE SHEET"
+    },
+    {
+      "type": "url",
+      "id": "cta_box_link",
+      "label": "Linesheet Button Link"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 140,
+      "step": 10,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 140,
+      "step": 10,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "featured_product",
+      "name": "Specific Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select Product"
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge Label",
+          "default": "HERO PIECE"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wholesale Products"
+    }
+  ]
+}
+{% endschema %}

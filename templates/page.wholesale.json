@@ -1,0 +1,231 @@
+{
+  "sections": {
+    "wholesale_hero": {
+      "type": "wholesale-hero",
+      "blocks": {
+        "ticker_1": {
+          "type": "metric",
+          "settings": {
+            "label": "OPENING ORDER",
+            "value": "$1,500 USD"
+          }
+        },
+        "ticker_2": {
+          "type": "metric",
+          "settings": {
+            "label": "FULFILLMENT",
+            "value": "DC & CDMX HUBS"
+          }
+        },
+        "ticker_3": {
+          "type": "metric",
+          "settings": {
+            "label": "PRODUCTION",
+            "value": "LIMITED CAPSULES"
+          }
+        },
+        "ticker_4": {
+          "type": "metric",
+          "settings": {
+            "label": "DISTRIBUTION",
+            "value": "SELECT BOUTIQUES"
+          }
+        }
+      },
+      "block_order": [
+        "ticker_1",
+        "ticker_2",
+        "ticker_3",
+        "ticker_4"
+      ],
+      "settings": {
+        "image_opacity": 45,
+        "badge_text": "B2B WHOLESALE // STOCK CONTRARIO",
+        "coordinates_text": "[WDC // 38.9072° N, 77.0369° W]",
+        "heading": "STOCK CONTRARIO",
+        "subtext": "<p>Exclusive B2B partnership for boutiques, concept stores, and global fashion retailers. Distinctive brutalist silhouettes, limited capsule runs.</p>",
+        "primary_button_label": "APPLY FOR WHOLESALE",
+        "primary_button_link": "#wholesale-apply",
+        "secondary_button_label": "REQUEST LINE SHEET",
+        "secondary_button_link": "#wholesale-linesheet",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "wholesale_positioning": {
+      "type": "wholesale-positioning",
+      "blocks": {
+        "pillar_1": {
+          "type": "pillar",
+          "settings": {
+            "badge": "HERITAGE",
+            "title": "WASHINGTON, DC ROOTS",
+            "description": "Designed with the spirit and stark political brutalism of the capital."
+          }
+        },
+        "pillar_2": {
+          "type": "pillar",
+          "settings": {
+            "badge": "CRAFT",
+            "title": "ARCHITECTURAL QUALITY",
+            "description": "Heavyweight premium cottons, raw finishes, and structured tailoring."
+          }
+        },
+        "pillar_3": {
+          "type": "pillar",
+          "settings": {
+            "badge": "SCARCITY",
+            "title": "LIMITED CAPSULES",
+            "description": "Never mass-produced. Controlled production runs preserve boutique exclusivity."
+          }
+        },
+        "pillar_4": {
+          "type": "pillar",
+          "settings": {
+            "badge": "RETAIL",
+            "title": "TERRITORY PROTECTION",
+            "description": "Carefully managed distribution to ensure boutique margin integrity."
+          }
+        }
+      },
+      "block_order": [
+        "pillar_1",
+        "pillar_2",
+        "pillar_3",
+        "pillar_4"
+      ],
+      "settings": {
+        "tagline": "// BRAND PHILOSOPHY & HERITAGE",
+        "heading": "INDEPENDENT FASHION BORN IN WASHINGTON, DC.",
+        "description": "<p>Contrario was created to subvert the ordinary. Driven by underground culture, architectural brutalism, and uncompromising craftsmanship, every silhouette represents an exploration of tension, texture, and defiance. We build limited collection runs for discerning multi-brand retailers.</p>",
+        "visual_tag_left": "LIMITED PRODUCTION",
+        "visual_tag_right": "GLOBAL HUBS: WDC / CDMX",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "wholesale_products": {
+      "type": "wholesale-products",
+      "settings": {
+        "tagline": "// CURATED WHOLESALE PREVIEW",
+        "heading": "KEY STYLES & CAPSULES",
+        "description": "A preview of our hero pieces. Full wholesale linesheet with tiered pricing and SKU matrix provided upon buyer qualification.",
+        "products_limit": 8,
+        "show_msrp": true,
+        "cta_box_title": "LOOKING FOR COMPLETE CATALOG & LINESHEET?",
+        "cta_box_desc": "We protect boutique margins. Request the private linesheet for B2B pricing and minimum order quantities.",
+        "cta_box_button": "REQUEST LINE SHEET",
+        "cta_box_link": "#wholesale-apply",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "wholesale_program": {
+      "type": "wholesale-program",
+      "blocks": {
+        "term_1": {
+          "type": "opening_order",
+          "settings": {
+            "highlight": true,
+            "tag": "MINIMUM THRESHOLD",
+            "metric": "$1,500 USD",
+            "title": "OPENING ORDER",
+            "description": "Initial opening commitment. No rigid per-SKU minimums; flexibility to mix caps, hoodies, tees, and accessories."
+          }
+        },
+        "term_2": {
+          "type": "sizing",
+          "settings": {
+            "highlight": false,
+            "tag": "ASSORTMENT",
+            "metric": "MIXED SIZES",
+            "title": "PACK RATIO FREEDOM",
+            "description": "Choose exact sizing and product splits that match your specific customer demographics. No locked pre-packs required."
+          }
+        },
+        "term_3": {
+          "type": "lead_time",
+          "settings": {
+            "highlight": false,
+            "tag": "PRODUCTION",
+            "metric": "10-18 DAYS",
+            "title": "ESTIMATED LEAD TIME",
+            "description": "In-stock core essentials ship within 48–72 hours. Custom capsule production batches ship within 2 to 3 weeks."
+          }
+        },
+        "term_4": {
+          "type": "reorders",
+          "settings": {
+            "highlight": false,
+            "tag": "REPLENISHMENT",
+            "metric": "$750 USD",
+            "title": "AGILE REORDERS",
+            "description": "Reduced reorder minimum threshold allows retail partners to test new silhouettes and replenish fast sellers rapidly."
+          }
+        },
+        "term_5": {
+          "type": "shipping",
+          "settings": {
+            "highlight": false,
+            "tag": "LOGISTICS",
+            "metric": "WORLDWIDE",
+            "title": "DIRECT DISPATCH",
+            "description": "Tracked courier fulfillment (DHL / FedEx / UPS) with export documentation handled seamlessly."
+          }
+        },
+        "term_6": {
+          "type": "custom_term",
+          "settings": {
+            "highlight": false,
+            "tag": "TERRITORY",
+            "metric": "ZIP PROTECTION",
+            "title": "LOCAL EXCLUSIVITY",
+            "description": "Geographic exclusivity options available for flagship boutique stockists meeting quarterly volume tiers."
+          }
+        }
+      },
+      "block_order": [
+        "term_1",
+        "term_2",
+        "term_3",
+        "term_4",
+        "term_5",
+        "term_6"
+      ],
+      "settings": {
+        "tagline": "// COMMERCIAL TERMS & POLICIES",
+        "heading": "THE WHOLESALE PROGRAM",
+        "description": "Clear minimums, agile reorders, and direct fulfillment from our Washington DC & CDMX logistics nodes.",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "wholesale_form": {
+      "type": "wholesale-form",
+      "settings": {
+        "sidebar_tag": "// B2B PARTNERSHIP INTAKE",
+        "heading": "APPLY FOR WHOLESALE ACCOUNT",
+        "description": "We review boutique applications within 24 to 48 business hours. Once verified, you will receive our wholesale linesheet, lookbook, and direct order access.",
+        "perk_1_title": "PRIVATE LINESHEET ACCESS",
+        "perk_1_desc": "Wholesale tiered pricing, SKU breakdowns, and fabric weight specifications.",
+        "perk_2_title": "PRIORITY ALLOCATION",
+        "perk_2_desc": "Guaranteed inventory reservation before public direct-to-consumer drops.",
+        "perk_3_title": "DIRECT ACCOUNT LIAISON",
+        "perk_3_desc": "Dedicated representative for rapid replenishment and custom merchandising.",
+        "submit_button_label": "SUBMIT WHOLESALE APPLICATION",
+        "confidentiality_note": "All retailer submissions are held confidential. Wholesale pricing is disclosed only to verified trade accounts.",
+        "success_title": "APPLICATION RECEIVED",
+        "success_message": "Our wholesale team has received your details. We will review your store credentials and send our linesheet & pricing packet within 24-48 hours.",
+        "padding_top": 80,
+        "padding_bottom": 100
+      }
+    }
+  },
+  "order": [
+    "wholesale_hero",
+    "wholesale_positioning",
+    "wholesale_products",
+    "wholesale_program",
+    "wholesale_form"
+  ]
+}

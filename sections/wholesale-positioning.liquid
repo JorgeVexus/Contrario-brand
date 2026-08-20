@@ -1,0 +1,201 @@
+{{ 'section-wholesale.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  #WholesalePositioning-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{%- endstyle -%}
+
+<section
+  id="WholesalePositioning-{{ section.id }}"
+  class="wholesale-positioning {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+  data-analytics-section="wholesale_positioning"
+>
+  <div class="ws-container">
+    <div class="wholesale-positioning__grid">
+      <div class="wholesale-positioning__content">
+        <div class="ws-section-header" style="margin-bottom: 24px;">
+          <span class="ws-section-tag">{{ section.settings.tagline | default: '// BRAND PHILOSOPHY & HERITAGE' }}</span>
+          <h2 class="wholesale-positioning__quote">
+            {{ section.settings.heading | default: 'INDEPENDENT FASHION BORN IN WASHINGTON, DC.' }}
+          </h2>
+        </div>
+
+        {%- if section.settings.description != blank -%}
+          <div class="wholesale-positioning__body">
+            {{ section.settings.description }}
+          </div>
+        {%- endif -%}
+
+        {%- if section.blocks.size > 0 -%}
+          <div class="wholesale-positioning__pillars">
+            {%- for block in section.blocks -%}
+              <div class="wholesale-pillar-card" {{ block.shopify_attributes }}>
+                <div class="wholesale-pillar-card__num">{{ forloop.index | prepend: '0' }} // {{ block.settings.badge | default: 'PILLAR' }}</div>
+                <h3 class="wholesale-pillar-card__title">{{ block.settings.title }}</h3>
+                <p class="wholesale-pillar-card__desc">{{ block.settings.description }}</p>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="wholesale-positioning__visual-wrap">
+        <div class="wholesale-positioning__visual">
+          {%- if section.settings.image != blank -%}
+            {{
+              section.settings.image
+              | image_url: width: 1400
+              | image_tag:
+                class: 'wholesale-positioning__visual-img',
+                widths: '600, 800, 1000, 1400',
+                sizes: '(min-width: 990px) 45vw, 100vw',
+                loading: 'lazy',
+                alt: section.settings.heading | escape
+            }}
+          {%- else -%}
+            <div class="wholesale-positioning__visual-img" style="background: radial-gradient(circle at 50% 50%, #202024 0%, #090909 100%); display:flex; align-items:center; justify-content:center;">
+              <span style="font-family: var(--ws-font-mono); font-size: 12px; letter-spacing: 0.15em; color: var(--ws-text-muted);">[EDITORIAL CAMPAIGN]</span>
+            </div>
+          {%- endif -%}
+
+          <div class="wholesale-positioning__visual-tag">
+            <span class="wholesale-positioning__visual-stat">{{ section.settings.visual_tag_left | default: 'LIMITED PRODUCTION' }}</span>
+            <span class="wholesale-positioning__visual-stat" style="color: var(--ws-text-secondary);">{{ section.settings.visual_tag_right | default: 'GLOBAL HUBS: WDC / CDMX' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Wholesale Positioning",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Section Tagline",
+      "default": "// BRAND PHILOSOPHY & HERITAGE"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Editorial Headline",
+      "default": "INDEPENDENT FASHION BORN IN WASHINGTON, DC."
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Brand Narrative",
+      "default": "<p>Contrario was created to subvert the ordinary. Driven by underground culture, architectural brutalism, and uncompromising craftsmanship, every silhouette represents an exploration of tension, texture, and defiance. We build limited collection runs for discerning multi-brand retailers.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Editorial Image"
+    },
+    {
+      "type": "text",
+      "id": "visual_tag_left",
+      "label": "Image Badge Left",
+      "default": "LIMITED PRODUCTION"
+    },
+    {
+      "type": "text",
+      "id": "visual_tag_right",
+      "label": "Image Badge Right",
+      "default": "GLOBAL HUBS: WDC / CDMX"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 140,
+      "step": 10,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 140,
+      "step": 10,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Brand Pillar",
+      "settings": [
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Category Tag",
+          "default": "IDENTITY"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Pillar Title",
+          "default": "DISTINCTIVE SILHOUETTES"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Short Explanation",
+          "default": "Custom heavyweight fabrics, bespoke hardware, and precision craftsmanship."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wholesale Positioning",
+      "blocks": [
+        {
+          "type": "pillar",
+          "settings": {
+            "badge": "HERITAGE",
+            "title": "WASHINGTON, DC ROOTS",
+            "description": "Designed with the spirit and stark political brutalism of the capital."
+          }
+        },
+        {
+          "type": "pillar",
+          "settings": {
+            "badge": "CRAFT",
+            "title": "ARCHITECTURAL QUALITY",
+            "description": "Heavyweight premium cottons, raw finishes, and structured tailoring."
+          }
+        },
+        {
+          "type": "pillar",
+          "settings": {
+            "badge": "SCARCITY",
+            "title": "LIMITED CAPSULES",
+            "description": "Never mass-produced. Controlled production runs preserve boutique exclusivity."
+          }
+        },
+        {
+          "type": "pillar",
+          "settings": {
+            "badge": "RETAIL",
+            "title": "TERRITORY PROTECTION",
+            "description": "Carefully managed distribution to ensure boutique margin integrity."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

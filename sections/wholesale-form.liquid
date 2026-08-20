@@ -1,0 +1,418 @@
+{{ 'section-wholesale.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  #WholesaleFormSection-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{%- endstyle -%}
+
+<section
+  id="WholesaleFormSection-{{ section.id }}"
+  class="wholesale-form-section {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+  data-analytics-section="wholesale_application_form"
+>
+  <div class="ws-container" id="wholesale-form-wrapper">
+    <div class="wholesale-form__layout">
+      
+      <!-- Sidebar / Value Proposition -->
+      <div class="wholesale-form__sidebar">
+        <div>
+          <span class="ws-section-tag">{{ section.settings.sidebar_tag | default: '// B2B PARTNERSHIP INTAKE' }}</span>
+          <h2 class="ws-section-title">{{ section.settings.heading | default: 'APPLY FOR WHOLESALE ACCOUNT' }}</h2>
+          <p class="ws-section-desc">
+            {{ section.settings.description | default: 'We review boutique applications within 24 to 48 business hours. Once verified, you will receive our wholesale linesheet, lookbook, and direct order access.' }}
+          </p>
+        </div>
+
+        <ul class="wholesale-form__perks-list">
+          <li class="wholesale-form__perk-item">
+            <svg class="wholesale-form__perk-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            <div class="wholesale-form__perk-text">
+              <h5>{{ section.settings.perk_1_title | default: 'PRIVATE LINESHEET ACCESS' }}</h5>
+              <p>{{ section.settings.perk_1_desc | default: 'Wholesale tiered pricing, SKU breakdowns, and fabric weight specifications.' }}</p>
+            </div>
+          </li>
+          <li class="wholesale-form__perk-item">
+            <svg class="wholesale-form__perk-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            <div class="wholesale-form__perk-text">
+              <h5>{{ section.settings.perk_2_title | default: 'PRIORITY ALLOCATION' }}</h5>
+              <p>{{ section.settings.perk_2_desc | default: 'Guaranteed inventory reservation before public direct-to-consumer drops.' }}</p>
+            </div>
+          </li>
+          <li class="wholesale-form__perk-item">
+            <svg class="wholesale-form__perk-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            <div class="wholesale-form__perk-text">
+              <h5>{{ section.settings.perk_3_title | default: 'DIRECT ACCOUNT LIAISON' }}</h5>
+              <p>{{ section.settings.perk_3_desc | default: 'Dedicated representative for rapid replenishment and custom merchandising.' }}</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Application Form -->
+      <div class="wholesale-form__card" id="wholesale-apply">
+        {%- form 'contact', id: 'ContrarioWholesaleForm', class: 'ws-form' -%}
+          
+          {%- if form.posted_successfully? -%}
+            <div class="ws-form-status ws-form-status--success" role="status" tabindex="-1" autofocus>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="9 12 12 15 16 10"/></svg>
+              <div>
+                <strong>{{ section.settings.success_title | default: 'APPLICATION RECEIVED' }}</strong>
+                <p style="margin: 4px 0 0 0; font-size: 13px;">{{ section.settings.success_message | default: 'Our wholesale team has received your details. We will review your store credentials and send our linesheet & pricing packet within 24-48 hours.' }}</p>
+              </div>
+            </div>
+            <script>
+              if (window.dataLayer) {
+                window.dataLayer.push({
+                  event: 'wholesale_form_submit_success',
+                  formType: 'wholesale_b2b_application'
+                });
+              }
+            </script>
+          {%- elsif form.errors -%}
+            <div class="ws-form-status ws-form-status--error" role="alert">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <div>
+                <strong>Please verify the form fields:</strong>
+                <p style="margin: 4px 0 0 0; font-size: 13px;">{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</p>
+              </div>
+            </div>
+          {%- endif -%}
+
+          <input type="hidden" name="contact[Form Subject]" value="Wholesale B2B Buyer Application">
+
+          <div class="ws-form-grid ws-form-grid--2col">
+            
+            <!-- Store / Company Name -->
+            <div class="ws-field-group">
+              <label class="ws-label" for="ws-store-name">Store / Company Name <span>*</span></label>
+              <input
+                id="ws-store-name"
+                class="ws-input"
+                type="text"
+                name="contact[Store Name]"
+                placeholder="e.g. Apex Concept Store"
+                required
+              >
+            </div>
+
+            <!-- Buyer / Contact Name -->
+            <div class="ws-field-group">
+              <label class="ws-label" for="ws-buyer-name">Buyer Name & Title <span>*</span></label>
+              <input
+                id="ws-buyer-name"
+                class="ws-input"
+                type="text"
+                name="contact[name]"
+                placeholder="e.g. Marcus Vance (Head Buyer)"
+                required
+              >
+            </div>
+
+            <!-- Business Email -->
+            <div class="ws-field-group">
+              <label class="ws-label" for="ws-email">Business Email <span>*</span></label>
+              <input
+                id="ws-email"
+                class="ws-input"
+                type="email"
+                name="contact[email]"
+                placeholder="buyer@yourstore.com"
+                required
+              >
+            </div>
+
+            <!-- Phone / WhatsApp -->
+            <div class="ws-field-group">
+              <label class="ws-label" for="ws-phone">Phone / WhatsApp</label>
+              <input
+                id="ws-phone"
+                class="ws-input"
+                type="tel"
+                name="contact[phone]"
+                placeholder="+1 (202) 555-0199"
+              >
+            </div>
+
+            <!-- Store Website -->
+            <div class="ws-field-group">
+              <label class="ws-label" for="ws-website">Website URL <span>*</span></label>
+              <input
+                id="ws-website"
+                class="ws-input"
+                type="url"
+                name="contact[Website]"
+                placeholder="https://yourstore.com"
+                required
+              >
+            </div>
+
+            <!-- Instagram Handle -->
+            <div class="ws-field-group">
+              <label class="ws-label" for="ws-instagram">Instagram Handle <span>*</span></label>
+              <input
+                id="ws-instagram"
+                class="ws-input"
+                type="text"
+                name="contact[Instagram]"
+                placeholder="@yourstore"
+                required
+              >
+            </div>
+
+            <!-- Store Location (City, State, Country) -->
+            <div class="ws-field-group">
+              <label class="ws-label" for="ws-location">Location (City, State, Country) <span>*</span></label>
+              <input
+                id="ws-location"
+                class="ws-input"
+                type="text"
+                name="contact[Store Location]"
+                placeholder="e.g. Brooklyn, NY, USA"
+                required
+              >
+            </div>
+
+            <!-- Number of Doors / Outlets -->
+            <div class="ws-field-group">
+              <label class="ws-label" for="ws-doors">Number of Doors / Outlets</label>
+              <div class="ws-select-wrap">
+                <select id="ws-doors" class="ws-select" name="contact[Number of Doors]">
+                  <option value="1 Physical Location">1 Physical Location</option>
+                  <option value="2-3 Physical Locations">2–3 Physical Locations</option>
+                  <option value="4+ Physical Locations">4+ Physical Locations</option>
+                  <option value="Online Only Concept Store">Online Only Concept Store</option>
+                  <option value="Omnichannel (Store + E-commerce)">Omnichannel (Store + E-commerce)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Brands Carried -->
+            <div class="ws-field-group ws-field-group--full">
+              <label class="ws-label" for="ws-brands">Current Brand Roster / Key Brands Carried <span>*</span></label>
+              <input
+                id="ws-brands"
+                class="ws-input"
+                type="text"
+                name="contact[Brands Carried]"
+                placeholder="e.g. Rick Owens DRKSHDW, Entire Studios, Acne Studios, Stussy"
+                required
+              >
+            </div>
+
+            <!-- Estimated Opening Order Budget -->
+            <div class="ws-field-group">
+              <label class="ws-label" for="ws-budget">Estimated Opening Order</label>
+              <div class="ws-select-wrap">
+                <select id="ws-budget" class="ws-select" name="contact[Estimated Opening Order]">
+                  <option value="$1,500 - $3,000 USD">$1,500 – $3,000 USD</option>
+                  <option value="$3,000 - $5,000 USD">$3,000 – $5,000 USD</option>
+                  <option value="$5,000 - $10,000 USD">$5,000 – $10,000 USD</option>
+                  <option value="$10,000+ USD">$10,000+ USD</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Ingestion Intent / Request Type -->
+            <div class="ws-field-group" id="wholesale-linesheet">
+              <label class="ws-label" for="ws-type">Inquiry Type</label>
+              <div class="ws-select-wrap">
+                <select id="ws-type" class="ws-select" name="contact[Inquiry Type]">
+                  <option value="Full Wholesale Account Application">Full Wholesale Account Application</option>
+                  <option value="Digital Line Sheet & Catalog Request">Digital Line Sheet & Catalog Request</option>
+                  <option value="Capsule / Pop-up Collaboration">Capsule / Pop-up Collaboration</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Additional Notes / Message -->
+            <div class="ws-field-group ws-field-group--full">
+              <label class="ws-label" for="ws-message">Additional Details / Target Delivery Window</label>
+              <textarea
+                id="ws-message"
+                class="ws-textarea"
+                name="contact[body]"
+                placeholder="Tell us about your store demographic, timeline, or specific capsules of interest..."
+              ></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="ws-field-group ws-field-group--full" style="margin-top: 10px;">
+              <button
+                type="submit"
+                class="ws-btn ws-btn--primary ws-btn--full"
+                data-analytics-event="wholesale_form_submit_click"
+              >
+                {{ section.settings.submit_button_label | default: 'SUBMIT WHOLESALE APPLICATION' }}
+              </button>
+              <p class="ws-form-footer-note">
+                {{ section.settings.confidentiality_note | default: 'All retailer submissions are held confidential. Wholesale pricing is disclosed only to verified trade accounts.' }}
+              </p>
+            </div>
+
+          </div>
+        {%- endform -%}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // 10 - Analytics Event Tracking
+    var wholesaleForm = document.getElementById('ContrarioWholesaleForm');
+    if (wholesaleForm) {
+      var inputs = wholesaleForm.querySelectorAll('input, select, textarea');
+      var startedTracking = false;
+      inputs.forEach(function(input) {
+        input.addEventListener('focus', function() {
+          if (!startedTracking) {
+            startedTracking = true;
+            if (window.dataLayer) {
+              window.dataLayer.push({
+                event: 'wholesale_form_start',
+                section: 'wholesale_application'
+              });
+            }
+          }
+        }, { once: true });
+      });
+
+      wholesaleForm.addEventListener('submit', function() {
+        if (window.dataLayer) {
+          window.dataLayer.push({
+            event: 'wholesale_form_submit_attempt',
+            inquiryType: document.getElementById('ws-type') ? document.getElementById('ws-type').value : 'wholesale'
+          });
+        }
+      });
+    }
+
+    // Pre-fill / focus handler from product inquiry triggers
+    var productInquireLinks = document.querySelectorAll('.ws-product-card__inquire');
+    productInquireLinks.forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var productTitle = this.getAttribute('data-product-title');
+        var textarea = document.getElementById('ws-message');
+        if (textarea && productTitle) {
+          textarea.value = 'Inquiring specifically about wholesale availability and linesheet for: ' + productTitle + '\n' + textarea.value;
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Wholesale Form",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "sidebar_tag",
+      "label": "Sidebar Tag",
+      "default": "// B2B PARTNERSHIP INTAKE"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "APPLY FOR WHOLESALE ACCOUNT"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Section Description",
+      "default": "We review boutique applications within 24 to 48 business hours. Once verified, you will receive our wholesale linesheet, lookbook, and direct order access."
+    },
+    {
+      "type": "text",
+      "id": "perk_1_title",
+      "label": "Perk 1 Title",
+      "default": "PRIVATE LINESHEET ACCESS"
+    },
+    {
+      "type": "text",
+      "id": "perk_1_desc",
+      "label": "Perk 1 Description",
+      "default": "Wholesale tiered pricing, SKU breakdowns, and fabric weight specifications."
+    },
+    {
+      "type": "text",
+      "id": "perk_2_title",
+      "label": "Perk 2 Title",
+      "default": "PRIORITY ALLOCATION"
+    },
+    {
+      "type": "text",
+      "id": "perk_2_desc",
+      "label": "Perk 2 Description",
+      "default": "Guaranteed inventory reservation before public direct-to-consumer drops."
+    },
+    {
+      "type": "text",
+      "id": "perk_3_title",
+      "label": "Perk 3 Title",
+      "default": "DIRECT ACCOUNT LIAISON"
+    },
+    {
+      "type": "text",
+      "id": "perk_3_desc",
+      "label": "Perk 3 Description",
+      "default": "Dedicated representative for rapid replenishment and custom merchandising."
+    },
+    {
+      "type": "text",
+      "id": "submit_button_label",
+      "label": "Submit Button Label",
+      "default": "SUBMIT WHOLESALE APPLICATION"
+    },
+    {
+      "type": "text",
+      "id": "confidentiality_note",
+      "label": "Confidentiality Note",
+      "default": "All retailer submissions are held confidential. Wholesale pricing is disclosed only to verified trade accounts."
+    },
+    {
+      "type": "text",
+      "id": "success_title",
+      "label": "Success Title",
+      "default": "APPLICATION RECEIVED"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success Message",
+      "default": "Our wholesale team has received your details. We will review your store credentials and send our linesheet & pricing packet within 24-48 hours."
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 140,
+      "step": 10,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 140,
+      "step": 10,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wholesale Form"
+    }
+  ]
+}
+{% endschema %}

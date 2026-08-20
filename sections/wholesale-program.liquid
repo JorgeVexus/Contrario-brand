@@ -1,0 +1,348 @@
+{{ 'section-wholesale.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  #WholesaleProgram-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{%- endstyle -%}
+
+<section
+  id="WholesaleProgram-{{ section.id }}"
+  class="wholesale-program {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+  data-analytics-section="wholesale_terms_program"
+>
+  <div class="ws-container">
+    <div class="ws-section-header">
+      <span class="ws-section-tag">{{ section.settings.tagline | default: '// COMMERCIAL TERMS & POLICIES' }}</span>
+      <h2 class="ws-section-title">{{ section.settings.heading | default: 'THE WHOLESALE PROGRAM' }}</h2>
+      <p class="ws-section-desc">
+        {{ section.settings.description | default: 'Engineered for seamless retailer partnerships. Clear minimums, agile reorder turnarounds, and direct fulfillment.' }}
+      </p>
+    </div>
+
+    <div class="wholesale-program__bento">
+      {%- for block in section.blocks -%}
+        <div class="ws-bento-card {% if block.settings.highlight %}ws-bento-card--highlight{% endif %}" {{ block.shopify_attributes }}>
+          <div class="ws-bento-card__head">
+            <span class="ws-bento-card__tag">{{ block.settings.tag | default: 'SPEC' }}</span>
+            <span class="ws-bento-card__icon">
+              {%- case block.type -%}
+                {%- when 'opening_order' -%}
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                {%- when 'sizing' -%}
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                {%- when 'lead_time' -%}
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                {%- when 'reorders' -%}
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                {%- when 'shipping' -%}
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                {%- else -%}
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              {%- endcase -%}
+            </span>
+          </div>
+          <div>
+            {%- if block.settings.metric != blank -%}
+              <div class="ws-bento-card__metric">{{ block.settings.metric }}</div>
+            {%- endif -%}
+            <h3 class="ws-bento-card__title">{{ block.settings.title }}</h3>
+            <p class="ws-bento-card__desc">{{ block.settings.description }}</p>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Wholesale Program",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Section Tagline",
+      "default": "// COMMERCIAL TERMS & POLICIES"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "THE WHOLESALE PROGRAM"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Section Description",
+      "default": "Clear minimums, agile reorders, and direct fulfillment from our Washington DC & CDMX logistics nodes."
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 140,
+      "step": 10,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 140,
+      "step": 10,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "opening_order",
+      "name": "Opening Order Term",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "highlight",
+          "label": "Highlight Card",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Card Tag",
+          "default": "MINIMUM THRESHOLD"
+        },
+        {
+          "type": "text",
+          "id": "metric",
+          "label": "Primary Metric",
+          "default": "$1,500 USD"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Card Title",
+          "default": "OPENING ORDER"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Card Description",
+          "default": "Initial opening commitment. No rigid per-SKU minimums; flexibility to mix caps, hoodies, tees, and accessories."
+        }
+      ]
+    },
+    {
+      "type": "sizing",
+      "name": "Size & SKU Flexibility",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "highlight",
+          "label": "Highlight Card",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Card Tag",
+          "default": "ASSORTMENT"
+        },
+        {
+          "type": "text",
+          "id": "metric",
+          "label": "Primary Metric",
+          "default": "MIXED SIZES"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Card Title",
+          "default": "PACK RATIO FREEDOM"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Card Description",
+          "default": "Choose exact sizing and product splits that match your specific customer demographics. No locked pre-packs required."
+        }
+      ]
+    },
+    {
+      "type": "lead_time",
+      "name": "Lead Time Term",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "highlight",
+          "label": "Highlight Card",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Card Tag",
+          "default": "PRODUCTION"
+        },
+        {
+          "type": "text",
+          "id": "metric",
+          "label": "Primary Metric",
+          "default": "10-18 DAYS"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Card Title",
+          "default": "ESTIMATED LEAD TIME"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Card Description",
+          "default": "In-stock core essentials ship within 48–72 hours. Custom capsule production batches ship within 2 to 3 weeks."
+        }
+      ]
+    },
+    {
+      "type": "reorders",
+      "name": "Reorders Term",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "highlight",
+          "label": "Highlight Card",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Card Tag",
+          "default": "REPLENISHMENT"
+        },
+        {
+          "type": "text",
+          "id": "metric",
+          "label": "Primary Metric",
+          "default": "$750 USD"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Card Title",
+          "default": "AGILE REORDERS"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Card Description",
+          "default": "Reduced reorder minimum threshold allows retail partners to test new silhouettes and replenish fast sellers rapidly."
+        }
+      ]
+    },
+    {
+      "type": "shipping",
+      "name": "Shipping & Logistics",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "highlight",
+          "label": "Highlight Card",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Card Tag",
+          "default": "LOGISTICS"
+        },
+        {
+          "type": "text",
+          "id": "metric",
+          "label": "Primary Metric",
+          "default": "WORLDWIDE"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Card Title",
+          "default": "DIRECT DISPATCH"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Card Description",
+          "default": "Tracked courier fulfillment (DHL / FedEx / UPS) with export documentation handled seamlessly."
+        }
+      ]
+    },
+    {
+      "type": "custom_term",
+      "name": "Exclusivity Term",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "highlight",
+          "label": "Highlight Card",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Card Tag",
+          "default": "TERRITORY"
+        },
+        {
+          "type": "text",
+          "id": "metric",
+          "label": "Primary Metric",
+          "default": "ZIP PROTECTION"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Card Title",
+          "default": "LOCAL EXCLUSIVITY"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Card Description",
+          "default": "Geographic exclusivity options available for flagship boutique stockists meeting quarterly volume tiers."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wholesale Program",
+      "blocks": [
+        {
+          "type": "opening_order"
+        },
+        {
+          "type": "sizing"
+        },
+        {
+          "type": "lead_time"
+        },
+        {
+          "type": "reorders"
+        },
+        {
+          "type": "shipping"
+        },
+        {
+          "type": "custom_term"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
