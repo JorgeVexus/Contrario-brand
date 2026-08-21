@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "wholesale_hero": {
@@ -37,6 +46,9 @@
         "ticker_2",
         "ticker_3",
         "ticker_4"
+      ],
+      "custom_css": [
+        "a {color: white}"
       ],
       "settings": {
         "image": "shopify://shop_images/hf_20260127_233920_6d2c62a9-3ff9-455e-b9cf-179ebe2436d1.png",
