@@ -121,6 +121,7 @@
     },
     "wholesale_products": {
       "type": "wholesale-products",
+      "disabled": true,
       "settings": {
         "color_scheme": "light-alt",
         "tagline": "// CURATED WHOLESALE PREVIEW",
