@@ -48,7 +48,7 @@
         "ticker_4"
       ],
       "custom_css": [
-        "a {color: white}"
+        "a {color: white;}"
       ],
       "settings": {
         "image": "shopify://shop_images/hf_20260127_233920_6d2c62a9-3ff9-455e-b9cf-179ebe2436d1.png",
@@ -59,7 +59,7 @@
         "subtext": "<p>Exclusive B2B partnership for boutiques, concept stores, and global fashion retailers. Distinctive brutalist silhouettes, limited capsule runs.</p>",
         "primary_button_label": "APPLY FOR WHOLESALE",
         "primary_button_link": "#wholesale-apply",
-        "secondary_button_label": "REQUEST LINE SHEET",
+        "secondary_button_label": "REQUEST LINE SHEET ➜",
         "secondary_button_link": "#wholesale-linesheet",
         "padding_top": 0,
         "padding_bottom": 0
