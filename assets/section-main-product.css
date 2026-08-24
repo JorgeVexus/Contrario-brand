@@ -1538,3 +1538,192 @@ a.product__text {
     border: none;
   }
 }
+
+/* ==========================================================================
+   Product Left Thumbnail Gallery Layout (Disturbia Style)
+   ========================================================================== */
+@media screen and (min-width: 750px) {
+  .product--thumbnail_left media-gallery {
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    grid-template-areas: "thumbs viewer";
+    gap: 16px;
+    align-items: start;
+  }
+
+  .product--thumbnail_left [id^="GalleryViewer"] {
+    grid-area: viewer;
+    min-width: 0;
+  }
+
+  .product--thumbnail_left [id^="GalleryThumbnails"],
+  .product--thumbnail_left .thumbnail-slider {
+    grid-area: thumbs;
+    width: 100%;
+    margin: 0;
+    position: sticky;
+    top: 2rem;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+  }
+
+  .product--thumbnail_left .thumbnail-slider::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .product--thumbnail_left .thumbnail-slider::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+  }
+
+  .product--thumbnail_left .thumbnail-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0;
+    margin: 0;
+  }
+
+  .product--thumbnail_left .thumbnail-list__item {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .product--thumbnail_left .thumbnail {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border-radius: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: #141414;
+    cursor: pointer;
+    transition: border-color 0.2s ease, transform 0.15s ease;
+  }
+
+  .product--thumbnail_left .thumbnail:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.02);
+  }
+
+  .product--thumbnail_left .thumbnail[aria-current='true'],
+  .product--thumbnail_left .is-active .thumbnail {
+    border-color: #ffffff;
+    box-shadow: 0 0 0 1px #ffffff;
+  }
+
+  .product--thumbnail_left .thumbnail-slider .slider-button {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .product--thumbnail_left.product--thumbnails-2col media-gallery {
+    grid-template-columns: 160px 1fr;
+  }
+
+  .product--thumbnail_left.product--thumbnails-2col .thumbnail-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+}
+
+/* ==========================================================================
+   Disturbia / Contrario Gothic Minimalist Accordions
+   ========================================================================== */
+.product__accordion {
+  margin-top: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.product__accordion + .product__accordion {
+  border-top: none;
+}
+
+.product__accordion summary {
+  padding: 1.6rem 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+
+.product__accordion summary:hover .accordion__title {
+  color: #ffffff;
+}
+
+.product__accordion .accordion__title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.12rem;
+  text-transform: uppercase;
+  color: #e2e2e2;
+  transition: color 0.2s ease;
+}
+
+.product__accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.product__accordion .accordion__icon-toggle {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #a1a1aa;
+}
+
+/* Plus/Minus Indicator */
+.product__accordion .accordion__icon-toggle::before,
+.product__accordion .accordion__icon-toggle::after {
+  content: '';
+  position: absolute;
+  background-color: currentColor;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+
+/* Horizontal line */
+.product__accordion .accordion__icon-toggle::before {
+  width: 12px;
+  height: 1.5px;
+}
+
+/* Vertical line (makes the +) */
+.product__accordion .accordion__icon-toggle::after {
+  width: 1.5px;
+  height: 12px;
+}
+
+/* When open, rotate/fade vertical line to turn + into - */
+.product__accordion details[open] > summary .accordion__icon-toggle::after {
+  transform: rotate(90deg);
+  opacity: 0;
+}
+
+.product__accordion details[open] > summary .accordion__icon-toggle {
+  color: #ffffff;
+}
+
+.product__accordion .accordion__content {
+  padding: 0.8rem 0 2rem;
+  font-size: 1.4rem;
+  line-height: 1.7;
+  color: #a1a1aa;
+}
+
+.product__accordion .accordion__content p {
+  margin: 0 0 1.2rem;
+}
+
+.product__accordion .accordion__content p:last-child {
+  margin-bottom: 0;
+}

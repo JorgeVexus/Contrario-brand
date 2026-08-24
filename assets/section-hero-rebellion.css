@@ -83,6 +83,36 @@
   padding-top: 40px;
 }
 
+/* Horizontal Alignment Controls */
+.hero-rebellion--align-h-left {
+  justify-content: flex-start;
+}
+
+.hero-rebellion--align-h-left .hero-rebellion__content {
+  align-items: flex-start;
+  text-align: left;
+  padding-left: clamp(24px, 5vw, 80px);
+}
+
+.hero-rebellion--align-h-center {
+  justify-content: center;
+}
+
+.hero-rebellion--align-h-center .hero-rebellion__content {
+  align-items: center;
+  text-align: center;
+}
+
+.hero-rebellion--align-h-right {
+  justify-content: flex-end;
+}
+
+.hero-rebellion--align-h-right .hero-rebellion__content {
+  align-items: flex-end;
+  text-align: right;
+  padding-right: clamp(24px, 5vw, 80px);
+}
+
 .hero-rebellion__heading {
   margin: 0;
   font-family: 'Bricolage Grotesque', sans-serif;

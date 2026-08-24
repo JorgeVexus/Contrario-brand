@@ -21,7 +21,7 @@
 
 <section
   id="HeroRebellion-{{ section.id }}"
-  class="hero-rebellion hero-rebellion--height-{{ section.settings.desktop_height }} hero-rebellion--align-{{ section.settings.content_alignment | default: 'bottom' }} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+  class="hero-rebellion hero-rebellion--height-{{ section.settings.desktop_height }} hero-rebellion--align-{{ section.settings.content_alignment | default: 'bottom' }} hero-rebellion--align-h-{{ section.settings.content_alignment_horizontal | default: 'center' }} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
 >
   <div class="hero-rebellion__media">
     {%- if desktop_image != blank -%}
@@ -165,6 +165,26 @@
       ],
       "default": "bottom",
       "label": "Vertical Alignment"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment_horizontal",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center",
+      "label": "Horizontal Alignment"
     },
     {
       "type": "header",
