@@ -50,7 +50,7 @@
           "settings": {
             "is_accordion": true,
             "accordion_title": "DETAILS",
-            "open_by_default": true
+            "open_by_default": false
           }
         },
         "shipping_returns": {
@@ -59,6 +59,7 @@
             "heading": "SHIPPING & RETURNS",
             "icon": "none",
             "content": "<p>Free standard shipping on all orders. Easy returns within 30 days of delivery.</p>",
+            "page": "",
             "open_by_default": false
           }
         },
@@ -68,6 +69,7 @@
             "heading": "SIZE & FIT",
             "icon": "none",
             "content": "<p>Oversized streetwear fit. We recommend ordering your true size for an oversized look, or one size down for a standard fit.</p>",
+            "page": "",
             "open_by_default": false
           }
         },
