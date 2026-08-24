@@ -18,7 +18,39 @@ if (!customElements.get('media-gallery')) {
             .querySelector('button')
             .addEventListener('click', this.setActiveMedia.bind(this, mediaToSwitch.dataset.target, false));
         });
+
+        const prevBtn = this.elements.viewer.querySelector('button[name="previous"]');
+        const nextBtn = this.elements.viewer.querySelector('button[name="next"]');
+        if (prevBtn) {
+          prevBtn.addEventListener('click', (e) => {
+            if (this.dataset.desktopLayout.includes('thumbnail') && this.mql.matches) {
+              e.preventDefault();
+              e.stopPropagation();
+              this.stepActiveMedia(-1);
+            }
+          });
+        }
+        if (nextBtn) {
+          nextBtn.addEventListener('click', (e) => {
+            if (this.dataset.desktopLayout.includes('thumbnail') && this.mql.matches) {
+              e.preventDefault();
+              e.stopPropagation();
+              this.stepActiveMedia(1);
+            }
+          });
+        }
+
         if (this.dataset.desktopLayout.includes('thumbnail') && this.mql.matches) this.removeListSemantic();
+      }
+
+      stepActiveMedia(direction) {
+        const mediaItems = Array.from(this.elements.viewer.querySelectorAll('[data-media-id]'));
+        if (mediaItems.length <= 1) return;
+        const currentIndex = mediaItems.findIndex((item) => item.classList.contains('is-active'));
+        const safeCurrentIndex = currentIndex === -1 ? 0 : currentIndex;
+        let newIndex = (safeCurrentIndex + direction + mediaItems.length) % mediaItems.length;
+        const targetMediaId = mediaItems[newIndex].dataset.mediaId;
+        this.setActiveMedia(targetMediaId, false);
       }
 
       onSlideChanged(event) {
