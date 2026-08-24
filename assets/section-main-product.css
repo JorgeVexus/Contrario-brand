@@ -1731,8 +1731,8 @@ a.product__text {
    ========================================================================== */
 .product__accordion {
   margin-top: 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .product__accordion + .product__accordion {
@@ -1754,17 +1754,18 @@ a.product__text {
 }
 
 .product__accordion summary:hover .accordion__title {
-  color: #ffffff;
+  color: #000000;
+  opacity: 0.8;
 }
 
 .product__accordion .accordion__title {
   font-family: 'JetBrains Mono', monospace;
   font-size: 1.3rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.12rem;
   text-transform: uppercase;
-  color: #e2e2e2;
-  transition: color 0.2s ease;
+  color: #111111;
+  transition: color 0.2s ease, opacity 0.2s ease;
 }
 
 .product__accordion summary::-webkit-details-marker {
@@ -1779,7 +1780,7 @@ a.product__text {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  color: #a1a1aa;
+  color: #111111;
 }
 
 /* Plus/Minus Indicator */
@@ -1810,14 +1811,14 @@ a.product__text {
 }
 
 .product__accordion details[open] > summary .accordion__icon-toggle {
-  color: #ffffff;
+  color: #000000;
 }
 
 .product__accordion .accordion__content {
   padding: 0.8rem 0 2rem;
   font-size: 1.4rem;
   line-height: 1.7;
-  color: #a1a1aa;
+  color: #333333;
 }
 
 .product__accordion details[open] .accordion__content {
