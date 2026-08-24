@@ -18,6 +18,7 @@
         "show_gradient": true,
         "desktop_height": "full",
         "content_alignment": "center",
+        "content_alignment_horizontal": "left",
         "heading": "WEAR THE REBELLION",
         "heading_tag": "h1",
         "button_label": "SHOP NOW",
