@@ -1608,6 +1608,11 @@ a.product__text {
     transform: scale(1.02);
   }
 
+  .product--thumbnail_left .thumbnail:active {
+    transform: scale(0.96);
+    transition-duration: 0.08s;
+  }
+
   .product--thumbnail_left .thumbnail[aria-current='true'],
   .product--thumbnail_left .is-active .thumbnail {
     border-color: #ffffff;
@@ -1632,7 +1637,7 @@ a.product__text {
 }
 
 /* ==========================================================================
-   Disturbia / Contrario Gothic Minimalist Accordions
+   Disturbia / Contrario Gothic Minimalist Accordions (Apple Design Motion)
    ========================================================================== */
 .product__accordion {
   margin-top: 0;
@@ -1651,6 +1656,11 @@ a.product__text {
   align-items: center;
   justify-content: space-between;
   user-select: none;
+  transition: opacity 0.15s ease;
+}
+
+.product__accordion summary:active {
+  opacity: 0.75;
 }
 
 .product__accordion summary:hover .accordion__title {
@@ -1720,10 +1730,38 @@ a.product__text {
   color: #a1a1aa;
 }
 
+.product__accordion details[open] .accordion__content {
+  animation: accordionReveal 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes accordionReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .product__accordion .accordion__content p {
   margin: 0 0 1.2rem;
 }
 
 .product__accordion .accordion__content p:last-child {
   margin-bottom: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product--thumbnail_left .thumbnail,
+  .product__accordion .accordion__icon-toggle::before,
+  .product__accordion .accordion__icon-toggle::after {
+    transition: opacity 0.15s ease !important;
+    transform: none !important;
+  }
+  
+  .product__accordion details[open] .accordion__content {
+    animation: none !important;
+  }
 }
