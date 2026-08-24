@@ -44,7 +44,7 @@ if (!customElements.get('media-gallery')) {
       }
 
       stepActiveMedia(direction) {
-        const mediaItems = Array.from(this.elements.viewer.querySelectorAll('[data-media-id]'));
+        const mediaItems = Array.from(this.elements.viewer.querySelectorAll('li.product__media-item[data-media-id]'));
         if (mediaItems.length <= 1) return;
         const currentIndex = mediaItems.findIndex((item) => item.classList.contains('is-active'));
         const safeCurrentIndex = currentIndex === -1 ? 0 : currentIndex;
@@ -62,15 +62,15 @@ if (!customElements.get('media-gallery')) {
 
       setActiveMedia(mediaId, prepend) {
         const activeMedia =
-          this.elements.viewer.querySelector(`[data-media-id="${mediaId}"]`) ||
-          this.elements.viewer.querySelector('[data-media-id]');
+          this.elements.viewer.querySelector(`li.product__media-item[data-media-id="${mediaId}"]`) ||
+          this.elements.viewer.querySelector('li.product__media-item[data-media-id]');
         if (!activeMedia) {
           return;
         }
-        this.elements.viewer.querySelectorAll('[data-media-id]').forEach((element) => {
+        this.elements.viewer.querySelectorAll('li.product__media-item').forEach((element) => {
           element.classList.remove('is-active');
         });
-        activeMedia?.classList?.add('is-active');
+        activeMedia.classList.add('is-active');
 
         if (prepend) {
           activeMedia.parentElement.firstChild !== activeMedia && activeMedia.parentElement.prepend(activeMedia);
@@ -108,10 +108,18 @@ if (!customElements.get('media-gallery')) {
         this.elements.thumbnails
           .querySelectorAll('button')
           .forEach((element) => element.removeAttribute('aria-current'));
-        thumbnail.querySelector('button').setAttribute('aria-current', true);
-        if (this.elements.thumbnails.isSlideVisible(thumbnail, 10)) return;
+        thumbnail.querySelector('button')?.setAttribute('aria-current', true);
 
-        this.elements.thumbnails.slider.scrollTo({ left: thumbnail.offsetLeft });
+        if (this.dataset.desktopLayout === 'thumbnail_left' && this.mql.matches) {
+          thumbnail.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+          return;
+        }
+
+        if (this.elements.thumbnails.isSlideVisible && this.elements.thumbnails.isSlideVisible(thumbnail, 10)) return;
+
+        if (this.elements.thumbnails.slider) {
+          this.elements.thumbnails.slider.scrollTo({ left: thumbnail.offsetLeft });
+        }
       }
 
       announceLiveRegion(activeItem, position) {
