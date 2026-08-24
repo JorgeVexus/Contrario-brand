@@ -1,8 +1,6 @@
-{{ 'section-exit-intent-popup.css' | asset_url | stylesheet_tag }}
-
 {%- liquid
-  assign enable_popup = section.settings.enable_popup
-  assign test_mode = section.settings.test_mode
+  assign enable_popup = section.settings.enable_popup | default: false
+  assign test_mode = section.settings.test_mode | default: false
   assign badge_text = section.settings.badge_text
   assign heading = section.settings.heading
   assign text = section.settings.text
@@ -19,7 +17,9 @@
   assign frequency_days = section.settings.frequency_days | default: 7
 -%}
 
-{%- if enable_popup or request.design_mode or test_mode -%}
+{%- if enable_popup -%}
+  {{ 'section-exit-intent-popup.css' | asset_url | stylesheet_tag }}
+
   <div
     id="ExitIntentPopup-{{ section.id }}"
     class="exit-intent-popup"
@@ -312,7 +312,7 @@
       "type": "checkbox",
       "id": "enable_popup",
       "label": "Enable Exit Intent Popup",
-      "default": true
+      "default": false
     },
     {
       "type": "checkbox",
