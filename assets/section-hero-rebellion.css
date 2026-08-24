@@ -3,8 +3,8 @@
 .hero-rebellion {
   position: relative;
   width: 100%;
-  min-height: 100vh;
-  min-height: 100dvh;
+  min-height: calc(100vh - var(--header-bottom-position, 0px));
+  min-height: calc(100svh - var(--header-bottom-position, 0px));
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -13,17 +13,31 @@
   color: #e2e2e2;
 }
 
+.hero-rebellion--height-viewport,
 .hero-rebellion--height-full {
+  min-height: calc(100vh - var(--header-bottom-position, 0px));
+  min-height: calc(100svh - var(--header-bottom-position, 0px));
+}
+
+.hero-rebellion--height-screen {
   min-height: 100vh;
   min-height: 100dvh;
 }
 
 .hero-rebellion--height-large {
-  min-height: 80vh;
+  min-height: clamp(520px, 80vh, 850px);
 }
 
 .hero-rebellion--height-medium {
-  min-height: 65vh;
+  min-height: clamp(420px, 65vh, 650px);
+}
+
+.hero-rebellion--align-center {
+  align-items: center;
+}
+
+.hero-rebellion--align-bottom {
+  align-items: flex-end;
 }
 
 .hero-rebellion__media {
@@ -59,9 +73,14 @@
   justify-content: flex-end;
   width: 100%;
   max-width: 1400px;
-  padding: 0 24px 64px 24px;
-  gap: 24px;
+  padding: 0 24px clamp(28px, 6vh, 60px) 24px;
+  gap: clamp(16px, 2.5vh, 24px);
   text-align: center;
+}
+
+.hero-rebellion--align-center .hero-rebellion__content {
+  justify-content: center;
+  padding-top: 40px;
 }
 
 .hero-rebellion__heading {
@@ -69,9 +88,9 @@
   font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 400;
   font-variation-settings: 'opsz' 14, 'wdth' 100;
-  font-size: clamp(2.25rem, 5.8vw, 5.25rem); /* 36px to 84px */
-  line-height: 1;
-  letter-spacing: -0.04em; /* -3.36px at 84px */
+  font-size: clamp(2rem, 5.4vw, 5rem); /* 32px to 80px */
+  line-height: 1.02;
+  letter-spacing: -0.035em;
   color: #e2e2e2;
   text-transform: uppercase;
   word-break: break-word;
@@ -85,7 +104,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 13px 33px;
+  padding: 14px 34px;
   background-color: #e2e2e2;
   border: 1px solid #e2e2e2;
   color: #131313;
@@ -96,8 +115,9 @@
   letter-spacing: 1.2px;
   text-transform: uppercase;
   text-decoration: none;
-  transition: all 0.25s ease;
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
+  border-radius: 2px;
 }
 
 .hero-rebellion__cta-button:hover {
@@ -105,19 +125,25 @@
   border-color: #ffffff;
   color: #000000;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.hero-rebellion__cta-button:active {
+  transform: scale(0.97) translateY(0);
+  transition-duration: 0.08s;
 }
 
 @media screen and (max-width: 749px) {
   .hero-rebellion__content {
-    padding-bottom: 40px;
+    padding-bottom: clamp(20px, 4.5vh, 36px);
     padding-left: 16px;
     padding-right: 16px;
-    gap: 20px;
+    gap: 16px;
   }
   
   .hero-rebellion__cta-button {
     width: 100%;
     max-width: 280px;
+    padding: 13px 24px;
   }
 }

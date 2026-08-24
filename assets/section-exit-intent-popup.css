@@ -1,0 +1,352 @@
+/* Exit Intent Popup - Contrario Brand & Apple Design System */
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=JetBrains+Mono:wght@500;600;700&display=swap');
+
+.exit-intent-popup {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s ease;
+}
+
+.exit-intent-popup.is-active {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Apple Design Backdrop Scrim */
+.exit-intent-popup__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 8, 8, 0.78);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  cursor: pointer;
+}
+
+/* Modal Card with Apple Materials & Depth */
+.exit-intent-popup__dialog {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 520px;
+  background: linear-gradient(160deg, rgba(26, 26, 26, 0.96) 0%, rgba(16, 16, 16, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  padding: 40px 36px 36px;
+  box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  color: #e2e2e2;
+  text-align: center;
+  transform: scale(0.92) translateY(20px);
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.exit-intent-popup.is-active .exit-intent-popup__dialog {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+/* Glow accent */
+.exit-intent-popup__dialog::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 240px;
+  height: 160px;
+  background: radial-gradient(circle, rgba(184, 240, 0, 0.12) 0%, rgba(184, 240, 0, 0) 70%);
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+/* Close Button with fluid response */
+.exit-intent-popup__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  color: #a1a1aa;
+  cursor: pointer;
+  padding: 0;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.exit-intent-popup__close:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  transform: scale(1.08);
+}
+
+.exit-intent-popup__close:active {
+  transform: scale(0.92);
+}
+
+.exit-intent-popup__close svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Badge / Supertitle */
+.exit-intent-popup__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  background: rgba(184, 240, 0, 0.12);
+  border: 1px solid rgba(184, 240, 0, 0.35);
+  color: #b8f000;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border-radius: 100px;
+  margin-bottom: 20px;
+}
+
+/* Heading */
+.exit-intent-popup__heading {
+  margin: 0 0 12px;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+/* Subheading / Description */
+.exit-intent-popup__text {
+  margin: 0 0 24px;
+  font-family: var(--font-body-family, system-ui, sans-serif);
+  font-size: 14px;
+  line-height: 1.55;
+  color: #a1a1aa;
+  letter-spacing: 0.01em;
+}
+
+/* Discount Box */
+.exit-intent-popup__discount-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px dashed rgba(255, 255, 255, 0.22);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  gap: 12px;
+  text-align: left;
+}
+
+.exit-intent-popup__discount-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.exit-intent-popup__discount-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: #71717a;
+  text-transform: uppercase;
+}
+
+.exit-intent-popup__discount-code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #b8f000;
+  user-select: all;
+}
+
+.exit-intent-popup__copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  color: #ffffff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.exit-intent-popup__copy-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.exit-intent-popup__copy-btn:active {
+  transform: scale(0.95);
+}
+
+.exit-intent-popup__copy-btn.is-copied {
+  background: #b8f000;
+  border-color: #b8f000;
+  color: #000000;
+}
+
+/* Newsletter Form */
+.exit-intent-popup__form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.exit-intent-popup__input-group {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.exit-intent-popup__input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  padding: 13px 16px;
+  color: #ffffff;
+  font-family: var(--font-body-family, system-ui, sans-serif);
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.exit-intent-popup__input:focus {
+  border-color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.exit-intent-popup__input::placeholder {
+  color: #71717a;
+}
+
+/* Main CTA Button */
+.exit-intent-popup__primary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 14px 24px;
+  background-color: #ffffff;
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  color: #131313;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.exit-intent-popup__primary-btn:hover {
+  background-color: #f0f0f0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  transform: translateY(-1px);
+}
+
+.exit-intent-popup__primary-btn:active {
+  transform: scale(0.97);
+}
+
+/* Secondary Dismiss Link */
+.exit-intent-popup__secondary-btn {
+  background: none;
+  border: none;
+  color: #71717a;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  padding: 6px;
+  margin-top: 10px;
+  transition: color 0.2s ease;
+}
+
+.exit-intent-popup__secondary-btn:hover {
+  color: #a1a1aa;
+}
+
+/* Form Success & Error */
+.exit-intent-popup__message--success {
+  padding: 12px 16px;
+  background: rgba(184, 240, 0, 0.12);
+  border: 1px solid rgba(184, 240, 0, 0.4);
+  border-radius: 4px;
+  color: #b8f000;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .exit-intent-popup,
+  .exit-intent-popup__dialog,
+  .exit-intent-popup__close,
+  .exit-intent-popup__primary-btn {
+    transition: opacity 0.2s ease !important;
+    transform: none !important;
+  }
+}
+
+/* Mobile Responsiveness */
+@media screen and (max-width: 540px) {
+  .exit-intent-popup__dialog {
+    padding: 32px 20px 24px;
+  }
+  
+  .exit-intent-popup__discount-card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    text-align: center;
+  }
+  
+  .exit-intent-popup__discount-info {
+    align-items: center;
+  }
+  
+  .exit-intent-popup__copy-btn {
+    justify-content: center;
+  }
+  
+  .exit-intent-popup__input-group {
+    flex-direction: column;
+  }
+}

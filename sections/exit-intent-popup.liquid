@@ -1,0 +1,437 @@
+{{ 'section-exit-intent-popup.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign enable_popup = section.settings.enable_popup
+  assign test_mode = section.settings.test_mode
+  assign badge_text = section.settings.badge_text
+  assign heading = section.settings.heading
+  assign text = section.settings.text
+  assign discount_code = section.settings.discount_code
+  assign discount_label = section.settings.discount_label
+  assign copy_label = section.settings.copy_label
+  assign copied_label = section.settings.copied_label
+  assign show_newsletter = section.settings.show_newsletter
+  assign email_placeholder = section.settings.email_placeholder
+  assign button_label = section.settings.button_label
+  assign button_link = section.settings.button_link
+  assign secondary_label = section.settings.secondary_label
+  assign delay_seconds = section.settings.delay_seconds | default: 5
+  assign frequency_days = section.settings.frequency_days | default: 7
+-%}
+
+{%- if enable_popup or request.design_mode or test_mode -%}
+  <div
+    id="ExitIntentPopup-{{ section.id }}"
+    class="exit-intent-popup"
+    data-section-id="{{ section.id }}"
+    data-delay="{{ delay_seconds }}"
+    data-frequency="{{ frequency_days }}"
+    data-test-mode="{{ test_mode }}"
+    role="dialog"
+    aria-modal="true"
+    aria-hidden="true"
+    aria-labelledby="ExitIntentHeading-{{ section.id }}"
+  >
+    <div class="exit-intent-popup__backdrop" data-action="close" aria-hidden="true"></div>
+
+    <div class="exit-intent-popup__dialog">
+      <button
+        type="button"
+        class="exit-intent-popup__close"
+        data-action="close"
+        aria-label="Cerrar modal"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      {%- if badge_text != blank -%}
+        <div class="exit-intent-popup__badge">
+          <span>{{ badge_text }}</span>
+        </div>
+      {%- endif -%}
+
+      {%- if heading != blank -%}
+        <h2 id="ExitIntentHeading-{{ section.id }}" class="exit-intent-popup__heading">
+          {{ heading }}
+        </h2>
+      {%- endif -%}
+
+      {%- if text != blank -%}
+        <div class="exit-intent-popup__text">
+          {{ text }}
+        </div>
+      {%- endif -%}
+
+      {%- if discount_code != blank -%}
+        <div class="exit-intent-popup__discount-card">
+          <div class="exit-intent-popup__discount-info">
+            <span class="exit-intent-popup__discount-label">{{ discount_label | default: 'Tu código exclusivo' }}</span>
+            <span class="exit-intent-popup__discount-code" id="ExitIntentCode-{{ section.id }}">{{ discount_code }}</span>
+          </div>
+          <button
+            type="button"
+            class="exit-intent-popup__copy-btn"
+            id="ExitIntentCopyBtn-{{ section.id }}"
+            data-code="{{ discount_code }}"
+            data-copied-text="{{ copied_label | default: '✓ ¡Copiado!' }}"
+            data-original-text="{{ copy_label | default: 'Copiar' }}"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span class="exit-intent-popup__copy-text">{{ copy_label | default: 'Copiar' }}</span>
+          </button>
+        </div>
+      {%- endif -%}
+
+      {%- if show_newsletter -%}
+        {%- form 'customer', class: 'exit-intent-popup__form', id: 'ExitIntentForm' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter, exit_intent">
+          
+          {%- if form.posted_successfully? -%}
+            <div class="exit-intent-popup__message--success" tabindex="-1" autofocus>
+              {{ 'newsletter.success' | t | default: '¡Gracias por suscribirte!' }}
+            </div>
+          {%- else -%}
+            <div class="exit-intent-popup__input-group">
+              <input
+                type="email"
+                name="contact[email]"
+                class="exit-intent-popup__input"
+                value="{{ form.email }}"
+                aria-required="true"
+                autocorrect="off"
+                autocapitalize="off"
+                autocomplete="email"
+                {% if form.errors %}
+                  autofocus
+                  aria-invalid="true"
+                {% endif %}
+                placeholder="{{ email_placeholder | default: 'Ingresa tu correo' }}"
+                required
+              >
+              <button
+                type="submit"
+                class="exit-intent-popup__primary-btn"
+                name="commit"
+                style="width: auto; padding: 13px 20px;"
+              >
+                {{ button_label | default: 'RECLAMAR' }}
+              </button>
+            </div>
+            {%- if form.errors -%}
+              <small class="exit-intent-popup__message--error" style="color: #ef4444; font-size: 11px; margin-top: 6px;">
+                {{ form.errors.translated_fields.email | capitalize }}
+                {{ form.errors.messages.email }}
+              </small>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endform -%}
+      {%- else -%}
+        {%- if button_label != blank -%}
+          <a
+            href="{{ button_link | default: routes.all_products_collection_url }}"
+            class="exit-intent-popup__primary-btn"
+          >
+            {{ button_label }}
+          </a>
+        {%- endif -%}
+      {%- endif -%}
+
+      {%- if secondary_label != blank -%}
+        <div>
+          <button
+            type="button"
+            class="exit-intent-popup__secondary-btn"
+            data-action="close"
+          >
+            {{ secondary_label }}
+          </button>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const popup = document.getElementById('ExitIntentPopup-{{ section.id }}');
+      if (!popup) return;
+
+      const sectionId = popup.getAttribute('data-section-id');
+      const delay = (parseInt(popup.getAttribute('data-delay'), 10) || 5) * 1000;
+      const frequencyDays = parseInt(popup.getAttribute('data-frequency'), 10) || 7;
+      const isTestMode = popup.getAttribute('data-test-mode') === 'true';
+      const storageKey = 'contrario_exit_intent_' + sectionId;
+
+      let isTriggered = false;
+      let isEligible = false;
+
+      // Check frequency capping in localStorage
+      function shouldShow() {
+        if (isTestMode || window.Shopify && Shopify.designMode) {
+          return true;
+        }
+        try {
+          const lastShown = localStorage.getItem(storageKey);
+          if (!lastShown) return true;
+          const expiryTime = parseInt(lastShown, 10) + (frequencyDays * 24 * 60 * 60 * 1000);
+          return Date.now() > expiryTime;
+        } catch (e) {
+          return true;
+        }
+      }
+
+      function markShown() {
+        try {
+          localStorage.setItem(storageKey, Date.now().toString());
+        } catch (e) {}
+      }
+
+      function openPopup() {
+        if (isTriggered) return;
+        isTriggered = true;
+        popup.classList.add('is-active');
+        popup.setAttribute('aria-hidden', 'false');
+        markShown();
+      }
+
+      function closePopup() {
+        popup.classList.remove('is-active');
+        popup.setAttribute('aria-hidden', 'true');
+      }
+
+      // Allow activation after initial delay
+      setTimeout(function () {
+        isEligible = true;
+        if (isTestMode && (!window.Shopify || !Shopify.designMode)) {
+          openPopup();
+        }
+      }, delay);
+
+      // Desktop Exit Intent: cursor leaves towards browser chrome
+      function handleMouseLeave(e) {
+        if (!isEligible || isTriggered) return;
+        if (e.clientY <= 15 && shouldShow()) {
+          openPopup();
+        }
+      }
+      document.addEventListener('mouseleave', handleMouseLeave);
+
+      // Mobile Exit Intent: fast scroll up or idle fallback
+      let lastScrollY = window.scrollY;
+      let scrollTimer = null;
+      window.addEventListener('scroll', function () {
+        if (!isEligible || isTriggered) return;
+        const currentScrollY = window.scrollY;
+        // Fast scroll up detection (more than 100px up in short time)
+        if (lastScrollY - currentScrollY > 120 && currentScrollY < 300 && shouldShow()) {
+          openPopup();
+        }
+        lastScrollY = currentScrollY;
+      }, { passive: true });
+
+      // Close handlers
+      popup.querySelectorAll('[data-action="close"]').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+          e.preventDefault();
+          closePopup();
+        });
+      });
+
+      // Escape key listener
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && popup.classList.contains('is-active')) {
+          closePopup();
+        }
+      });
+
+      // 1-Click Copy Discount Button
+      const copyBtn = document.getElementById('ExitIntentCopyBtn-{{ section.id }}');
+      if (copyBtn) {
+        copyBtn.addEventListener('click', function () {
+          const code = copyBtn.getAttribute('data-code');
+          const copiedText = copyBtn.getAttribute('data-copied-text');
+          const originalText = copyBtn.getAttribute('data-original-text');
+          const textSpan = copyBtn.querySelector('.exit-intent-popup__copy-text');
+
+          navigator.clipboard.writeText(code).then(function () {
+            copyBtn.classList.add('is-copied');
+            if (textSpan) textSpan.textContent = copiedText;
+
+            setTimeout(function () {
+              copyBtn.classList.remove('is-copied');
+              if (textSpan) textSpan.textContent = originalText;
+            }, 2500);
+          }).catch(function () {
+            // Fallback for older browsers
+            const tempInput = document.createElement('input');
+            tempInput.value = code;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            copyBtn.classList.add('is-copied');
+            if (textSpan) textSpan.textContent = copiedText;
+            setTimeout(function () {
+              copyBtn.classList.remove('is-copied');
+              if (textSpan) textSpan.textContent = originalText;
+            }, 2500);
+          });
+        });
+      }
+
+      // Shopify Design Mode Events
+      if (window.Shopify && Shopify.designMode) {
+        document.addEventListener('shopify:section:select', function (e) {
+          if (e.detail.sectionId === sectionId) {
+            openPopup();
+          }
+        });
+        document.addEventListener('shopify:section:deselect', function (e) {
+          if (e.detail.sectionId === sectionId) {
+            closePopup();
+          }
+        });
+      }
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Exit Intent Popup",
+  "tag": "section",
+  "class": "section-exit-intent-popup",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_popup",
+      "label": "Enable Exit Intent Popup",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "test_mode",
+      "label": "Test Mode (Always Show)",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge Text",
+      "default": "DON'T MISS OUT"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "WAIT! TAKE 15% OFF"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Description Text",
+      "default": "<p>Unlock 15% off your first order before you go. Wear the rebellion.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Discount Code"
+    },
+    {
+      "type": "text",
+      "id": "discount_code",
+      "label": "Discount Code",
+      "default": "REBELLION15"
+    },
+    {
+      "type": "text",
+      "id": "discount_label",
+      "label": "Discount Label",
+      "default": "YOUR EXCLUSIVE CODE"
+    },
+    {
+      "type": "text",
+      "id": "copy_label",
+      "label": "Copy Button Text",
+      "default": "COPY"
+    },
+    {
+      "type": "text",
+      "id": "copied_label",
+      "label": "Copied Button Text",
+      "default": "✓ COPIED"
+    },
+    {
+      "type": "header",
+      "content": "Form & Call To Action"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "Show Newsletter Signup Form",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Email Input Placeholder",
+      "default": "Enter your email"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Primary Button Label",
+      "default": "SHOP WITH 15% OFF"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Primary Button Link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "Secondary Dismiss Text",
+      "default": "No thanks, I'll pay full price"
+    },
+    {
+      "type": "header",
+      "content": "Timing & Frequency"
+    },
+    {
+      "type": "range",
+      "id": "delay_seconds",
+      "min": 1,
+      "max": 30,
+      "step": 1,
+      "unit": "s",
+      "label": "Delay Before Active (Seconds)",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "frequency_days",
+      "min": 1,
+      "max": 30,
+      "step": 1,
+      "unit": "d",
+      "label": "Frequency (Days to Wait)",
+      "default": 7
+    }
+  ],
+  "presets": [
+    {
+      "name": "Exit Intent Popup"
+    }
+  ]
+}
+{% endschema %}
