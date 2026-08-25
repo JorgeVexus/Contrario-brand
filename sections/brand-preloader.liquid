@@ -1,0 +1,387 @@
+{%- liquid
+  assign enable_preloader = section.settings.enable_preloader | default: true
+  assign enable_transitions = section.settings.enable_page_transitions | default: true
+  assign logo_image = section.settings.custom_logo | default: settings.logo
+  assign logo_width = section.settings.logo_width | default: 140
+  assign mobile_logo_width = section.settings.mobile_logo_width | default: 110
+  assign bg_color = section.settings.bg_color | default: '#ffffff'
+  assign animation_style = section.settings.logo_animation | default: 'subtle-pulse'
+  assign min_duration = section.settings.min_duration | default: 500
+  assign max_timeout = section.settings.max_timeout | default: 2500
+-%}
+
+{%- if enable_preloader -%}
+  <style>
+    .brand-preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      width: 100dvw;
+      height: 100vh;
+      height: 100dvh;
+      background-color: {{ bg_color }};
+      z-index: 99999999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, visibility;
+    }
+
+    .brand-preloader__content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform, opacity;
+    }
+
+    .brand-preloader__logo {
+      display: block;
+      width: {{ logo_width }}px;
+      max-width: 80vw;
+      height: auto;
+      object-fit: contain;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .brand-preloader__text-logo {
+      font-family: var(--font-heading-family, system-ui, -apple-system, sans-serif);
+      font-weight: var(--font-heading-weight, 600);
+      font-size: clamp(1.4rem, 4vw, 2.2rem);
+      letter-spacing: -0.02em;
+      color: #121212;
+      text-transform: uppercase;
+      margin: 0;
+      user-select: none;
+    }
+
+    /* Animation Styles - Apple Design Fluidity */
+    .brand-preloader--anim-subtle-pulse .brand-preloader__content {
+      animation: appleBrandPulse 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+    }
+
+    .brand-preloader--anim-smooth-fade .brand-preloader__content {
+      animation: appleBrandFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes appleBrandPulse {
+      0% {
+        opacity: 0.82;
+        transform: scale(0.985);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1.01);
+      }
+    }
+
+    @keyframes appleBrandFadeIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.96);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Exit / Page Ready State */
+    .brand-preloader--loaded {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .brand-preloader--loaded .brand-preloader__content {
+      opacity: 0;
+      transform: scale(0.97) translateY(-4px);
+    }
+
+    /* Page Navigation Transition (Entering when clicking link) */
+    .brand-preloader--navigating {
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: auto !important;
+      transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .brand-preloader--navigating .brand-preloader__content {
+      opacity: 1 !important;
+      transform: scale(1) translateY(0) !important;
+    }
+
+    @media screen and (max-width: 749px) {
+      .brand-preloader__logo {
+        width: {{ mobile_logo_width }}px;
+      }
+    }
+
+    /* Reduced Motion / Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      .brand-preloader,
+      .brand-preloader__content {
+        animation: none !important;
+        transition: opacity 0.15s ease !important;
+        transform: none !important;
+      }
+      .brand-preloader--loaded .brand-preloader__content {
+        transform: none !important;
+      }
+    }
+  </style>
+
+  <div
+    id="BrandPreloader"
+    class="brand-preloader brand-preloader--anim-{{ animation_style }}"
+    data-min-duration="{{ min_duration }}"
+    data-max-timeout="{{ max_timeout }}"
+    data-enable-transitions="{{ enable_transitions }}"
+    role="status"
+    aria-live="polite"
+    aria-label="Cargando"
+  >
+    <div class="brand-preloader__content">
+      {%- if logo_image != blank -%}
+        {%- assign logo_height = logo_width | divided_by: logo_image.aspect_ratio -%}
+        <img
+          src="{{ logo_image | image_url: width: 600 }}"
+          alt="{{ logo_image.alt | default: shop.name | escape }}"
+          class="brand-preloader__logo"
+          width="{{ logo_width }}"
+          height="{{ logo_height | round }}"
+          loading="eager"
+          fetchpriority="high"
+          decoding="sync"
+        >
+      {%- else -%}
+        <p class="brand-preloader__text-logo">{{ shop.name }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      if (window.Shopify && window.Shopify.designMode) {
+        var editorPreloader = document.getElementById('BrandPreloader');
+        if (editorPreloader) editorPreloader.style.display = 'none';
+        return;
+      }
+
+      var preloader = document.getElementById('BrandPreloader');
+      if (!preloader) return;
+
+      var startTime = Date.now();
+      var minDuration = parseInt(preloader.getAttribute('data-min-duration'), 10) || 500;
+      var maxTimeout = parseInt(preloader.getAttribute('data-max-timeout'), 10) || 2500;
+      var enableTransitions = preloader.getAttribute('data-enable-transitions') === 'true';
+      var isDismissed = false;
+
+      function hidePreloader() {
+        if (isDismissed) return;
+        isDismissed = true;
+        preloader.classList.add('brand-preloader--loaded');
+        preloader.setAttribute('aria-hidden', 'true');
+      }
+
+      function scheduleHide() {
+        var elapsed = Date.now() - startTime;
+        var remaining = Math.max(0, minDuration - elapsed);
+        setTimeout(function () {
+          hidePreloader();
+        }, remaining);
+      }
+
+      // Safety timeout: never freeze the screen
+      var safetyTimer = setTimeout(function () {
+        hidePreloader();
+      }, maxTimeout);
+
+      if (document.readyState === 'complete') {
+        clearTimeout(safetyTimer);
+        scheduleHide();
+      } else {
+        window.addEventListener('load', function () {
+          clearTimeout(safetyTimer);
+          scheduleHide();
+        }, { once: true });
+      }
+
+      // Handle bfcache (Browser Back / Forward button)
+      window.addEventListener('pageshow', function (event) {
+        if (event.persisted) {
+          isDismissed = false;
+          hidePreloader();
+        }
+      });
+
+      // Allow quick dismiss via Escape key (Agency & Interruptibility)
+      window.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          hidePreloader();
+        }
+      });
+
+      // Page Navigation Link Interception (Aimé Leon Dore smooth transitions)
+      if (enableTransitions) {
+        document.addEventListener('click', function (e) {
+          var targetLink = e.target.closest('a');
+          if (!targetLink) return;
+
+          var href = targetLink.getAttribute('href');
+          if (!href) return;
+
+          // Exclude external, anchors, file downloads, mailto, tel, cart actions, new tabs, modifier keys
+          if (
+            targetLink.target === '_blank' ||
+            targetLink.hasAttribute('download') ||
+            e.metaKey ||
+            e.ctrlKey ||
+            e.shiftKey ||
+            e.altKey ||
+            e.defaultPrevented ||
+            href.startsWith('#') ||
+            href.startsWith('javascript:') ||
+            href.startsWith('mailto:') ||
+            href.startsWith('tel:') ||
+            targetLink.closest('[data-drawer-trigger]') ||
+            targetLink.closest('.cart-drawer') ||
+            targetLink.closest('.quick-add') ||
+            targetLink.classList.contains('no-transition')
+          ) {
+            return;
+          }
+
+          var url;
+          try {
+            url = new URL(targetLink.href, window.location.origin);
+          } catch (err) {
+            return;
+          }
+
+          // Same origin & different destination check
+          if (url.origin === window.location.origin) {
+            if (url.pathname === window.location.pathname && url.search === window.location.search && url.hash !== window.location.hash) {
+              return; // In-page anchor link
+            }
+
+            preloader.classList.remove('brand-preloader--loaded');
+            preloader.classList.add('brand-preloader--navigating');
+            preloader.removeAttribute('aria-hidden');
+
+            // Failsafe in case page navigation is halted
+            setTimeout(function () {
+              preloader.classList.remove('brand-preloader--navigating');
+              hidePreloader();
+            }, 3000);
+          }
+        }, true);
+      }
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Brand preloader",
+  "tag": "section",
+  "class": "section-brand-preloader",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_preloader",
+      "label": "Enable preloader",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_page_transitions",
+      "label": "Enable navigation transitions",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "custom_logo",
+      "label": "Custom preloader logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 50,
+      "max": 300,
+      "step": 5,
+      "unit": "px",
+      "label": "Logo width (desktop)",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "mobile_logo_width",
+      "min": 40,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Logo width (mobile)",
+      "default": 110
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "logo_animation",
+      "label": "Animation style",
+      "options": [
+        {
+          "value": "subtle-pulse",
+          "label": "Subtle pulse"
+        },
+        {
+          "value": "smooth-fade",
+          "label": "Smooth fade"
+        },
+        {
+          "value": "static",
+          "label": "Static"
+        }
+      ],
+      "default": "subtle-pulse"
+    },
+    {
+      "type": "range",
+      "id": "min_duration",
+      "min": 200,
+      "max": 1500,
+      "step": 100,
+      "unit": "ms",
+      "label": "Minimum display time",
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "max_timeout",
+      "min": 1500,
+      "max": 4000,
+      "step": 250,
+      "unit": "ms",
+      "label": "Safety timeout",
+      "default": 2500
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand preloader"
+    }
+  ]
+}
+{% endschema %}

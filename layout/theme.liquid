@@ -305,9 +305,16 @@
         document.documentElement.classList.add('shopify-design-mode');
       }
     </script>
+    <style>
+      .shopify-design-mode #BrandPreloader {
+        display: none !important;
+      }
+    </style>
   </head>
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
+    {% section 'brand-preloader' %}
+
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>
