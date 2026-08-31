@@ -9,11 +9,37 @@
 <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'quick-order-list.js' | asset_url }}" defer="defer"></script>
 
+{%- liquid
+  assign bg_color = section.settings.background_color | default: '#131313'
+  assign bg_brightness = bg_color | color_brightness
+
+  if section.settings.text_color != blank and section.settings.text_color != 'rgba(0,0,0,0)'
+    assign title_color = section.settings.text_color
+    assign body_color = section.settings.text_color
+    assign subtext_color = section.settings.text_color | color_modify: 'alpha', 0.75
+    assign border_color = section.settings.text_color | color_modify: 'alpha', 0.15
+  elsif bg_brightness > 140
+    assign title_color = '#111111'
+    assign body_color = '#111111'
+    assign subtext_color = '#666666'
+    assign border_color = '#e0e0e0'
+  else
+    assign title_color = '#e2e2e2'
+    assign body_color = '#e2e2e2'
+    assign subtext_color = '#cfc4c5'
+    assign border_color = '#333333'
+  endif
+-%}
+
 {%- style -%}
   #EditorialLookbook-{{ section.id }} {
     --editorial-padding-top: {{ section.settings.padding_top }}px;
     --editorial-padding-bottom: {{ section.settings.padding_bottom }}px;
-    --editorial-bg-color: {{ section.settings.background_color }};
+    --editorial-bg-color: {{ bg_color }};
+    --editorial-title-color: {{ title_color }};
+    --editorial-body-color: {{ body_color }};
+    --editorial-subtext-color: {{ subtext_color }};
+    --editorial-border-color: {{ border_color }};
   }
 {%- endstyle -%}
 
@@ -28,7 +54,7 @@
       </h2>
       {%- if section.settings.show_view_all -%}
         <a
-          href="{{ section.settings.collection.url | default: '/collections/all' }}"
+          href="{{ section.settings.collection.url | default: routes.all_products_collection_url }}"
           class="editorial-lookbook__link"
         >
           <span>{{ section.settings.view_all_label | default: 'VIEW ALL' }}</span>
@@ -40,8 +66,55 @@
     </div>
 
     <div class="editorial-lookbook__grid">
-      {%- assign collection = section.settings.collection -%}
-      {%- if collection != blank and collection.products_count > 0 -%}
+      {%- liquid
+        assign selected_products = section.settings.product_list
+        assign collection = section.settings.collection
+        assign has_selected_products = false
+        if selected_products != blank and selected_products.count > 0
+          assign has_selected_products = true
+        endif
+      -%}
+
+      {%- if has_selected_products -%}
+        {%- for product in selected_products limit: section.settings.products_to_show -%}
+          <div class="editorial-card">
+            <div class="editorial-card__media-wrap">
+              <a href="{{ product.url }}" class="editorial-card__media-link">
+                {%- if product.featured_media != blank -%}
+                  {{
+                    product.featured_media
+                    | image_url: width: 1000
+                    | image_tag:
+                      class: 'editorial-card__image',
+                      widths: '375, 550, 750, 1000',
+                      sizes: '(min-width: 990px) 25vw, (min-width: 550px) 50vw, 100vw',
+                      loading: 'lazy',
+                      alt: product.title
+                  }}
+                {%- else -%}
+                  {{ 'product-1' | placeholder_svg_tag: 'editorial-card__image' }}
+                {%- endif -%}
+              </a>
+
+              {%- if product.tags contains 'new' or forloop.index == 3 -%}
+                <div class="editorial-card__badge">NEW</div>
+              {%- endif -%}
+
+              {%- render 'quick-add-button', product: product, section_id: section.id -%}
+            </div>
+
+            <div class="editorial-card__info">
+              <a href="{{ product.url }}" class="editorial-card__title">
+                {{ product.title }}
+              </a>
+              <p class="editorial-card__price">
+                {{ product.price | money }}
+              </p>
+            </div>
+          </div>
+        {%- endfor -%}
+
+      {%- elsif collection != blank and collection.products_count > 0 -%}
         {%- for product in collection.products limit: section.settings.products_to_show -%}
           <div class="editorial-card">
             <div class="editorial-card__media-wrap">
@@ -79,6 +152,7 @@
             </div>
           </div>
         {%- endfor -%}
+
       {%- else -%}
         {%- comment -%} Mock Lookbook Cards for Demo / Figma Fidelity {%- endcomment -%}
         {%- for i in (1..4) -%}
@@ -102,7 +176,7 @@
           -%}
           <div class="editorial-card">
             <div class="editorial-card__media-wrap">
-              <a href="/collections/all" class="editorial-card__media-link">
+              <a href="{{ routes.all_products_collection_url }}" class="editorial-card__media-link">
                 <img
                   src="{{ mock_img | asset_url }}"
                   alt="{{ mock_title }}"
@@ -128,7 +202,7 @@
                   aria-haspopup="dialog"
                   aria-expanded="false"
                   aria-label="Choose options for {{ mock_title }}"
-                  data-product-url="/collections/all"
+                  data-product-url="{{ routes.all_products_collection_url }}"
                 >
                   <svg viewBox="0 0 16 16" aria-hidden="true">
                     <path d="M4.5 4V3a3.5 3.5 0 0 1 7 0v1h1.5a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-10a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h1.5zm1 0h5V3a2.5 2.5 0 0 0-5 0v1z" fill="currentColor"/>
@@ -174,7 +248,7 @@
                             >
                           </div>
                         </div>
-                        <a href="/collections/all" class="link product__view-details animate-arrow small-hide medium-hide">
+                        <a href="{{ routes.all_products_collection_url }}" class="link product__view-details animate-arrow small-hide medium-hide">
                           VIEW FULL DETAILS
                           <svg viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.5 6h7M6.5 2.5L10 6l-3.5 3.5"/></svg>
                         </a>
@@ -183,7 +257,7 @@
                     <div style="flex: 1; padding: 32px; display: flex; flex-direction: column; justify-content: space-between; background-color: #ffffff;">
                       <div>
                         <div class="quick-add-modal__content-info--bulk-details">
-                          <a href="/collections/all" class="full-unstyled-link">
+                          <a href="{{ routes.all_products_collection_url }}" class="full-unstyled-link">
                             <h3 class="h2" style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 2.25rem; text-transform: uppercase; color: #1a1c1c; margin: 0 0 8px 0;">{{ mock_title }}</h3>
                           </a>
                           <p style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 18px; color: #555; margin: 0 0 24px 0;">{{ mock_price }}</p>
@@ -223,7 +297,7 @@
                       </div>
 
                       <div class="quick-add-modal__footer">
-                        <a href="/cart" class="quick-add-modal__view-cart-btn">VIEW CART</a>
+                        <a href="{{ routes.cart_url }}" class="quick-add-modal__view-cart-btn">VIEW CART</a>
                         <div class="quick-add-modal__summary-wrap">
                           <div style="font-size: 12px; color: #555555; text-transform: uppercase;">1 TOTAL ITEM</div>
                           <div class="quick-add-modal__summary-subtotal">{{ mock_price }}</div>
@@ -237,7 +311,7 @@
             </div>
 
             <div class="editorial-card__info">
-              <a href="/collections/all" class="editorial-card__title">
+              <a href="{{ routes.all_products_collection_url }}" class="editorial-card__title">
                 {{ mock_title }}
               </a>
               <p class="editorial-card__price">
@@ -267,9 +341,15 @@
       "default": "NEW ARRIVALS"
     },
     {
+      "type": "product_list",
+      "id": "product_list",
+      "label": "Select Products (Optional)",
+      "limit": 12
+    },
+    {
       "type": "collection",
       "id": "collection",
-      "label": "Collection"
+      "label": "Collection (Fallback)"
     },
     {
       "type": "range",
@@ -297,6 +377,11 @@
       "id": "background_color",
       "label": "Background Color",
       "default": "#131313"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color (Leave blank for auto)"
     },
     {
       "type": "header",
