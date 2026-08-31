@@ -1,0 +1,730 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap');
+
+/* ==========================================================================
+   Contrario Featured Product - Apple Fluid Design System
+   ========================================================================== */
+
+.fpc-section {
+  position: relative;
+  width: 100%;
+  background-color: var(--fpc-bg-color, #0d0d0d);
+  color: #ffffff;
+  padding-top: var(--fpc-padding-top, 60px);
+  padding-bottom: var(--fpc-padding-bottom, 60px);
+  box-sizing: border-box;
+  overflow: hidden;
+  font-family: 'Bricolage Grotesque', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Background Ambient Lighting (Apple subtle depth glow) */
+.fpc-section__ambient-glow {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -20%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(200, 255, 0, 0.05) 0%, rgba(255, 255, 255, 0.02) 40%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(80px);
+}
+
+.fpc-container {
+  position: relative;
+  z-index: 1;
+  max-width: var(--fpc-max-width, 1320px);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  box-sizing: border-box;
+}
+
+/* Header Eyebrow / Section Title (Optional) */
+.fpc-header {
+  margin-bottom: 2.5rem;
+  text-align: var(--fpc-header-align, left);
+}
+
+.fpc-header__subtitle {
+  margin: 0 0 0.5rem 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fpc-accent-color, #c8ff00);
+}
+
+.fpc-header__title {
+  margin: 0;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+/* Main Grid Layout */
+.fpc-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+@media screen and (max-width: 990px) {
+  .fpc-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Media Gallery (Left Column) - Apple Depth & Fluid Transitions
+   -------------------------------------------------------------------------- */
+.fpc-gallery {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media screen and (min-width: 991px) {
+  .fpc-gallery {
+    position: sticky;
+    top: 2rem;
+  }
+}
+
+.fpc-gallery__stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1.15;
+  background: #141414;
+  border-radius: var(--fpc-radius, 8px);
+  overflow: hidden;
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 24px 48px -12px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.fpc-gallery__image-wrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: scale(0.98);
+}
+
+.fpc-gallery__image-wrapper.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+  z-index: 1;
+}
+
+.fpc-gallery__main-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fpc-gallery__stage:hover .fpc-gallery__main-img {
+  transform: scale(1.03);
+}
+
+/* Badges on Gallery */
+.fpc-badge {
+  position: absolute;
+  top: 1.25rem;
+  left: 1.25rem;
+  z-index: 3;
+  padding: 6px 14px;
+  background: rgba(10, 10, 10, 0.75);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 8px 20px rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--fpc-accent-color, #c8ff00);
+}
+
+.fpc-badge--soldout {
+  color: #ff4d4d;
+}
+
+/* Thumbnail Strip */
+.fpc-thumbnails {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding: 4px 2px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.fpc-thumbnails::-webkit-scrollbar {
+  height: 4px;
+}
+
+.fpc-thumbnails::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.fpc-thumb-btn {
+  flex: 0 0 74px;
+  height: 84px;
+  background: #181818;
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+}
+
+.fpc-thumb-btn:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+.fpc-thumb-btn:active {
+  transform: scale(0.95);
+}
+
+.fpc-thumb-btn.is-active {
+  border-color: var(--fpc-accent-color, #c8ff00);
+  box-shadow: 0 0 12px rgba(200, 255, 0, 0.3);
+}
+
+.fpc-thumb-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   Product Info & Buying Console (Right Column)
+   -------------------------------------------------------------------------- */
+.fpc-info-card {
+  background: rgba(22, 22, 22, 0.7);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 24px 48px -12px rgba(0, 0, 0, 0.5);
+  border-radius: var(--fpc-radius, 8px);
+  padding: 2.25rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+@media screen and (max-width: 550px) {
+  .fpc-info-card {
+    padding: 1.5rem;
+  }
+}
+
+/* Top Meta Row (Drop tag, live status) */
+.fpc-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.fpc-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #a0a0a0;
+}
+
+.fpc-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #22c55e;
+  box-shadow: 0 0 8px #22c55e;
+  animation: fpcPulse 2s infinite ease-in-out;
+}
+
+@keyframes fpcPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.fpc-vendor-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #777777;
+}
+
+/* Title & Price */
+.fpc-title-price {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.fpc-title {
+  margin: 0;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(1.85rem, 3.5vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.fpc-price-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  font-family: 'Bricolage Grotesque', sans-serif;
+}
+
+.fpc-price {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.fpc-compare-price {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #666666;
+  text-decoration: line-through;
+  letter-spacing: -0.01em;
+}
+
+.fpc-save-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  background: rgba(200, 255, 0, 0.15);
+  color: var(--fpc-accent-color, #c8ff00);
+  border: 1px solid rgba(200, 255, 0, 0.3);
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+/* Description / Lead */
+.fpc-description {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #b0b0b0;
+  font-weight: 400;
+}
+
+.fpc-description p {
+  margin: 0 0 0.5rem 0;
+}
+.fpc-description p:last-child {
+  margin-bottom: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Variant Pickers (Apple Pills & Swatches)
+   -------------------------------------------------------------------------- */
+.fpc-variants {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.fpc-option-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.fpc-option-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fpc-option-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.fpc-option-selected-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 400;
+  color: #888888;
+}
+
+.fpc-option-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Variant Pill Option */
+.fpc-pill-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.fpc-pill-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 40px;
+  padding: 0 16px;
+  background: #181818;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #d1d1d1;
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.fpc-pill-label:hover {
+  background: #242424;
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+}
+
+.fpc-pill-label:active {
+  transform: scale(0.96);
+}
+
+.fpc-pill-input:checked + .fpc-pill-label {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #0d0d0d;
+  font-weight: 700;
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.2);
+}
+
+.fpc-pill-input.is-unavailable + .fpc-pill-label {
+  opacity: 0.35;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+/* --------------------------------------------------------------------------
+   Quantity & Buy Actions (Tactile Apple Form Controls)
+   -------------------------------------------------------------------------- */
+.fpc-actions-wrap {
+  display: flex;
+  gap: 0.75rem;
+  align-items: stretch;
+}
+
+@media screen and (max-width: 480px) {
+  .fpc-actions-wrap {
+    flex-direction: column;
+  }
+}
+
+.fpc-qty-selector {
+  display: inline-flex;
+  align-items: center;
+  background: #161616;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  height: 52px;
+  padding: 0 4px;
+  box-sizing: border-box;
+}
+
+.fpc-qty-btn {
+  width: 38px;
+  height: 38px;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 3px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  font-weight: 700;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fpc-qty-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.fpc-qty-btn:active {
+  transform: scale(0.9);
+}
+
+.fpc-qty-input {
+  width: 40px;
+  background: transparent;
+  border: none;
+  text-align: center;
+  color: #ffffff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  -moz-appearance: textfield;
+  outline: none;
+}
+
+.fpc-qty-input::-webkit-outer-spin-button,
+.fpc-qty-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.fpc-buy-btn {
+  flex: 1;
+  height: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #ffffff;
+  color: #0e0e0e;
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+  position: relative;
+}
+
+.fpc-buy-btn:hover {
+  background: var(--fpc-accent-color, #c8ff00);
+  border-color: var(--fpc-accent-color, #c8ff00);
+  color: #000000;
+  box-shadow: 0 8px 25px rgba(200, 255, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.fpc-buy-btn:active {
+  transform: scale(0.97) translateY(0);
+}
+
+.fpc-buy-btn[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.fpc-buy-btn .fpc-spinner {
+  display: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-top-color: #000000;
+  border-radius: 50%;
+  animation: fpcSpin 0.7s linear infinite;
+}
+
+.fpc-buy-btn.is-loading .fpc-spinner {
+  display: inline-block;
+}
+
+.fpc-buy-btn.is-loading .fpc-btn-text {
+  display: none;
+}
+
+@keyframes fpcSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* --------------------------------------------------------------------------
+   Key Features Bento Matrix (Apple Hardware spec chips)
+   -------------------------------------------------------------------------- */
+.fpc-features-bento {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+@media screen and (max-width: 500px) {
+  .fpc-features-bento {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fpc-feature-chip {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.fpc-feature-chip:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.fpc-feature-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--fpc-accent-color, #c8ff00);
+}
+
+.fpc-feature-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.fpc-feature-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.fpc-feature-desc {
+  font-size: 12px;
+  color: #888888;
+  line-height: 1.3;
+}
+
+/* --------------------------------------------------------------------------
+   Accordion / Fluid Disclosure Tabs
+   -------------------------------------------------------------------------- */
+.fpc-accordions {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.fpc-accordion-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.fpc-accordion-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #e5e5e5;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: left;
+  transition: color 0.2s ease;
+}
+
+.fpc-accordion-header:hover {
+  color: #ffffff;
+}
+
+.fpc-accordion-icon {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  color: #888888;
+}
+
+.fpc-accordion-item.is-open .fpc-accordion-icon {
+  transform: rotate(45deg);
+  color: var(--fpc-accent-color, #c8ff00);
+}
+
+.fpc-accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fpc-accordion-body {
+  padding-bottom: 14px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #999999;
+}
+
+.fpc-accordion-body p {
+  margin: 0 0 0.5rem 0;
+}
+.fpc-accordion-body p:last-child {
+  margin-bottom: 0;
+}
+
+/* Reduced Motion Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .fpc-section *,
+  .fpc-gallery__image-wrapper,
+  .fpc-accordion-content,
+  .fpc-buy-btn {
+    transition: none !important;
+    animation: none !important;
+  }
+}

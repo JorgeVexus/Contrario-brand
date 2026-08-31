@@ -1,0 +1,675 @@
+{{ 'section-featured-product-contrario.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'featured-product-contrario.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign product = section.settings.product
+  assign has_product = true
+  if product == blank
+    assign has_product = false
+  endif
+
+  assign current_variant = product.selected_or_first_available_variant
+-%}
+
+{%- style -%}
+  #FeaturedProductContrario-{{ section.id }} {
+    --fpc-padding-top: {{ section.settings.padding_top }}px;
+    --fpc-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --fpc-bg-color: {{ section.settings.background_color }};
+    --fpc-accent-color: {{ section.settings.accent_color }};
+    --fpc-radius: {{ section.settings.border_radius }}px;
+    --fpc-max-width: {{ section.settings.max_width }}px;
+    --fpc-header-align: {{ section.settings.header_alignment }};
+  }
+{%- endstyle -%}
+
+<section
+  id="FeaturedProductContrario-{{ section.id }}"
+  class="fpc-section{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+>
+  {%- if section.settings.show_ambient_glow -%}
+    <div class="fpc-section__ambient-glow"></div>
+  {%- endif -%}
+
+  <div class="fpc-container">
+    {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="fpc-header">
+        {%- if section.settings.subheading != blank -%}
+          <p class="fpc-header__subtitle">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="fpc-header__title">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <featured-product-contrario class="fpc-grid" data-section-id="{{ section.id }}">
+      {%- comment -%} ================= LEFT COLUMN: MEDIA GALLERY ================= {%- endcomment -%}
+      <div class="fpc-gallery" data-fpc-gallery>
+        <div class="fpc-gallery__stage">
+          {%- if section.settings.badge_text != blank -%}
+            <span class="fpc-badge">{{ section.settings.badge_text }}</span>
+          {%- endif -%}
+
+          {%- if has_product and product.media.size > 0 -%}
+            {%- for media in product.media -%}
+              <div
+                class="fpc-gallery__image-wrapper{% if forloop.first %} is-active{% endif %}"
+                data-fpc-media-id="{{ media.id }}"
+              >
+                {{
+                  media
+                  | image_url: width: 1400
+                  | image_tag:
+                    class: 'fpc-gallery__main-img',
+                    widths: '400, 600, 800, 1100, 1400',
+                    sizes: '(min-width: 990px) 50vw, 100vw',
+                    loading: 'lazy',
+                    alt: media.alt | default: product.title
+                }}
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            {%- comment -%} Fallback Media for Demo Mode {%- endcomment -%}
+            <div class="fpc-gallery__image-wrapper is-active" data-fpc-media-id="mock-1">
+              <img
+                src="{{ 'rebellion-hero-bg.png' | asset_url }}"
+                alt="Contrario Heavyweight Rebellion Hoodie"
+                class="fpc-gallery__main-img"
+                loading="lazy"
+                width="800"
+                height="920"
+              >
+            </div>
+            <div class="fpc-gallery__image-wrapper" data-fpc-media-id="mock-2">
+              <img
+                src="{{ 'bento-women.png' | asset_url }}"
+                alt="Contrario Heavyweight Rebellion Hoodie - Detail"
+                class="fpc-gallery__main-img"
+                loading="lazy"
+                width="800"
+                height="920"
+              >
+            </div>
+            <div class="fpc-gallery__image-wrapper" data-fpc-media-id="mock-3">
+              <img
+                src="{{ 'bento-accessories.png' | asset_url }}"
+                alt="Contrario Heavyweight Rebellion Hoodie - Fit"
+                class="fpc-gallery__main-img"
+                loading="lazy"
+                width="800"
+                height="920"
+              >
+            </div>
+          {%- endif -%}
+        </div>
+
+        {%- comment -%} Thumbnails Rail {%- endcomment -%}
+        {%- if has_product and product.media.size > 1 -%}
+          <div class="fpc-thumbnails">
+            {%- for media in product.media -%}
+              <button
+                type="button"
+                class="fpc-thumb-btn{% if forloop.first %} is-active{% endif %}"
+                data-fpc-thumb-id="{{ media.id }}"
+                aria-label="View image {{ forloop.index }}"
+              >
+                {{
+                  media
+                  | image_url: width: 200
+                  | image_tag: loading: 'lazy', alt: media.alt | default: product.title
+                }}
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- elsif has_product == false -%}
+          <div class="fpc-thumbnails">
+            <button type="button" class="fpc-thumb-btn is-active" data-fpc-thumb-id="mock-1" aria-label="View image 1">
+              <img src="{{ 'rebellion-hero-bg.png' | asset_url }}" alt="Preview 1" loading="lazy" width="100" height="120">
+            </button>
+            <button type="button" class="fpc-thumb-btn" data-fpc-thumb-id="mock-2" aria-label="View image 2">
+              <img src="{{ 'bento-women.png' | asset_url }}" alt="Preview 2" loading="lazy" width="100" height="120">
+            </button>
+            <button type="button" class="fpc-thumb-btn" data-fpc-thumb-id="mock-3" aria-label="View image 3">
+              <img src="{{ 'bento-accessories.png' | asset_url }}" alt="Preview 3" loading="lazy" width="100" height="120">
+            </button>
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} ================= RIGHT COLUMN: BUYING CONSOLE & SPECS ================= {%- endcomment -%}
+      <div class="fpc-info-card">
+        {%- comment -%} Top Status / Vendor {%- endcomment -%}
+        <div class="fpc-meta-row">
+          <div class="fpc-status-pill">
+            <span class="fpc-status-dot"></span>
+            <span>{{ section.settings.status_text | default: 'IN STOCK — READY TO SHIP' }}</span>
+          </div>
+          {%- if has_product and product.vendor != blank -%}
+            <span class="fpc-vendor-tag">{{ product.vendor }}</span>
+          {%- else -%}
+            <span class="fpc-vendor-tag">CONTRARIO REBELLION</span>
+          {%- endif -%}
+        </div>
+
+        {%- comment -%} Title & Price {%- endcomment -%}
+        <div class="fpc-title-price">
+          <h3 class="fpc-title">
+            {%- if has_product -%}
+              {{ product.title }}
+            {%- else -%}
+              MORTIS OVERSIZED HOODIE
+            {%- endif -%}
+          </h3>
+
+          <div class="fpc-price-wrap">
+            <span class="fpc-price" data-fpc-price>
+              {%- if has_product -%}
+                {{ current_variant.price | money }}
+              {%- else -%}
+                $78.00
+              {%- endif -%}
+            </span>
+
+            {%- if has_product and current_variant.compare_at_price > current_variant.price -%}
+              <span class="fpc-compare-price" data-fpc-compare-price>
+                {{ current_variant.compare_at_price | money }}
+              </span>
+              <span class="fpc-save-badge" data-fpc-save-badge>SALE</span>
+            {%- elsif has_product == false -%}
+              <span class="fpc-compare-price" data-fpc-compare-price>$95.00</span>
+              <span class="fpc-save-badge" data-fpc-save-badge>SAVE 18%</span>
+            {%- endif -%}
+          </div>
+        </div>
+
+        {%- comment -%} Short Description {%- endcomment -%}
+        <div class="fpc-description">
+          {%- if has_product and product.description != blank -%}
+            {{ product.description | truncatewords: 35 }}
+          {%- else -%}
+            <p>Engineered with 480 GSM ultra-heavyweight brushed french terry. Designed for the defiant spirit with a dropped shoulder silhouette and hand-screenprinted iconography.</p>
+          {%- endif -%}
+        </div>
+
+        {%- comment -%} Product Form & Variant Selector {%- endcomment -%}
+        {%- if has_product -%}
+          {%- form 'product', product, id: 'fpc-product-form', class: 'fpc-form' -%}
+            <input type="hidden" name="id" value="{{ current_variant.id }}">
+
+            {%- unless product.has_only_default_variant -%}
+              <div class="fpc-variants">
+                {%- for option in product.options_with_values -%}
+                  <div class="fpc-option-group" data-fpc-option-group>
+                    <div class="fpc-option-header">
+                      <span class="fpc-option-name">{{ option.name }}</span>
+                      <span class="fpc-option-selected-val" data-fpc-option-selected-label>{{ option.selected_value }}</span>
+                    </div>
+
+                    <div class="fpc-option-values">
+                      {%- for value in option.values -%}
+                        <input
+                          type="radio"
+                          id="Option-{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                          name="options[{{ option.name | escape }}]"
+                          value="{{ value | escape }}"
+                          class="fpc-pill-input"
+                          data-fpc-option-input
+                          {% if option.selected_value == value %}checked{% endif %}
+                        >
+                        <label
+                          for="Option-{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                          class="fpc-pill-label"
+                        >
+                          {{ value }}
+                        </label>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                {%- endfor -%}
+              </div>
+            {%- endunless -%}
+
+            <div class="fpc-actions-wrap" style="margin-top: 1rem;">
+              <div class="fpc-qty-selector">
+                <button type="button" class="fpc-qty-btn" data-fpc-qty-minus aria-label="Decrease quantity">−</button>
+                <input
+                  type="number"
+                  name="quantity"
+                  value="1"
+                  min="1"
+                  class="fpc-qty-input"
+                  data-fpc-qty-input
+                  aria-label="Product quantity"
+                >
+                <button type="button" class="fpc-qty-btn" data-fpc-qty-plus aria-label="Increase quantity">+</button>
+              </div>
+
+              <button
+                type="submit"
+                class="fpc-buy-btn"
+                data-fpc-buy-btn
+                {% unless current_variant.available %}disabled{% endunless %}
+              >
+                <span class="fpc-spinner"></span>
+                <span class="fpc-btn-text" data-fpc-btn-text>
+                  {%- if current_variant.available -%}
+                    {{ section.settings.cta_label | default: 'ADD TO CART' }}
+                  {%- else -%}
+                    SOLD OUT
+                  {%- endif -%}
+                </span>
+              </button>
+            </div>
+          {%- endform -%}
+
+          {%- comment -%} JSON variant data for JS controller {%- endcomment -%}
+          <script type="application/json" data-fpc-variants-json>
+            {{ product.variants | json }}
+          </script>
+
+        {%- else -%}
+          {%- comment -%} Mock Form for Demo / Figma Customizer {%- endcomment -%}
+          <form class="fpc-form" onsubmit="event.preventDefault();">
+            <div class="fpc-variants">
+              <div class="fpc-option-group" data-fpc-option-group>
+                <div class="fpc-option-header">
+                  <span class="fpc-option-name">SIZE</span>
+                  <span class="fpc-option-selected-val" data-fpc-option-selected-label>M</span>
+                </div>
+                <div class="fpc-option-values">
+                  <input type="radio" id="Mock-S" name="mock-size" value="S" class="fpc-pill-input">
+                  <label for="Mock-S" class="fpc-pill-label">S</label>
+
+                  <input type="radio" id="Mock-M" name="mock-size" value="M" class="fpc-pill-input" checked>
+                  <label for="Mock-M" class="fpc-pill-label">M</label>
+
+                  <input type="radio" id="Mock-L" name="mock-size" value="L" class="fpc-pill-input">
+                  <label for="Mock-L" class="fpc-pill-label">L</label>
+
+                  <input type="radio" id="Mock-XL" name="mock-size" value="XL" class="fpc-pill-input">
+                  <label for="Mock-XL" class="fpc-pill-label">XL</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="fpc-actions-wrap" style="margin-top: 1rem;">
+              <div class="fpc-qty-selector">
+                <button type="button" class="fpc-qty-btn" data-fpc-qty-minus aria-label="Decrease quantity">−</button>
+                <input type="number" name="quantity" value="1" min="1" class="fpc-qty-input" data-fpc-qty-input>
+                <button type="button" class="fpc-qty-btn" data-fpc-qty-plus aria-label="Increase quantity">+</button>
+              </div>
+
+              <a href="{{ routes.all_products_collection_url }}" class="fpc-buy-btn">
+                <span class="fpc-btn-text">{{ section.settings.cta_label | default: 'EXPLORE PRODUCT' }}</span>
+              </a>
+            </div>
+          </form>
+        {%- endif -%}
+
+        {%- comment -%} ================= APPLE-STYLE HARDWARE FEATURE CHIPS ================= {%- endcomment -%}
+        {%- if section.settings.show_features -%}
+          <div class="fpc-features-bento">
+            {%- if section.settings.feature_1_title != blank -%}
+              <div class="fpc-feature-chip">
+                <svg class="fpc-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path>
+                  <line x1="16" y1="8" x2="2" y2="22"></line>
+                  <line x1="17.5" y1="15" x2="9" y2="15"></line>
+                </svg>
+                <div class="fpc-feature-text">
+                  <span class="fpc-feature-title">{{ section.settings.feature_1_title }}</span>
+                  <span class="fpc-feature-desc">{{ section.settings.feature_1_desc }}</span>
+                </div>
+              </div>
+            {%- endif -%}
+
+            {%- if section.settings.feature_2_title != blank -%}
+              <div class="fpc-feature-chip">
+                <svg class="fpc-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="3" y1="9" x2="21" y2="9"></line>
+                  <line x1="9" y1="21" x2="9" y2="9"></line>
+                </svg>
+                <div class="fpc-feature-text">
+                  <span class="fpc-feature-title">{{ section.settings.feature_2_title }}</span>
+                  <span class="fpc-feature-desc">{{ section.settings.feature_2_desc }}</span>
+                </div>
+              </div>
+            {%- endif -%}
+
+            {%- if section.settings.feature_3_title != blank -%}
+              <div class="fpc-feature-chip">
+                <svg class="fpc-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+                <div class="fpc-feature-text">
+                  <span class="fpc-feature-title">{{ section.settings.feature_3_title }}</span>
+                  <span class="fpc-feature-desc">{{ section.settings.feature_3_desc }}</span>
+                </div>
+              </div>
+            {%- endif -%}
+
+            {%- if section.settings.feature_4_title != blank -%}
+              <div class="fpc-feature-chip">
+                <svg class="fpc-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="1" y="3" width="15" height="13"></rect>
+                  <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                  <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                  <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                </svg>
+                <div class="fpc-feature-text">
+                  <span class="fpc-feature-title">{{ section.settings.feature_4_title }}</span>
+                  <span class="fpc-feature-desc">{{ section.settings.feature_4_desc }}</span>
+                </div>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} ================= ACCORDION DISCLOSURES ================= {%- endcomment -%}
+        {%- if section.settings.show_accordions -%}
+          <div class="fpc-accordions">
+            {%- if section.settings.tab_1_title != blank -%}
+              <div class="fpc-accordion-item">
+                <button type="button" class="fpc-accordion-header" data-fpc-accordion-header>
+                  <span>{{ section.settings.tab_1_title }}</span>
+                  <svg class="fpc-accordion-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="8" y1="1" x2="8" y2="15"></line>
+                    <line x1="1" y1="8" x2="15" y2="8"></line>
+                  </svg>
+                </button>
+                <div class="fpc-accordion-content">
+                  <div class="fpc-accordion-body">
+                    {{ section.settings.tab_1_content }}
+                  </div>
+                </div>
+              </div>
+            {%- endif -%}
+
+            {%- if section.settings.tab_2_title != blank -%}
+              <div class="fpc-accordion-item">
+                <button type="button" class="fpc-accordion-header" data-fpc-accordion-header>
+                  <span>{{ section.settings.tab_2_title }}</span>
+                  <svg class="fpc-accordion-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="8" y1="1" x2="8" y2="15"></line>
+                    <line x1="1" y1="8" x2="15" y2="8"></line>
+                  </svg>
+                </button>
+                <div class="fpc-accordion-content">
+                  <div class="fpc-accordion-body">
+                    {{ section.settings.tab_2_content }}
+                  </div>
+                </div>
+              </div>
+            {%- endif -%}
+
+            {%- if section.settings.tab_3_title != blank -%}
+              <div class="fpc-accordion-item">
+                <button type="button" class="fpc-accordion-header" data-fpc-accordion-header>
+                  <span>{{ section.settings.tab_3_title }}</span>
+                  <svg class="fpc-accordion-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="8" y1="1" x2="8" y2="15"></line>
+                    <line x1="1" y1="8" x2="15" y2="8"></line>
+                  </svg>
+                </button>
+                <div class="fpc-accordion-content">
+                  <div class="fpc-accordion-body">
+                    {{ section.settings.tab_3_content }}
+                  </div>
+                </div>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </featured-product-contrario>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Product",
+  "tag": "section",
+  "class": "section-featured-product-contrario",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Product Selection"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Featured Product"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Media Badge Text",
+      "default": "LIMITED DROP"
+    },
+    {
+      "type": "text",
+      "id": "status_text",
+      "label": "Availability Subtext",
+      "default": "IN STOCK — READY TO SHIP"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button Label",
+      "default": "ADD TO CART"
+    },
+    {
+      "type": "header",
+      "content": "Header Settings"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Title",
+      "default": "SPOTLIGHT PIECE"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Section Eyebrow",
+      "default": "FEATURED ICON"
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "left",
+      "label": "Header Alignment"
+    },
+    {
+      "type": "header",
+      "content": "Design & Visuals"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#0d0d0d"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#c8ff00"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_ambient_glow",
+      "label": "Show Apple Ambient Glow",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Card Border Radius",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 1000,
+      "max": 1600,
+      "step": 40,
+      "unit": "px",
+      "label": "Container Max Width",
+      "default": 1320
+    },
+    {
+      "type": "header",
+      "content": "Key Feature Highlights"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_features",
+      "label": "Show Feature Chips",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "feature_1_title",
+      "label": "Feature 1 Title",
+      "default": "480 GSM TERRY"
+    },
+    {
+      "type": "text",
+      "id": "feature_1_desc",
+      "label": "Feature 1 Subtitle",
+      "default": "Ultra-heavyweight premium cotton"
+    },
+    {
+      "type": "text",
+      "id": "feature_2_title",
+      "label": "Feature 2 Title",
+      "default": "REBELLION FIT"
+    },
+    {
+      "type": "text",
+      "id": "feature_2_desc",
+      "label": "Feature 2 Subtitle",
+      "default": "Boxy, dropped shoulder cut"
+    },
+    {
+      "type": "text",
+      "id": "feature_3_title",
+      "label": "Feature 3 Title",
+      "default": "SCREENPRINTED"
+    },
+    {
+      "type": "text",
+      "id": "feature_3_desc",
+      "label": "Feature 3 Subtitle",
+      "default": "Custom high-density hand print"
+    },
+    {
+      "type": "text",
+      "id": "feature_4_title",
+      "label": "Feature 4 Title",
+      "default": "FAST DISPATCH"
+    },
+    {
+      "type": "text",
+      "id": "feature_4_desc",
+      "label": "Feature 4 Subtitle",
+      "default": "Ships in 24 hours from DC"
+    },
+    {
+      "type": "header",
+      "content": "Accordion Specs & Details"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_accordions",
+      "label": "Show Accordion Tabs",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "tab_1_title",
+      "label": "Accordion 1 Title",
+      "default": "MATERIALS & SPECIFICATIONS"
+    },
+    {
+      "type": "richtext",
+      "id": "tab_1_content",
+      "label": "Accordion 1 Content",
+      "default": "<p>100% combed organic cotton. Double-needle stitching throughout for ultimate durability. Pre-shrunk to maintain shape wash after wash.</p>"
+    },
+    {
+      "type": "text",
+      "id": "tab_2_title",
+      "label": "Accordion 2 Title",
+      "default": "SIZING & FIT GUIDE"
+    },
+    {
+      "type": "richtext",
+      "id": "tab_2_content",
+      "label": "Accordion 2 Content",
+      "default": "<p>True to streetwear size for an oversized aesthetic. If you prefer a more tailored fit, we recommend ordering one size down.</p>"
+    },
+    {
+      "type": "text",
+      "id": "tab_3_title",
+      "label": "Accordion 3 Title",
+      "default": "SHIPPING & RETURNS"
+    },
+    {
+      "type": "richtext",
+      "id": "tab_3_content",
+      "label": "Accordion 3 Content",
+      "default": "<p>Free standard shipping on all domestic orders over $75. Hassle-free 30-day returns and exchanges on unworn items with tags intact.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 140,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 140,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Product"
+    }
+  ]
+}
+{% endschema %}
