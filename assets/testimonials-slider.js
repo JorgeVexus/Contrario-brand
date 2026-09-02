@@ -20,7 +20,7 @@ if (!customElements.get('testimonials-slider')) {
       // Inject any locally submitted reviews by the current user
       this.injectLocalReviews();
 
-      // Load live reviews from Judge.me API widgets
+      // Load live reviews from Judge.me API widgets and deduplicate local reviews
       this.loadJudgeMeReviews();
 
       this.updateCards();
@@ -56,6 +56,7 @@ if (!customElements.get('testimonials-slider')) {
     createReviewCard({ rating = 5, quote = '', author = 'MEMBER', verified = true, productTitle = '', isUserSubmission = false }) {
       const card = document.createElement('div');
       card.className = 'tc-card tc-card--clean' + (isUserSubmission ? ' tc-card--user-submission' : '');
+      if (author) card.dataset.author = author.trim().toLowerCase();
 
       let starsHtml = '';
       const ratingNum = parseInt(rating, 10) || 5;
@@ -144,6 +145,37 @@ if (!customElements.get('testimonials-slider')) {
       }
     }
 
+    deduplicateLocalReviews(liveAuthorNames) {
+      if (!liveAuthorNames || liveAuthorNames.length === 0) return;
+      try {
+        const rawReviews = localStorage.getItem('contrario_user_reviews');
+        if (!rawReviews) return;
+        const reviews = JSON.parse(rawReviews);
+        if (!Array.isArray(reviews) || reviews.length === 0) return;
+
+        const filtered = reviews.filter(rev => {
+          const authorLower = (rev.author || '').trim().toLowerCase();
+          return !liveAuthorNames.includes(authorLower);
+        });
+
+        if (filtered.length === 0) {
+          localStorage.removeItem('contrario_user_reviews');
+        } else {
+          localStorage.setItem('contrario_user_reviews', JSON.stringify(filtered));
+        }
+
+        // Remove any duplicate pending cards from the DOM
+        this.grid.querySelectorAll('.tc-card--user-submission').forEach(card => {
+          const cardAuthor = (card.dataset.author || '').trim().toLowerCase();
+          if (liveAuthorNames.includes(cardAuthor)) {
+            card.remove();
+          }
+        });
+      } catch (err) {
+        console.warn('Deduplicate error:', err);
+      }
+    }
+
     async loadJudgeMeReviews() {
       if (!this.grid) return;
       const shopDomain = this.section?.dataset.shopDomain || 'contrario-brand.myshopify.com';
@@ -153,6 +185,7 @@ if (!customElements.get('testimonials-slider')) {
       const isProductPage = this.section?.dataset.isProductPage === 'true';
       const currentProdHandle = this.section?.dataset.currentProductHandle;
       const emptyState = this.track.querySelector('.tc-empty-state');
+      const loadedAuthors = [];
 
       try {
         // Strategy 1: If on product page, query Judge.me product review widget API
@@ -176,6 +209,8 @@ if (!customElements.get('testimonials-slider')) {
                   const body = revEl.querySelector('.jdgm-rev__body')?.textContent?.trim() || '';
                   const verified = !revEl.classList.contains('jdgm--unverified');
 
+                  loadedAuthors.push(author.toLowerCase());
+
                   const card = this.createReviewCard({
                     rating,
                     quote: body || title || '',
@@ -187,6 +222,7 @@ if (!customElements.get('testimonials-slider')) {
                   this.grid.appendChild(card);
                 });
 
+                this.deduplicateLocalReviews(loadedAuthors);
                 this.updateCards();
                 this.createDots();
                 this.updateState();
@@ -217,6 +253,8 @@ if (!customElements.get('testimonials-slider')) {
                 const prodImg = itemEl.querySelector('.jdgm-carousel-item__product-image');
                 const productTitle = prodImg ? prodImg.getAttribute('alt') : (itemEl.classList.contains('jdgm--shop-review') ? 'CONTRARIO BRAND' : '');
 
+                loadedAuthors.push(author.toLowerCase());
+
                 const card = this.createReviewCard({
                   rating: starsCount,
                   quote: body || title || '',
@@ -228,6 +266,7 @@ if (!customElements.get('testimonials-slider')) {
                 this.grid.appendChild(card);
               });
 
+              this.deduplicateLocalReviews(loadedAuthors);
               this.updateCards();
               this.createDots();
               this.updateState();
@@ -358,6 +397,15 @@ if (!customElements.get('testimonials-slider')) {
 
 // Global modal and interactive rating controller
 document.addEventListener('DOMContentLoaded', () => {
+  // Clean up any lingering contact_posted=true from URL so reload doesn't trigger modal
+  if (window.location.search.includes('contact_posted=true')) {
+    const cleanSearch = window.location.search
+      .replace(/[?&]contact_posted=true(&|$)/, '$1')
+      .replace(/[?&]$/, '');
+    const cleanUrl = window.location.pathname + (cleanSearch ? '?' + cleanSearch.replace(/^[?&]/, '') : '');
+    window.history.replaceState({}, document.title, cleanUrl);
+  }
+
   // Modal triggers
   document.querySelectorAll('[data-tc-modal-open]').forEach((btn) => {
     btn.addEventListener('click', (e) => {
@@ -409,16 +457,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Auto-open modal if form returned with success or error message
-  const statusSuccess = document.querySelector('.tc-form-status--success');
-  if (statusSuccess) {
-    const parentModal = statusSuccess.closest('.tc-modal');
-    if (parentModal) {
-      parentModal.removeAttribute('hidden');
-      document.body.style.overflow = 'hidden';
-    }
-  }
-
   // Interactive Star Rating Pickers
   document.querySelectorAll('[data-rating-picker]').forEach((picker) => {
     const input = picker.querySelector('[data-rating-input]');
@@ -460,9 +498,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Form submission: save user review in localStorage and dispatch to Judge.me API
+  // Form submission: async AJAX send to Judge.me & Shopify without reloading or URL redirect
   document.querySelectorAll('.tc-review-form').forEach((form) => {
-    form.addEventListener('submit', () => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = form.querySelector('.tc-btn--submit');
+      const originalBtnText = submitBtn ? submitBtn.innerHTML : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>SUBMITTING...</span>';
+      }
+
       try {
         const author = form.querySelector('[data-author-input]')?.value?.trim();
         const quote = form.querySelector('[data-quote-input]')?.value?.trim();
@@ -472,25 +518,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = form.querySelector('[data-email-input]')?.value?.trim();
 
         if (author && quote) {
-          // 1. Instant local feedback
-          const newReview = {
-            author,
-            quote,
-            rating,
-            productTitle: productTitle || '',
-            productId: productId || '',
-            createdAt: Date.now(),
-          };
-
-          const raw = localStorage.getItem('contrario_user_reviews');
-          let list = [];
-          if (raw) {
-            try { list = JSON.parse(raw) || []; } catch (_) {}
-          }
-          list.push(newReview);
-          localStorage.setItem('contrario_user_reviews', JSON.stringify(list));
-
-          // 2. Dispatch to Judge.me API
+          // 1. Dispatch to Judge.me API
           const modal = form.closest('.tc-modal');
           const section = modal ? document.getElementById(modal.id.replace('TestimonialsModal-', 'TestimonialsContrario-')) : null;
           const shopDomain = section?.dataset.shopDomain || 'contrario-brand.myshopify.com';
@@ -512,12 +540,93 @@ document.addEventListener('DOMContentLoaded', () => {
               headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
               body: payload.toString()
             }).then(r => r.json()).then(data => {
-              console.log('Judge.me review dispatched successfully:', data);
-            }).catch(err => console.warn('Judge.me submit:', err));
+              console.log('Judge.me review submitted:', data);
+            }).catch(err => console.warn('Judge.me submit error:', err));
           }
+
+          // 2. Send Shopify contact form asynchronously in background
+          try {
+            const formData = new FormData(form);
+            fetch(form.action || '/contact', {
+              method: 'POST',
+              body: formData
+            }).catch(() => {});
+          } catch (_) {}
+
+          // 3. Show smooth success notification inside modal
+          let statusBox = modal.querySelector('.tc-form-status--success');
+          if (!statusBox) {
+            statusBox = document.createElement('div');
+            statusBox.className = 'tc-form-status tc-form-status--success';
+            statusBox.innerHTML = `
+              <div class="tc-form-status__icon">✓</div>
+              <div>
+                <strong>Thank you for your review!</strong>
+                <p>Your review has been submitted successfully and will be published shortly.</p>
+              </div>
+            `;
+            form.parentNode.insertBefore(statusBox, form);
+          } else {
+            statusBox.style.display = 'flex';
+          }
+
+          form.style.display = 'none';
+
+          // 4. Save review in localStorage
+          const newReview = {
+            author,
+            quote,
+            rating,
+            productTitle: productTitle || '',
+            productId: productId || '',
+            createdAt: Date.now(),
+          };
+
+          const raw = localStorage.getItem('contrario_user_reviews');
+          let list = [];
+          if (raw) {
+            try { list = JSON.parse(raw) || []; } catch (_) {}
+          }
+          list.push(newReview);
+          localStorage.setItem('contrario_user_reviews', JSON.stringify(list));
+
+          // 5. Update slider immediately
+          const slider = section?.querySelector('testimonials-slider');
+          if (slider) {
+            const newCard = slider.createReviewCard({
+              rating,
+              quote,
+              author: author || 'You',
+              verified: true,
+              productTitle: productTitle || '',
+              isUserSubmission: true
+            });
+            slider.grid.prepend(newCard);
+            slider.updateCards();
+            slider.createDots();
+            slider.updateState();
+          }
+
+          // Auto-close modal after 3 seconds without altering page URL
+          setTimeout(() => {
+            closeModal(modal);
+            setTimeout(() => {
+              form.reset();
+              form.style.display = '';
+              if (statusBox) statusBox.remove();
+              if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+              }
+            }, 400);
+          }, 3000);
         }
       } catch (err) {
         console.warn('Review submission error:', err);
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnText;
+        }
       }
     });
   });
