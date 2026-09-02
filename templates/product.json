@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -107,21 +116,80 @@
     },
     "1788375116a4cabd0d": {
       "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "testimonials_contrario_N4DwXm": {
+      "type": "testimonials-contrario",
       "blocks": {
-        "alireviews_product_app_block_DaKRgW": {
-          "type": "shopify://apps/alireviews/blocks/product-app-block/ed1f8756-3ef0-4b52-b2bc-4add334ee46d",
+        "testimonial_mV6RyF": {
+          "type": "testimonial",
           "settings": {
-            "product": "{{ product }}",
-            "product_id": "",
-            "hide_full_reviews": false
+            "rating": 5,
+            "quote": "Insane quality and heavy weight fabric. Fits exactly how streetwear should. Absolutely top tier.",
+            "author_name": "ALEX V.",
+            "author_info": "VERIFIED BUYER",
+            "verified": true,
+            "product": "",
+            "product_name": "CONTRARIO HEAVY HOODIE",
+            "product_link": ""
+          }
+        },
+        "testimonial_zHRMQg": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "Unmatched style and attitude. Fast shipping and premium packaging. Will definitely buy again.",
+            "author_name": "MARCUS K.",
+            "author_info": "VERIFIED BUYER",
+            "verified": true,
+            "product": "",
+            "product_name": "REBELLION OVERSIZED TEE",
+            "product_link": ""
+          }
+        },
+        "testimonial_mtk9mb": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "The fit, structure, and details on this piece are next level. Maximum personality guaranteed.",
+            "author_name": "SOPHIA R.",
+            "author_info": "VERIFIED BUYER",
+            "verified": true,
+            "product": "",
+            "product_name": "CONTRARIO CARGO PANTS",
+            "product_link": ""
           }
         }
       },
       "block_order": [
-        "alireviews_product_app_block_DaKRgW"
+        "testimonial_mV6RyF",
+        "testimonial_zHRMQg",
+        "testimonial_mtk9mb"
       ],
+      "name": "Testimonios Contrario",
       "settings": {
-        "include_margins": true
+        "subtitle": "VERIFIED REVIEWS",
+        "title": "WHAT THEY SAY",
+        "heading_alignment": "left",
+        "filter_current_product": true,
+        "show_write_review_button": true,
+        "write_review_button_label": "WRITE A REVIEW",
+        "card_style": "clean",
+        "border_radius": 0,
+        "columns_desktop": 3,
+        "enable_carousel": true,
+        "autorotate": false,
+        "autorotate_speed": 5,
+        "show_stars": true,
+        "show_quotes": true,
+        "show_verified_badge": true,
+        "background_color": "#ffffff",
+        "title_color": "#121212",
+        "accent_color": "#f59e0b",
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     },
     "related-products": {
@@ -153,6 +221,7 @@
             "author_name": "Wendy",
             "author_info": "VERIFIED BUYER",
             "verified": true,
+            "product": "",
             "product_name": "Ash Tee",
             "product_link": "shopify://products/ash-tee"
           }
@@ -252,6 +321,7 @@
     "main",
     "1788375066ed9933f4",
     "1788375116a4cabd0d",
+    "testimonials_contrario_N4DwXm",
     "related-products",
     "testimonials_contrario",
     "rich_text_EfRmnd",
