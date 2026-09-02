@@ -477,8 +477,7 @@ a.product__text {
   }
 
   .product--thumbnail .product__media-item:not(.is-active),
-  .product--thumbnail_slider .product__media-item:not(.is-active),
-  .product--thumbnail_left .product__media-item:not(.is-active) {
+  .product--thumbnail_slider .product__media-item:not(.is-active) {
     display: none !important;
   }
 
@@ -1561,46 +1560,62 @@ a.product__text {
   }
 
   .product--thumbnail_left .product__media-list {
-    display: block;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
     margin: 0;
     padding: 0;
     width: 100%;
+    position: relative;
   }
 
   .product--thumbnail_left .product__media-item {
+    grid-area: 1 / 1;
     width: 100% !important;
     max-width: 100% !important;
     padding: 0 !important;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .product--thumbnail_left .product__media-item:not(.is-active) {
-    display: none !important;
+  /* Seamless Apple Design Crossfade: previous image remains visible underneath until new image is fully opaque */
+  .product--thumbnail_left .product__media-item.is-prev-active {
+    opacity: 1 !important;
+    visibility: visible !important;
+    z-index: 2 !important;
+    pointer-events: none;
+    transition: none !important;
   }
 
   .product--thumbnail_left .product__media-item.is-active {
-    display: block !important;
-    animation: fadeInMedia 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: opacity, transform;
+    opacity: 1 !important;
+    visibility: visible !important;
+    z-index: 3 !important;
+    pointer-events: auto;
+    animation: fadeInMediaCross 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    will-change: opacity;
   }
 
-  @keyframes fadeInMedia {
+  @keyframes fadeInMediaCross {
     from {
-      opacity: 0.6;
-      transform: scale(0.995);
+      opacity: 0;
     }
     to {
       opacity: 1;
-      transform: scale(1);
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .product--thumbnail_left .product__media-item.is-active {
-      animation: fadeInMediaReduced 0.15s ease;
+      animation: fadeInMediaCrossReduced 0.12s ease forwards;
     }
-    @keyframes fadeInMediaReduced {
+    @keyframes fadeInMediaCrossReduced {
       from {
-        opacity: 0.7;
+        opacity: 0;
       }
       to {
         opacity: 1;

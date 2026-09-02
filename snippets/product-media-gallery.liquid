@@ -103,7 +103,9 @@
             {%- liquid
               assign media_position = media_position | default: 0 | plus: 1
               assign lazy_load = false
-              if media_position > 1
+              if section.settings.gallery_layout contains 'thumbnail'
+                assign lazy_load = false
+              elsif media_position > 1
                 assign lazy_load = true
               endif
             -%}

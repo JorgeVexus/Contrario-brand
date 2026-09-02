@@ -12,6 +12,8 @@ if (!customElements.get('media-gallery')) {
         this.mql = window.matchMedia('(min-width: 750px)');
         if (!this.elements.thumbnails) return;
 
+        this.preloadImages();
+
         this.elements.viewer.addEventListener('slideChanged', debounce(this.onSlideChanged.bind(this), 500));
 
         const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
@@ -66,6 +68,18 @@ if (!customElements.get('media-gallery')) {
         if (this.dataset.desktopLayout.includes('thumbnail') && this.mql.matches) this.removeListSemantic();
       }
 
+      preloadImages() {
+        if (!this.elements.viewer) return;
+        const images = this.elements.viewer.querySelectorAll('img');
+        images.forEach((img) => {
+          img.loading = 'eager';
+          img.decoding = 'async';
+          if ('decode' in img && !img.complete) {
+            img.decode().catch(() => {});
+          }
+        });
+      }
+
       stepActiveMedia(direction) {
         const mediaItems = Array.from(this.elements.viewer.querySelectorAll('li.product__media-item[data-media-id]'));
         if (mediaItems.length <= 1) return;
@@ -96,9 +110,26 @@ if (!customElements.get('media-gallery')) {
           return;
         }
 
-        this.elements.viewer.querySelectorAll('li.product__media-item').forEach((element) => {
-          element.classList.remove('is-active');
-        });
+        // Apple Design: Seamless crossfade — keep previous image underneath during transition to eliminate white flash
+        const prevActive = this.elements.viewer.querySelector('li.product__media-item.is-active');
+        if (prevActive && prevActive !== activeMedia) {
+          this.elements.viewer.querySelectorAll('li.product__media-item.is-prev-active').forEach((el) => {
+            el.classList.remove('is-prev-active');
+          });
+          prevActive.classList.add('is-prev-active');
+          prevActive.classList.remove('is-active');
+
+          if (this._prevActiveTimeout) clearTimeout(this._prevActiveTimeout);
+          this._prevActiveTimeout = setTimeout(() => {
+            if (prevActive) prevActive.classList.remove('is-prev-active');
+          }, 350);
+        } else {
+          this.elements.viewer.querySelectorAll('li.product__media-item').forEach((element) => {
+            element.classList.remove('is-active');
+            element.classList.remove('is-prev-active');
+          });
+        }
+
         activeMedia.classList.add('is-active');
 
         if (prepend) {
