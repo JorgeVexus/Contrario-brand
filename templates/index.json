@@ -114,7 +114,7 @@
         "products_to_show": 4,
         "show_view_all": true,
         "view_all_label": "VIEW ALL",
-        "background_color": "#FFFFFF",
+        "background_color": "#ffffff",
         "text_color": "",
         "padding_top": 60,
         "padding_bottom": 60
@@ -181,6 +181,78 @@
         "background_color": "#ffffff",
         "padding_top": 60,
         "padding_bottom": 60
+      }
+    },
+    "1788375506575315b0": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "testimonials_contrario_NmD633": {
+      "type": "testimonials-contrario",
+      "blocks": {
+        "testimonial_znin3q": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "\"I recently got this awesome middle finger print blouse for my girlfriend, and she couldn’t stop smiling! The moment she unwrapped it, her ayes lit up with joy.\"",
+            "author_name": "Erick",
+            "author_info": "VERIFIED BUYER",
+            "verified": true,
+            "product_name": "",
+            "product_link": ""
+          }
+        },
+        "testimonial_k3Fz6R": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "\"I bought this printed blouse kinda cautiously, but now I’m totally blown away. The material quality is top-notch, super soft to the touch, and feels really comfy when I put it on.\"",
+            "author_name": "Yerlin",
+            "author_info": "VERIFIED BUYER",
+            "verified": true,
+            "product_name": "",
+            "product_link": ""
+          }
+        },
+        "testimonial_PBT4tx": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "\"What I appreciate most about this blouse is its adaptability. It pairs perfectly with jeans for a relaxed look or with tailored pants for a formal event. Moreover, I always receive numerous compliments when I wear it, which makes me feel fantastic.\"",
+            "author_name": "Wendy",
+            "author_info": "VERIFIED BUYER",
+            "verified": true,
+            "product_name": "Ash Tee",
+            "product_link": "shopify://products/ash-tee"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_znin3q",
+        "testimonial_k3Fz6R",
+        "testimonial_PBT4tx"
+      ],
+      "name": "Testimonios Contrario",
+      "settings": {
+        "subtitle": "VERIFIED REVIEWS",
+        "title": "WHAT THEY SAY",
+        "heading_alignment": "center",
+        "card_style": "clean",
+        "border_radius": 0,
+        "columns_desktop": 3,
+        "enable_carousel": true,
+        "autorotate": false,
+        "autorotate_speed": 5,
+        "show_stars": true,
+        "show_quotes": true,
+        "show_verified_badge": true,
+        "background_color": "#ffffff",
+        "title_color": "#121212",
+        "accent_color": "#f59e0b",
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     },
     "17680796693645433c": {
@@ -540,72 +612,6 @@
         "padding_bottom": 20
       }
     },
-    "testimonials_contrario_NmD633": {
-      "type": "testimonials-contrario",
-      "blocks": {
-        "testimonial_znin3q": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "\"I recently got this awesome middle finger print blouse for my girlfriend, and she couldn’t stop smiling! The moment she unwrapped it, her ayes lit up with joy.\"",
-            "author_name": "Erick",
-            "author_info": "VERIFIED BUYER",
-            "verified": true,
-            "product_name": "",
-            "product_link": ""
-          }
-        },
-        "testimonial_k3Fz6R": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "\"I bought this printed blouse kinda cautiously, but now I’m totally blown away. The material quality is top-notch, super soft to the touch, and feels really comfy when I put it on.\"",
-            "author_name": "Yerlin",
-            "author_info": "VERIFIED BUYER",
-            "verified": true,
-            "product_name": "",
-            "product_link": ""
-          }
-        },
-        "testimonial_PBT4tx": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "\"What I appreciate most about this blouse is its adaptability. It pairs perfectly with jeans for a relaxed look or with tailored pants for a formal event. Moreover, I always receive numerous compliments when I wear it, which makes me feel fantastic.\"",
-            "author_name": "Wendy",
-            "author_info": "VERIFIED BUYER",
-            "verified": true,
-            "product_name": "Ash Tee",
-            "product_link": "shopify://products/ash-tee"
-          }
-        }
-      },
-      "block_order": [
-        "testimonial_znin3q",
-        "testimonial_k3Fz6R",
-        "testimonial_PBT4tx"
-      ],
-      "name": "Testimonios Contrario",
-      "settings": {
-        "subtitle": "VERIFIED REVIEWS",
-        "title": "WHAT THEY SAY",
-        "heading_alignment": "center",
-        "card_style": "clean",
-        "border_radius": 0,
-        "columns_desktop": 3,
-        "enable_carousel": true,
-        "autorotate": false,
-        "autorotate_speed": 5,
-        "show_stars": true,
-        "show_quotes": true,
-        "show_verified_badge": true,
-        "background_color": "#ffffff",
-        "title_color": "#121212",
-        "accent_color": "#f59e0b",
-        "padding_top": 64,
-        "padding_bottom": 64
-      }
-    },
     "featured_collection_49mUea": {
       "type": "featured-collection",
       "disabled": true,
@@ -835,6 +841,7 @@
     "campaign_hero_CnDeBL",
     "editorial_lookbook_figma",
     "bento_categories_figma",
+    "1788375506575315b0",
     "testimonials_contrario_NmD633",
     "17680796693645433c",
     "editorial_lookbook_AgHzTx",
