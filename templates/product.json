@@ -237,6 +237,7 @@
         "filter_current_product": true,
         "show_write_review_button": true,
         "write_review_button_label": "WRITE A REVIEW",
+        "judgeme_public_token": "0bAfNHnpbeSdGq2XlrWZNa3Ehj4",
         "card_style": "clean",
         "border_radius": 0,
         "columns_desktop": 3,

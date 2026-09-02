@@ -32,10 +32,13 @@
 <section
   id="TestimonialsContrario-{{ section.id }}"
   class="testimonials-contrario{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+  data-shop-domain="{{ shop.permanent_domain }}"
+  data-judgeme-token="{{ section.settings.judgeme_public_token | default: shop.metafields.judgeme.public_token | escape }}"
   data-is-product-page="{{ is_product_page }}"
   {% if is_product_page %}
     data-current-product-id="{{ product.id }}"
     data-current-product-title="{{ product.title | escape }}"
+    data-current-product-handle="{{ product.handle | escape }}"
   {% endif %}
 >
   <div class="testimonials-contrario__container">
@@ -491,6 +494,16 @@
       "id": "write_review_button_label",
       "label": "Texto del botón de reseña",
       "default": "WRITE A REVIEW"
+    },
+    {
+      "type": "header",
+      "content": "Integración con Judge.me"
+    },
+    {
+      "type": "text",
+      "id": "judgeme_public_token",
+      "label": "Token público de Judge.me",
+      "info": "Búscalo en Judge.me > Settings > Integrations > Developers"
     },
     {
       "type": "header",

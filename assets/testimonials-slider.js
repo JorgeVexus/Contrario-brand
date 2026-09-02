@@ -20,6 +20,9 @@ if (!customElements.get('testimonials-slider')) {
       // Inject any locally submitted reviews by the current user
       this.injectLocalReviews();
 
+      // Load live reviews from Judge.me API if configured
+      this.loadJudgeMeReviews();
+
       this.updateCards();
       if (this.cards.length === 0) return;
 
@@ -50,6 +53,54 @@ if (!customElements.get('testimonials-slider')) {
       this.cards = Array.from(this.track.querySelectorAll('.tc-card'));
     }
 
+    createReviewCard({ rating = 5, quote = '', author = 'MEMBER', verified = true, productTitle = '', isUserSubmission = false }) {
+      const card = document.createElement('div');
+      card.className = 'tc-card tc-card--clean' + (isUserSubmission ? ' tc-card--user-submission' : '');
+
+      let starsHtml = '';
+      const ratingNum = parseInt(rating, 10) || 5;
+      for (let i = 1; i <= 5; i++) {
+        if (i <= ratingNum) {
+          starsHtml += '<svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>';
+        } else {
+          starsHtml += '<svg viewBox="0 0 24 24" style="opacity: 0.25;"><path d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"/></svg>';
+        }
+      }
+
+      const safeQuote = this.escapeHtml(quote);
+      const safeAuthor = this.escapeHtml(author);
+      const safeProduct = this.escapeHtml(productTitle);
+      const initial = safeAuthor.charAt(0).toUpperCase() || 'M';
+
+      card.innerHTML = `
+        <div class="tc-card__header">
+          <div class="tc-stars" aria-label="${ratingNum} out of 5 stars">${starsHtml}</div>
+          <svg class="tc-quote-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/>
+          </svg>
+        </div>
+        <div class="tc-card__body">
+          ${isUserSubmission ? '<span class="tc-user-badge">YOUR REVIEW (PENDING APPROVAL)</span>' : ''}
+          <p class="tc-text">“${safeQuote}”</p>
+          ${safeProduct ? `<span class="tc-product-tag"><span>🏷️ ${safeProduct}</span></span>` : ''}
+        </div>
+        <div class="tc-card__footer">
+          <div class="tc-avatar"><span>${initial}</span></div>
+          <div class="tc-author-meta">
+            <div class="tc-author-name-wrap">
+              <h3 class="tc-author-name">${safeAuthor}</h3>
+              ${verified ? `
+                <span class="tc-verified-badge" title="Verified Buyer">
+                  <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                </span>` : ''}
+            </div>
+            <p class="tc-author-info">${isUserSubmission ? 'RECENT BUYER' : (verified ? 'VERIFIED BUYER' : 'MEMBER')}</p>
+          </div>
+        </div>
+      `;
+      return card;
+    }
+
     injectLocalReviews() {
       if (!this.grid) return;
       try {
@@ -62,10 +113,9 @@ if (!customElements.get('testimonials-slider')) {
         const currentProdId = this.section?.dataset.currentProductId;
         const currentProdTitle = this.section?.dataset.currentProductTitle;
 
-        // Hide empty state if present
         const emptyState = this.track.querySelector('.tc-empty-state');
-
         let injectedCount = 0;
+
         reviews.reverse().forEach((item) => {
           if (isProductPage && currentProdId) {
             const matchesId = item.productId && String(item.productId) === String(currentProdId);
@@ -73,50 +123,14 @@ if (!customElements.get('testimonials-slider')) {
             if (!matchesId && !matchesTitle) return;
           }
 
-          // Generate card element
-          const card = document.createElement('div');
-          card.className = 'tc-card tc-card--clean tc-card--user-submission';
-
-          let starsHtml = '';
-          const ratingNum = parseInt(item.rating, 10) || 5;
-          for (let i = 1; i <= 5; i++) {
-            if (i <= ratingNum) {
-              starsHtml += '<svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>';
-            } else {
-              starsHtml += '<svg viewBox="0 0 24 24" style="opacity: 0.25;"><path d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"/></svg>';
-            }
-          }
-
-          const safeQuote = this.escapeHtml(item.quote || '');
-          const safeAuthor = this.escapeHtml(item.author || 'You');
-          const safeProduct = this.escapeHtml(item.productTitle || '');
-          const initial = safeAuthor.charAt(0).toUpperCase() || 'Y';
-
-          card.innerHTML = `
-            <div class="tc-card__header">
-              <div class="tc-stars" aria-label="${ratingNum} out of 5 stars">${starsHtml}</div>
-              <svg class="tc-quote-icon" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/>
-              </svg>
-            </div>
-            <div class="tc-card__body">
-              <span class="tc-user-badge">YOUR REVIEW (PENDING APPROVAL)</span>
-              <p class="tc-text">“${safeQuote}”</p>
-              ${safeProduct ? `<span class="tc-product-tag"><span>🏷️ ${safeProduct}</span></span>` : ''}
-            </div>
-            <div class="tc-card__footer">
-              <div class="tc-avatar"><span>${initial}</span></div>
-              <div class="tc-author-meta">
-                <div class="tc-author-name-wrap">
-                  <h3 class="tc-author-name">${safeAuthor}</h3>
-                  <span class="tc-verified-badge" title="Verified Buyer">
-                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                  </span>
-                </div>
-                <p class="tc-author-info">RECENT BUYER</p>
-              </div>
-            </div>
-          `;
+          const card = this.createReviewCard({
+            rating: item.rating,
+            quote: item.quote,
+            author: item.author || 'You',
+            verified: true,
+            productTitle: item.productTitle,
+            isUserSubmission: true
+          });
 
           this.grid.prepend(card);
           injectedCount++;
@@ -127,6 +141,95 @@ if (!customElements.get('testimonials-slider')) {
         }
       } catch (err) {
         console.warn('Contrario reviews storage:', err);
+      }
+    }
+
+    async loadJudgeMeReviews() {
+      if (!this.grid) return;
+      const shopDomain = this.section?.dataset.shopDomain || 'contrario-brand.myshopify.com';
+      const judgemeToken = this.section?.dataset.judgemeToken || window.jdgmSettings?.apiToken || '0bAfNHnpbeSdGq2XlrWZNa3Ehj4';
+      if (!shopDomain || !judgemeToken) return;
+
+      const isProductPage = this.section?.dataset.isProductPage === 'true';
+      const currentProdId = this.section?.dataset.currentProductId;
+      const currentProdHandle = this.section?.dataset.currentProductHandle;
+      const emptyState = this.track.querySelector('.tc-empty-state');
+
+      try {
+        // Strategy 1: If on product page, query Judge.me product review widget API (works with Public Token)
+        if (isProductPage && currentProdHandle) {
+          const widgetUrl = `https://judge.me/api/v1/widgets/product_review?api_token=${encodeURIComponent(judgemeToken)}&shop_domain=${encodeURIComponent(shopDomain)}&handle=${encodeURIComponent(currentProdHandle)}`;
+          const widgetRes = await fetch(widgetUrl);
+          if (widgetRes.ok) {
+            const widgetData = await widgetRes.json();
+            if (widgetData?.widget) {
+              const parser = new DOMParser();
+              const doc = parser.parseFromString(widgetData.widget, 'text/html');
+              const reviewItems = doc.querySelectorAll('.jdgm-rev');
+
+              if (reviewItems && reviewItems.length > 0) {
+                if (emptyState) emptyState.style.display = 'none';
+
+                reviewItems.forEach((revEl) => {
+                  const rating = parseInt(revEl.querySelector('.jdgm-rev__rating')?.getAttribute('data-score') || '5', 10);
+                  const author = revEl.querySelector('.jdgm-rev__author')?.textContent?.trim() || 'Customer';
+                  const title = revEl.querySelector('.jdgm-rev__title')?.textContent?.trim() || '';
+                  const body = revEl.querySelector('.jdgm-rev__body')?.textContent?.trim() || '';
+                  const verified = !!revEl.querySelector('.jdgm-rev__buyer-badge');
+
+                  const card = this.createReviewCard({
+                    rating,
+                    quote: body || title || '',
+                    author,
+                    verified,
+                    productTitle: this.section?.dataset.currentProductTitle || '',
+                    isUserSubmission: false
+                  });
+                  this.grid.appendChild(card);
+                });
+
+                this.updateCards();
+                this.createDots();
+                this.updateState();
+                return;
+              }
+            }
+          }
+        }
+
+        // Strategy 2: Query Judge.me REST reviews endpoint (works with Private Token or permissive Public Token)
+        let url = `https://judge.me/api/v1/reviews?api_token=${encodeURIComponent(judgemeToken)}&shop_domain=${encodeURIComponent(shopDomain)}&per_page=20`;
+        if (isProductPage && currentProdId) {
+          url += `&product_id=${encodeURIComponent(currentProdId)}`;
+        }
+
+        const res = await fetch(url);
+        if (res.ok) {
+          const data = await res.json();
+          const reviews = data?.reviews;
+
+          if (Array.isArray(reviews) && reviews.length > 0) {
+            if (emptyState) emptyState.style.display = 'none';
+
+            reviews.forEach((rev) => {
+              const card = this.createReviewCard({
+                rating: rev.rating,
+                quote: rev.body || rev.title || '',
+                author: rev.reviewer?.name || 'Customer',
+                verified: rev.reviewer?.verified_buyer !== false,
+                productTitle: rev.product_title || '',
+                isUserSubmission: false
+              });
+              this.grid.appendChild(card);
+            });
+
+            this.updateCards();
+            this.createDots();
+            this.updateState();
+          }
+        }
+      } catch (err) {
+        console.warn('Judge.me reviews fetch error:', err);
       }
     }
 
@@ -338,21 +441,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Form submission: save user review in localStorage for instant local feedback
+  // Form submission: save user review in localStorage and dispatch to Judge.me API
   document.querySelectorAll('.tc-review-form').forEach((form) => {
     form.addEventListener('submit', () => {
       try {
         const author = form.querySelector('[data-author-input]')?.value?.trim();
         const quote = form.querySelector('[data-quote-input]')?.value?.trim();
-        const rating = form.querySelector('[data-rating-input]')?.value;
+        const rating = form.querySelector('[data-rating-input]')?.value || '5';
         const productTitle = form.querySelector('[data-product-title]')?.value?.trim();
         const productId = form.querySelector('[data-product-id]')?.value;
+        const email = form.querySelector('[data-email-input]')?.value?.trim();
 
         if (author && quote) {
+          // 1. Instant local feedback
           const newReview = {
             author,
             quote,
-            rating: rating || 5,
+            rating,
             productTitle: productTitle || '',
             productId: productId || '',
             createdAt: Date.now(),
@@ -365,9 +470,35 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           list.push(newReview);
           localStorage.setItem('contrario_user_reviews', JSON.stringify(list));
+
+          // 2. Dispatch to Judge.me API
+          const modal = form.closest('.tc-modal');
+          const section = modal ? document.getElementById(modal.id.replace('TestimonialsModal-', 'TestimonialsContrario-')) : null;
+          const shopDomain = section?.dataset.shopDomain || 'contrario-brand.myshopify.com';
+          const apiToken = section?.dataset.judgemeToken || '0bAfNHnpbeSdGq2XlrWZNa3Ehj4';
+
+          if (shopDomain && apiToken) {
+            const payload = new URLSearchParams();
+            payload.append('api_token', apiToken);
+            payload.append('shop_domain', shopDomain);
+            payload.append('platform', 'shopify');
+            if (productId) payload.append('id', productId);
+            payload.append('name', author);
+            if (email) payload.append('email', email);
+            payload.append('rating', rating);
+            payload.append('body', quote);
+
+            fetch('https://judge.me/api/v1/reviews', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+              body: payload.toString()
+            }).then(r => r.json()).then(data => {
+              console.log('Judge.me review dispatched successfully:', data);
+            }).catch(err => console.warn('Judge.me submit:', err));
+          }
         }
       } catch (err) {
-        console.warn('LocalStorage save error:', err);
+        console.warn('Review submission error:', err);
       }
     });
   });

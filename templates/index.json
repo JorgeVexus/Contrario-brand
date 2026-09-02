@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "hero_rebellion_figma": {
@@ -239,6 +230,9 @@
         "subtitle": "VERIFIED REVIEWS",
         "title": "WHAT THEY SAY",
         "heading_alignment": "center",
+        "show_write_review_button": true,
+        "write_review_button_label": "WRITE A REVIEW",
+        "judgeme_public_token": "0bAfNHnpbeSdGq2XlrWZNa3Ehj4",
         "card_style": "clean",
         "border_radius": 0,
         "columns_desktop": 3,
