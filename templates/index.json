@@ -21,7 +21,7 @@
         "content_alignment_horizontal": "left",
         "heading": "WEAR THE REBELLION",
         "heading_tag": "h1",
-        "button_label": "SHOP NOW",
+        "button_label": "SHOP women",
         "button_link": "shopify://collections/all",
         "padding_top": 0,
         "padding_bottom": 0
@@ -103,12 +103,19 @@
     "editorial_lookbook_figma": {
       "type": "editorial-lookbook",
       "settings": {
-        "heading": "NEW ARRIVALS",
-        "collection": "girl",
+        "heading": "BEST SELLERS",
+        "product_list": [
+          "t-shirt-cotton-ruffle-white",
+          "blouse-baby-bats",
+          "muerte-tank",
+          "t-shirt-tie-dye"
+        ],
+        "collection": "women",
         "products_to_show": 4,
         "show_view_all": true,
         "view_all_label": "VIEW ALL",
-        "background_color": "#131313",
+        "background_color": "#FFFFFF",
+        "text_color": "",
         "padding_top": 60,
         "padding_bottom": 60
       }
@@ -228,11 +235,13 @@
       "type": "editorial-lookbook",
       "settings": {
         "heading": "NEW ARRIVALS",
+        "product_list": [],
         "collection": "amazon",
         "products_to_show": 4,
         "show_view_all": true,
         "view_all_label": "VIEW ALL",
         "background_color": "#ffffff",
+        "text_color": "",
         "padding_top": 60,
         "padding_bottom": 60
       }
@@ -826,6 +835,7 @@
     "campaign_hero_CnDeBL",
     "editorial_lookbook_figma",
     "bento_categories_figma",
+    "testimonials_contrario_NmD633",
     "17680796693645433c",
     "editorial_lookbook_AgHzTx",
     "image_with_text_wUMzb4",
@@ -834,7 +844,6 @@
     "17386375318778a401",
     "banner_contrario_G9z4Te",
     "image_with_text_DqUibD",
-    "testimonials_contrario_NmD633",
     "featured_collection_49mUea",
     "blocks_Jn3BPr",
     "image_banner_8dgyJq",
