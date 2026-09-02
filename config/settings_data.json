@@ -140,6 +140,40 @@
         "settings": {
           "color_scheme": "scheme-1"
         }
+      },
+      "brand-preloader": {
+        "type": "brand-preloader",
+        "settings": {
+          "enable_preloader": true,
+          "enable_page_transitions": true,
+          "logo_width": 140,
+          "mobile_logo_width": 110,
+          "bg_color": "#ffffff",
+          "logo_animation": "subtle-pulse",
+          "min_duration": 500,
+          "max_timeout": 2500
+        }
+      },
+      "exit-intent-popup": {
+        "type": "exit-intent-popup",
+        "settings": {
+          "enable_popup": false,
+          "test_mode": false,
+          "badge_text": "DON'T MISS OUT",
+          "heading": "WAIT! TAKE 15% OFF",
+          "text": "<p>Unlock 15% off your first order before you go. Wear the rebellion.</p>",
+          "discount_code": "REBELLION15",
+          "discount_label": "YOUR EXCLUSIVE CODE",
+          "copy_label": "COPY",
+          "copied_label": "✓ COPIED",
+          "show_newsletter": false,
+          "email_placeholder": "Enter your email",
+          "button_label": "SHOP WITH 15% OFF",
+          "button_link": "",
+          "secondary_label": "No thanks, I'll pay full price",
+          "delay_seconds": 3,
+          "frequency_days": 7
+        }
       }
     },
     "content_for_index": [],
@@ -162,6 +196,11 @@
       "2200952712151285029": {
         "type": "shopify://apps/microsoft-clarity/blocks/brandAgents_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea",
         "disabled": true,
+        "settings": {}
+      },
+      "11725188719379445612": {
+        "type": "shopify://apps/alireviews/blocks/collection-app-embed-block/ed1f8756-3ef0-4b52-b2bc-4add334ee46d",
+        "disabled": false,
         "settings": {}
       }
     },
