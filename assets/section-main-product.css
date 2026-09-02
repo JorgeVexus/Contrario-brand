@@ -1579,17 +1579,32 @@ a.product__text {
 
   .product--thumbnail_left .product__media-item.is-active {
     display: block !important;
-    animation: fadeInMedia 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: fadeInMedia 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
   }
 
   @keyframes fadeInMedia {
     from {
-      opacity: 0.4;
-      transform: scale(0.99);
+      opacity: 0.6;
+      transform: scale(0.995);
     }
     to {
       opacity: 1;
       transform: scale(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .product--thumbnail_left .product__media-item.is-active {
+      animation: fadeInMediaReduced 0.15s ease;
+    }
+    @keyframes fadeInMediaReduced {
+      from {
+        opacity: 0.7;
+      }
+      to {
+        opacity: 1;
+      }
     }
   }
 
@@ -1685,28 +1700,44 @@ a.product__text {
     width: 100%;
     aspect-ratio: 3 / 4;
     object-fit: cover;
-    border-radius: 2px;
+    border-radius: 3px;
     border: 1px solid rgba(255, 255, 255, 0.15);
     background: #141414;
     cursor: pointer;
-    opacity: 0.7;
-    transition: border-color 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+    opacity: 0.65;
+    transition: border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
   }
 
   .product--thumbnail_left .thumbnail:hover {
-    border-color: rgba(255, 255, 255, 0.6);
+    border-color: rgba(255, 255, 255, 0.65);
     opacity: 0.95;
+    transform: scale(1.02);
   }
 
   .product--thumbnail_left .thumbnail:active {
-    opacity: 0.55;
+    transform: scale(0.96);
+    opacity: 0.75;
+    transition-duration: 80ms;
   }
 
   .product--thumbnail_left .thumbnail[aria-current='true'],
   .product--thumbnail_left .is-active .thumbnail {
     border-color: #ffffff;
     opacity: 1;
+    transform: scale(1);
     box-shadow: 0 0 0 1px #ffffff;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .product--thumbnail_left .thumbnail,
+    .product--thumbnail_left .thumbnail:hover,
+    .product--thumbnail_left .thumbnail:active {
+      transform: none !important;
+    }
   }
 
   .product--thumbnail_left .thumbnail-slider > .slider-button {

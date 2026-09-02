@@ -13,10 +13,33 @@ if (!customElements.get('media-gallery')) {
         if (!this.elements.thumbnails) return;
 
         this.elements.viewer.addEventListener('slideChanged', debounce(this.onSlideChanged.bind(this), 500));
+
+        const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+
         this.elements.thumbnails.querySelectorAll('[data-target]').forEach((mediaToSwitch) => {
-          mediaToSwitch
-            .querySelector('button')
-            .addEventListener('click', this.setActiveMedia.bind(this, mediaToSwitch.dataset.target, false));
+          const button = mediaToSwitch.querySelector('button');
+          if (!button) return;
+
+          const targetMediaId = mediaToSwitch.dataset.target;
+
+          // Click trigger (supports touch and manual clicks)
+          button.addEventListener('click', () => {
+            this.setActiveMedia(targetMediaId, false, true);
+          });
+
+          // Apple Design: Instant, zero-latency tactile hover response for mouse / trackpad
+          button.addEventListener('pointerenter', (event) => {
+            if (event.pointerType === 'mouse' || event.pointerType === 'pen' || isFinePointer.matches) {
+              this.setActiveMedia(targetMediaId, false, false);
+            }
+          });
+
+          // Focus trigger for keyboard navigation
+          button.addEventListener('focus', () => {
+            if (isFinePointer.matches) {
+              this.setActiveMedia(targetMediaId, false, false);
+            }
+          });
         });
 
         const prevBtn = this.elements.viewer.querySelector('button[name="previous"]');
@@ -50,7 +73,7 @@ if (!customElements.get('media-gallery')) {
         const safeCurrentIndex = currentIndex === -1 ? 0 : currentIndex;
         let newIndex = (safeCurrentIndex + direction + mediaItems.length) % mediaItems.length;
         const targetMediaId = mediaItems[newIndex].dataset.mediaId;
-        this.setActiveMedia(targetMediaId, false);
+        this.setActiveMedia(targetMediaId, false, true);
       }
 
       onSlideChanged(event) {
@@ -60,13 +83,19 @@ if (!customElements.get('media-gallery')) {
         this.setActiveThumbnail(thumbnail);
       }
 
-      setActiveMedia(mediaId, prepend) {
+      setActiveMedia(mediaId, prepend, shouldScroll = true) {
         const activeMedia =
           this.elements.viewer.querySelector(`li.product__media-item[data-media-id="${mediaId}"]`) ||
           this.elements.viewer.querySelector('li.product__media-item[data-media-id]');
         if (!activeMedia) {
           return;
         }
+
+        // Avoid redundant animations and re-renders if already active
+        if (activeMedia.classList.contains('is-active') && !prepend) {
+          return;
+        }
+
         this.elements.viewer.querySelectorAll('li.product__media-item').forEach((element) => {
           element.classList.remove('is-active');
         });
@@ -77,7 +106,9 @@ if (!customElements.get('media-gallery')) {
 
           if (this.elements.thumbnails) {
             const activeThumbnail = this.elements.thumbnails.querySelector(`[data-target="${mediaId}"]`);
-            activeThumbnail.parentElement.firstChild !== activeThumbnail && activeThumbnail.parentElement.prepend(activeThumbnail);
+            if (activeThumbnail) {
+              activeThumbnail.parentElement.firstChild !== activeThumbnail && activeThumbnail.parentElement.prepend(activeThumbnail);
+            }
           }
 
           if (this.elements.viewer.slider) this.elements.viewer.resetPages();
@@ -88,18 +119,22 @@ if (!customElements.get('media-gallery')) {
           if (!this.mql.matches || this.elements.thumbnails) {
             activeMedia.parentElement.scrollTo({ left: activeMedia.offsetLeft });
           }
-          const activeMediaRect = activeMedia.getBoundingClientRect();
-          // Don't scroll if the image is already in view
-          if (activeMediaRect.top > -0.5) return;
-          const top = activeMediaRect.top + window.scrollY;
-          window.scrollTo({ top: top, behavior: 'smooth' });
+          if (shouldScroll) {
+            const activeMediaRect = activeMedia.getBoundingClientRect();
+            // Don't scroll if the image is already in view
+            if (activeMediaRect.top > -0.5) return;
+            const top = activeMediaRect.top + window.scrollY;
+            window.scrollTo({ top: top, behavior: 'smooth' });
+          }
         });
         this.playActiveMedia(activeMedia);
 
         if (!this.elements.thumbnails) return;
         const activeThumbnail = this.elements.thumbnails.querySelector(`[data-target="${mediaId}"]`);
-        this.setActiveThumbnail(activeThumbnail);
-        this.announceLiveRegion(activeMedia, activeThumbnail.dataset.mediaPosition);
+        if (activeThumbnail) {
+          this.setActiveThumbnail(activeThumbnail);
+          this.announceLiveRegion(activeMedia, activeThumbnail.dataset.mediaPosition);
+        }
       }
 
       setActiveThumbnail(thumbnail) {
