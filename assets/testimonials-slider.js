@@ -20,7 +20,7 @@ if (!customElements.get('testimonials-slider')) {
       // Inject any locally submitted reviews by the current user
       this.injectLocalReviews();
 
-      // Load live reviews from Judge.me API if configured
+      // Load live reviews from Judge.me API widgets
       this.loadJudgeMeReviews();
 
       this.updateCards();
@@ -151,12 +151,11 @@ if (!customElements.get('testimonials-slider')) {
       if (!shopDomain || !judgemeToken) return;
 
       const isProductPage = this.section?.dataset.isProductPage === 'true';
-      const currentProdId = this.section?.dataset.currentProductId;
       const currentProdHandle = this.section?.dataset.currentProductHandle;
       const emptyState = this.track.querySelector('.tc-empty-state');
 
       try {
-        // Strategy 1: If on product page, query Judge.me product review widget API (works with Public Token)
+        // Strategy 1: If on product page, query Judge.me product review widget API
         if (isProductPage && currentProdHandle) {
           const widgetUrl = `https://judge.me/api/v1/widgets/product_review?api_token=${encodeURIComponent(judgemeToken)}&shop_domain=${encodeURIComponent(shopDomain)}&handle=${encodeURIComponent(currentProdHandle)}`;
           const widgetRes = await fetch(widgetUrl);
@@ -175,7 +174,7 @@ if (!customElements.get('testimonials-slider')) {
                   const author = revEl.querySelector('.jdgm-rev__author')?.textContent?.trim() || 'Customer';
                   const title = revEl.querySelector('.jdgm-rev__title')?.textContent?.trim() || '';
                   const body = revEl.querySelector('.jdgm-rev__body')?.textContent?.trim() || '';
-                  const verified = !!revEl.querySelector('.jdgm-rev__buyer-badge');
+                  const verified = !revEl.classList.contains('jdgm--unverified');
 
                   const card = this.createReviewCard({
                     rating,
@@ -197,35 +196,42 @@ if (!customElements.get('testimonials-slider')) {
           }
         }
 
-        // Strategy 2: Query Judge.me REST reviews endpoint (works with Private Token or permissive Public Token)
-        let url = `https://judge.me/api/v1/reviews?api_token=${encodeURIComponent(judgemeToken)}&shop_domain=${encodeURIComponent(shopDomain)}&per_page=20`;
-        if (isProductPage && currentProdId) {
-          url += `&product_id=${encodeURIComponent(currentProdId)}`;
-        }
+        // Strategy 2: Query Judge.me featured_carousel widget (loads all approved reviews including store reviews)
+        const carouselUrl = `https://judge.me/api/v1/widgets/featured_carousel?api_token=${encodeURIComponent(judgemeToken)}&shop_domain=${encodeURIComponent(shopDomain)}`;
+        const carouselRes = await fetch(carouselUrl);
+        if (carouselRes.ok) {
+          const carouselData = await carouselRes.json();
+          if (carouselData?.featured_carousel) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(carouselData.featured_carousel, 'text/html');
+            const items = doc.querySelectorAll('.jdgm-carousel-item');
 
-        const res = await fetch(url);
-        if (res.ok) {
-          const data = await res.json();
-          const reviews = data?.reviews;
+            if (items && items.length > 0) {
+              if (emptyState) emptyState.style.display = 'none';
 
-          if (Array.isArray(reviews) && reviews.length > 0) {
-            if (emptyState) emptyState.style.display = 'none';
+              items.forEach((itemEl) => {
+                const starsCount = itemEl.querySelectorAll('.jdgm-star.jdgm--on').length || 5;
+                const author = itemEl.querySelector('.jdgm-carousel-item__reviewer-name')?.textContent?.trim() || 'Customer';
+                const title = itemEl.querySelector('.jdgm-carousel-item__review-title')?.textContent?.trim() || '';
+                const body = itemEl.querySelector('.jdgm-carousel-item__review-body')?.textContent?.trim() || '';
+                const prodImg = itemEl.querySelector('.jdgm-carousel-item__product-image');
+                const productTitle = prodImg ? prodImg.getAttribute('alt') : (itemEl.classList.contains('jdgm--shop-review') ? 'CONTRARIO BRAND' : '');
 
-            reviews.forEach((rev) => {
-              const card = this.createReviewCard({
-                rating: rev.rating,
-                quote: rev.body || rev.title || '',
-                author: rev.reviewer?.name || 'Customer',
-                verified: rev.reviewer?.verified_buyer !== false,
-                productTitle: rev.product_title || '',
-                isUserSubmission: false
+                const card = this.createReviewCard({
+                  rating: starsCount,
+                  quote: body || title || '',
+                  author,
+                  verified: true,
+                  productTitle,
+                  isUserSubmission: false
+                });
+                this.grid.appendChild(card);
               });
-              this.grid.appendChild(card);
-            });
 
-            this.updateCards();
-            this.createDots();
-            this.updateState();
+              this.updateCards();
+              this.createDots();
+              this.updateState();
+            }
           }
         }
       } catch (err) {
@@ -361,7 +367,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (modal) {
         modal.removeAttribute('hidden');
         document.body.style.overflow = 'hidden';
-        const firstInput = modal.querySelector('input:not([type="hidden"]), textarea');
+        const firstInput = modal.querySelector('input:not([type="hidden"]), select, textarea');
         if (firstInput) setTimeout(() => firstInput.focus(), 150);
       }
     });
@@ -388,6 +394,19 @@ document.addEventListener('DOMContentLoaded', () => {
       const openModal = document.querySelector('.tc-modal:not([hidden])');
       if (openModal) closeModal(openModal);
     }
+  });
+
+  // Handle product select change to sync ID and title
+  document.querySelectorAll('[data-product-select]').forEach((select) => {
+    const parentForm = select.closest('form');
+    const titleInput = parentForm?.querySelector('[data-product-title]');
+    const idInput = parentForm?.querySelector('[data-product-id]');
+
+    select.addEventListener('change', () => {
+      const opt = select.options[select.selectedIndex];
+      if (titleInput) titleInput.value = opt ? (opt.dataset.title || '') : '';
+      if (idInput) idInput.value = opt ? opt.value : '';
+    });
   });
 
   // Auto-open modal if form returned with success or error message

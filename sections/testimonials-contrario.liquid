@@ -353,20 +353,18 @@
           {%- else -%}
             <div class="tc-field-group">
               <label for="ReviewProduct-{{ section.id }}" class="tc-label">Product purchased (optional)</label>
-              <input
-                type="text"
+              <select
                 id="ReviewProduct-{{ section.id }}"
-                name="contact[Product]"
                 class="tc-input"
-                placeholder="e.g. The Warning Tee, Heavy Hoodie..."
-                list="StoreProducts-{{ section.id }}"
-                data-product-title
+                data-product-select
               >
-              <datalist id="StoreProducts-{{ section.id }}">
-                {%- for item in collections.all.products limit: 40 -%}
-                  <option value="{{ item.title | escape }}"></option>
+                <option value="" data-title="">General Store Review (Contrario Brand)</option>
+                {%- for item in collections.all.products limit: 50 -%}
+                  <option value="{{ item.id }}" data-title="{{ item.title | escape }}">{{ item.title | escape }}</option>
                 {%- endfor -%}
-              </datalist>
+              </select>
+              <input type="hidden" name="contact[Product]" data-product-title value="">
+              <input type="hidden" name="contact[Product ID]" data-product-id value="">
             </div>
           {%- endif -%}
 
