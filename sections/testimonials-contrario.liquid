@@ -6,6 +6,16 @@
   assign enable_carousel = section.settings.enable_carousel
   assign card_style = section.settings.card_style
   assign heading_align = section.settings.heading_alignment
+
+  assign is_product_page = false
+  if template.name == 'product' and product != blank
+    assign is_product_page = true
+  endif
+
+  assign filter_by_product = false
+  if is_product_page and section.settings.filter_current_product
+    assign filter_by_product = true
+  endif
 -%}
 
 {%- style -%}
@@ -22,18 +32,52 @@
 <section
   id="TestimonialsContrario-{{ section.id }}"
   class="testimonials-contrario{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+  data-is-product-page="{{ is_product_page }}"
+  {% if is_product_page %}
+    data-current-product-id="{{ product.id }}"
+    data-current-product-title="{{ product.title | escape }}"
+  {% endif %}
 >
   <div class="testimonials-contrario__container">
-    {%- if section.settings.title != blank or section.settings.subtitle != blank -%}
-      <div class="testimonials-contrario__header testimonials-contrario__header--{{ heading_align }}">
-        {%- if section.settings.subtitle != blank -%}
-          <p class="testimonials-contrario__subtitle">{{ section.settings.subtitle | escape }}</p>
-        {%- endif -%}
-        {%- if section.settings.title != blank -%}
-          <h2 class="testimonials-contrario__title">{{ section.settings.title | escape }}</h2>
-        {%- endif -%}
-      </div>
-    {%- endif -%}
+    <div class="testimonials-contrario__header-row">
+      {%- if section.settings.title != blank or section.settings.subtitle != blank -%}
+        <div class="testimonials-contrario__header testimonials-contrario__header--{{ heading_align }}">
+          {%- if section.settings.subtitle != blank -%}
+            <p class="testimonials-contrario__subtitle">
+              {%- if filter_by_product -%}
+                PRODUCT REVIEWS
+              {%- else -%}
+                {{ section.settings.subtitle | escape }}
+              {%- endif -%}
+            </p>
+          {%- endif -%}
+          {%- if section.settings.title != blank -%}
+            <h2 class="testimonials-contrario__title">
+              {%- if filter_by_product -%}
+                REVIEWS
+              {%- else -%}
+                {{ section.settings.title | escape }}
+              {%- endif -%}
+            </h2>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.show_write_review_button -%}
+        <div class="testimonials-contrario__cta-wrap">
+          <button
+            type="button"
+            class="tc-btn tc-btn--write-review"
+            data-tc-modal-open="TestimonialsModal-{{ section.id }}"
+          >
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+            </svg>
+            <span>{{ section.settings.write_review_button_label | default: 'WRITE A REVIEW' | escape }}</span>
+          </button>
+        </div>
+      {%- endif -%}
+    </div>
 
     <testimonials-slider
       data-cols-desktop="{{ columns_desktop }}"
@@ -46,18 +90,45 @@
         data-testimonials-track
       >
         <div class="testimonials-contrario__grid testimonials-contrario__grid--cols-{{ columns_desktop }}{% unless enable_carousel %} testimonials-contrario__grid--static{% endunless %}">
+          {%- assign visible_cards_count = 0 -%}
           {%- for block in section.blocks -%}
             {%- liquid
+              assign block_product = block.settings.product
+              assign block_product_name = block.settings.product_name
+              assign block_product_link = block.settings.product_link
+
+              if block_product != blank
+                assign block_product_name = block_product.title
+                assign block_product_link = block_product.url
+              endif
+
+              if filter_by_product
+                assign matches_product = false
+                if block_product != blank and block_product.id == product.id
+                  assign matches_product = true
+                elsif block_product == blank and block_product_name != blank and block_product_name == product.title
+                  assign matches_product = true
+                elsif block_product_link != blank and block_product_link contains product.handle
+                  assign matches_product = true
+                endif
+
+                unless matches_product
+                  continue
+                endunless
+              endif
+
+              assign visible_cards_count = visible_cards_count | plus: 1
               assign author_name = block.settings.author_name | default: 'MEMBER'
               assign initial = author_name | slice: 0 | upcase
             -%}
             <div
               class="tc-card tc-card--{{ card_style }}"
+              data-product-id="{% if block_product != blank %}{{ block_product.id }}{% endif %}"
               {{ block.shopify_attributes }}
             >
               <div class="tc-card__header">
                 {%- if section.settings.show_stars -%}
-                  <div class="tc-stars" aria-label="{{ block.settings.rating }} de 5 estrellas">
+                  <div class="tc-stars" aria-label="{{ block.settings.rating }} out of 5 stars">
                     {%- for i in (1..5) -%}
                       {%- if i <= block.settings.rating -%}
                         <svg viewBox="0 0 24 24">
@@ -84,14 +155,14 @@
                   <p class="tc-text">“{{ block.settings.quote | escape }}”</p>
                 {%- endif -%}
 
-                {%- if block.settings.product_name != blank -%}
-                  {%- if block.settings.product_link != blank -%}
-                    <a href="{{ block.settings.product_link }}" class="tc-product-tag">
-                      <span>🏷️ {{ block.settings.product_name | escape }}</span>
+                {%- if block_product_name != blank -%}
+                  {%- if block_product_link != blank -%}
+                    <a href="{{ block_product_link }}" class="tc-product-tag">
+                      <span>🏷️ {{ block_product_name | escape }}</span>
                     </a>
                   {%- else -%}
                     <span class="tc-product-tag">
-                      <span>🏷️ {{ block.settings.product_name | escape }}</span>
+                      <span>🏷️ {{ block_product_name | escape }}</span>
                     </span>
                   {%- endif -%}
                 {%- endif -%}
@@ -118,7 +189,7 @@
                   <div class="tc-author-name-wrap">
                     <h3 class="tc-author-name">{{ author_name | escape }}</h3>
                     {%- if block.settings.verified and section.settings.show_verified_badge -%}
-                      <span class="tc-verified-badge" title="Comprador verificado">
+                      <span class="tc-verified-badge" title="Verified Buyer">
                         <svg viewBox="0 0 24 24">
                           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                         </svg>
@@ -133,9 +204,32 @@
             </div>
           {%- endfor -%}
         </div>
+
+        {%- if visible_cards_count == 0 -%}
+          <div class="tc-empty-state">
+            <div class="tc-empty-state__stars">
+              {%- for i in (1..5) -%}
+                <svg viewBox="0 0 24 24" width="22" height="22">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                </svg>
+              {%- endfor -%}
+            </div>
+            <p class="tc-empty-state__title">NO REVIEWS FOR THIS PRODUCT YET</p>
+            <p class="tc-empty-state__text">Purchased this piece? Be the first to share your experience with the community.</p>
+            {%- if section.settings.show_write_review_button -%}
+              <button
+                type="button"
+                class="tc-btn tc-btn--write-review"
+                data-tc-modal-open="TestimonialsModal-{{ section.id }}"
+              >
+                <span>WRITE THE FIRST REVIEW</span>
+              </button>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
       </div>
 
-      {%- if enable_carousel and section.blocks.size > 1 -%}
+      {%- if enable_carousel and visible_cards_count > 1 -%}
         <div class="tc-controls">
           <div class="tc-dots" data-testimonials-dots></div>
           <div class="tc-arrows">
@@ -143,7 +237,7 @@
               type="button"
               class="tc-arrow-btn"
               data-testimonials-prev
-              aria-label="Anterior"
+              aria-label="Previous"
             >
               <svg viewBox="0 0 24 24">
                 <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
@@ -153,7 +247,7 @@
               type="button"
               class="tc-arrow-btn"
               data-testimonials-next
-              aria-label="Siguiente"
+              aria-label="Next"
             >
               <svg viewBox="0 0 24 24">
                 <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
@@ -166,6 +260,167 @@
   </div>
 </section>
 
+{%- if section.settings.show_write_review_button -%}
+  <div
+    id="TestimonialsModal-{{ section.id }}"
+    class="tc-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="TestimonialsModalTitle-{{ section.id }}"
+    hidden
+  >
+    <div class="tc-modal__overlay" data-tc-modal-close></div>
+    <div class="tc-modal__dialog">
+      <button
+        type="button"
+        class="tc-modal__close-btn"
+        data-tc-modal-close
+        aria-label="Close review modal"
+      >
+        <svg viewBox="0 0 24 24" width="20" height="20">
+          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+        </svg>
+      </button>
+
+      <div class="tc-modal__content">
+        <div class="tc-modal__header">
+          <span class="tc-modal__eyebrow">CONTRARIO REVIEWS</span>
+          <h3 id="TestimonialsModalTitle-{{ section.id }}" class="tc-modal__title">
+            LEAVE A REVIEW
+          </h3>
+          <p class="tc-modal__subtitle">
+            Share your thoughts with the community. Your feedback helps fellow rebels find the right fit.
+          </p>
+        </div>
+
+        {%- assign form_id = 'TestimonialsForm-' | append: section.id -%}
+        {%- form 'contact', id: form_id, class: 'tc-review-form' -%}
+          {%- if form.posted_successfully? -%}
+            <div class="tc-form-status tc-form-status--success" tabindex="-1" autofocus>
+              <div class="tc-form-status__icon">✓</div>
+              <div>
+                <strong>Thank you for your review!</strong>
+                <p>Your review has been submitted successfully and will be verified shortly by our team.</p>
+              </div>
+            </div>
+          {%- endif -%}
+
+          {%- if form.errors -%}
+            <div class="tc-form-status tc-form-status--error">
+              <p>Please check the required fields to submit your review.</p>
+            </div>
+          {%- endif -%}
+
+          <input type="hidden" name="contact[Type]" value="Product Review">
+
+          <!-- Rating selector -->
+          <div class="tc-field-group">
+            <label class="tc-label">Rating *</label>
+            <div class="tc-rating-picker" data-rating-picker>
+              <input type="hidden" name="contact[Rating]" value="5" data-rating-input>
+              <div class="tc-rating-stars">
+                {%- for star_idx in (1..5) -%}
+                  <button
+                    type="button"
+                    class="tc-star-btn is-active"
+                    data-star-value="{{ star_idx }}"
+                    aria-label="{{ star_idx }} stars"
+                  >
+                    <svg viewBox="0 0 24 24">
+                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                    </svg>
+                  </button>
+                {%- endfor -%}
+              </div>
+              <span class="tc-rating-feedback" data-rating-feedback>5 out of 5 stars</span>
+            </div>
+          </div>
+
+          <!-- Product Auto-fill or Dropdown -->
+          {%- if is_product_page -%}
+            <input type="hidden" name="contact[Product]" value="{{ product.title | escape }}" data-product-title>
+            <input type="hidden" name="contact[Product ID]" value="{{ product.id }}" data-product-id>
+            <div class="tc-field-group">
+              <label class="tc-label">Product</label>
+              <div class="tc-product-preview-badge">
+                <span class="tc-product-preview-badge__icon">🏷️</span>
+                <span class="tc-product-preview-badge__name">{{ product.title | escape }}</span>
+              </div>
+            </div>
+          {%- else -%}
+            <div class="tc-field-group">
+              <label for="ReviewProduct-{{ section.id }}" class="tc-label">Product purchased (optional)</label>
+              <input
+                type="text"
+                id="ReviewProduct-{{ section.id }}"
+                name="contact[Product]"
+                class="tc-input"
+                placeholder="e.g. The Warning Tee, Heavy Hoodie..."
+                list="StoreProducts-{{ section.id }}"
+                data-product-title
+              >
+              <datalist id="StoreProducts-{{ section.id }}">
+                {%- for item in collections.all.products limit: 40 -%}
+                  <option value="{{ item.title | escape }}"></option>
+                {%- endfor -%}
+              </datalist>
+            </div>
+          {%- endif -%}
+
+          <!-- Name & Email -->
+          <div class="tc-form-row">
+            <div class="tc-field-group">
+              <label for="ReviewAuthor-{{ section.id }}" class="tc-label">Your name or handle *</label>
+              <input
+                type="text"
+                id="ReviewAuthor-{{ section.id }}"
+                name="contact[name]"
+                class="tc-input"
+                placeholder="e.g. Alex V."
+                required
+                data-author-input
+              >
+            </div>
+            <div class="tc-field-group">
+              <label for="ReviewEmail-{{ section.id }}" class="tc-label">Your email address *</label>
+              <input
+                type="email"
+                id="ReviewEmail-{{ section.id }}"
+                name="contact[email]"
+                class="tc-input"
+                placeholder="email@example.com"
+                required
+                data-email-input
+              >
+            </div>
+          </div>
+
+          <!-- Review text -->
+          <div class="tc-field-group">
+            <label for="ReviewBody-{{ section.id }}" class="tc-label">Your review *</label>
+            <textarea
+              id="ReviewBody-{{ section.id }}"
+              name="contact[body]"
+              class="tc-textarea"
+              rows="4"
+              placeholder="How is the fabric weight, fit, print quality, and overall attitude of this piece?"
+              required
+              data-quote-input
+            ></textarea>
+          </div>
+
+          <button type="submit" class="tc-btn tc-btn--submit">
+            <span>SUBMIT REVIEW</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
 {% schema %}
 {
   "name": "Testimonios Contrario",
@@ -175,6 +430,10 @@
     "groups": ["header", "footer"]
   },
   "settings": [
+    {
+      "type": "header",
+      "content": "Encabezado y textos"
+    },
     {
       "type": "text",
       "id": "subtitle",
@@ -205,7 +464,37 @@
           "label": "Derecha"
         }
       ],
-      "default": "center"
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Página de producto"
+    },
+    {
+      "type": "checkbox",
+      "id": "filter_current_product",
+      "label": "Filtrar por producto actual",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Formulario de reseñas"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_write_review_button",
+      "label": "Mostrar botón escribir reseña",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "write_review_button_label",
+      "label": "Texto del botón de reseña",
+      "default": "WRITE A REVIEW"
+    },
+    {
+      "type": "header",
+      "content": "Diseño y tarjetas"
     },
     {
       "type": "select",
@@ -371,6 +660,11 @@
           "id": "verified",
           "label": "Comprador verificado",
           "default": true
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Producto calificado"
         },
         {
           "type": "text",

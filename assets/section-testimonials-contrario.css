@@ -17,11 +17,53 @@
 }
 
 /* Header */
+.testimonials-contrario__header-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 2.75rem;
+}
+
 .testimonials-contrario__header {
-  margin-bottom: 3rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+.testimonials-contrario__cta-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.tc-btn--write-review {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.6rem;
+  background-color: #121212;
+  color: #ffffff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid #121212;
+  cursor: pointer;
+  border-radius: var(--tc-border-radius, 0px);
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tc-btn--write-review:hover {
+  background-color: #000000;
+  border-color: #121212;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.tc-btn--write-review:active {
+  transform: scale(0.97);
 }
 
 .testimonials-contrario__header--left {
@@ -431,4 +473,361 @@
   width: 20px;
   height: 20px;
   fill: currentColor;
+}
+
+/* Empty State on Product Pages */
+.tc-empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 2rem;
+  border: 1px dashed #d1d5db;
+  border-radius: var(--tc-border-radius, 0px);
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.tc-empty-state__stars {
+  display: flex;
+  gap: 0.25rem;
+  color: #cbd5e1;
+}
+
+.tc-empty-state__stars svg {
+  fill: currentColor;
+}
+
+.tc-empty-state__title {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #121212;
+  margin: 0;
+}
+
+.tc-empty-state__text {
+  font-size: 0.95rem;
+  color: #666666;
+  max-width: 480px;
+  margin: 0 0 0.5rem 0;
+}
+
+/* User Local Submission Badge */
+.tc-user-badge {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #ffffff;
+  background: #10b981;
+  padding: 0.25rem 0.5rem;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  border-radius: 2px;
+}
+
+/* ==========================================================================
+   Review Submission Modal (Streetwear + Apple Design)
+   ========================================================================== */
+.tc-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.25s ease;
+}
+
+.tc-modal:not([hidden]) {
+  opacity: 1;
+  visibility: visible;
+}
+
+.tc-modal__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.tc-modal__dialog {
+  position: relative;
+  width: 100%;
+  max-width: 580px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #ffffff;
+  color: #121212;
+  border: 2px solid #121212;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  padding: 2.5rem;
+  box-sizing: border-box;
+  z-index: 2;
+  transform: scale(0.96) translateY(12px);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  scrollbar-width: thin;
+}
+
+.tc-modal:not([hidden]) .tc-modal__dialog {
+  transform: scale(1) translateY(0);
+}
+
+.tc-modal__close-btn {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: transparent;
+  border: 1px solid transparent;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #121212;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.tc-modal__close-btn:hover {
+  background: #f0f0f0;
+  transform: scale(1.08);
+}
+
+.tc-modal__close-btn:active {
+  transform: scale(0.92);
+}
+
+.tc-modal__close-btn svg {
+  fill: currentColor;
+}
+
+.tc-modal__header {
+  margin-bottom: 1.75rem;
+  padding-right: 2rem;
+}
+
+.tc-modal__eyebrow {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #666666;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.tc-modal__title {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #121212;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.1;
+}
+
+.tc-modal__subtitle {
+  font-size: 0.92rem;
+  color: #555555;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Review Form Elements */
+.tc-review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.tc-form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media screen and (min-width: 500px) {
+  .tc-form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.tc-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.tc-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #121212;
+}
+
+.tc-input,
+.tc-textarea {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid #121212;
+  background: #ffffff;
+  color: #121212;
+  font-family: inherit;
+  font-size: 0.95rem;
+  border-radius: 0;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tc-input:focus,
+.tc-textarea:focus {
+  border-color: #121212;
+  box-shadow: 0 0 0 2px #121212;
+}
+
+.tc-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Star Rating Picker */
+.tc-rating-picker {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0;
+}
+
+.tc-rating-stars {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.tc-star-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), color 0.15s ease;
+}
+
+.tc-star-btn svg {
+  width: 32px;
+  height: 32px;
+  fill: currentColor;
+}
+
+.tc-star-btn:hover {
+  transform: scale(1.18);
+}
+
+.tc-star-btn.is-active,
+.tc-star-btn.is-hovered {
+  color: #f59e0b;
+}
+
+.tc-rating-feedback {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #666666;
+}
+
+/* Product Badge in Form */
+.tc-product-preview-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: #f4f4f5;
+  border: 1px solid #e4e4e7;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #121212;
+}
+
+.tc-btn--submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1rem 1.75rem;
+  background: #121212;
+  color: #ffffff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 2px solid #121212;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tc-btn--submit:hover {
+  background: #000000;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  transform: translateY(-2px);
+}
+
+.tc-btn--submit:active {
+  transform: scale(0.98);
+}
+
+/* Form Status Messages */
+.tc-form-status {
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  font-size: 0.92rem;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+}
+
+.tc-form-status--success {
+  background: #ecfdf5;
+  border: 1px solid #10b981;
+  color: #065f46;
+}
+
+.tc-form-status__icon {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.tc-form-status--error {
+  background: #fef2f2;
+  border: 1px solid #ef4444;
+  color: #991b1b;
 }

@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
@@ -151,6 +142,48 @@
         "padding_bottom": 28
       }
     },
+    "testimonials_contrario": {
+      "type": "testimonials-contrario",
+      "blocks": {
+        "testimonial_ash_tee": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "What I appreciate most about this blouse is its adaptability. It pairs perfectly with jeans for a relaxed look or with tailored pants for a formal event. Moreover, I always receive numerous compliments when I wear it, which makes me feel fantastic.",
+            "author_name": "Wendy",
+            "author_info": "VERIFIED BUYER",
+            "verified": true,
+            "product_name": "Ash Tee",
+            "product_link": "shopify://products/ash-tee"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_ash_tee"
+      ],
+      "settings": {
+        "subtitle": "VERIFIED REVIEWS",
+        "title": "CUSTOMER REVIEWS",
+        "heading_alignment": "left",
+        "filter_current_product": true,
+        "show_write_review_button": true,
+        "write_review_button_label": "WRITE A REVIEW",
+        "card_style": "clean",
+        "border_radius": 0,
+        "columns_desktop": 3,
+        "enable_carousel": true,
+        "autorotate": false,
+        "autorotate_speed": 5,
+        "show_stars": true,
+        "show_quotes": true,
+        "show_verified_badge": true,
+        "background_color": "#ffffff",
+        "title_color": "#121212",
+        "accent_color": "#f59e0b",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
     "rich_text_EfRmnd": {
       "type": "rich-text",
       "blocks": {
@@ -220,6 +253,7 @@
     "1788375066ed9933f4",
     "1788375116a4cabd0d",
     "related-products",
+    "testimonials_contrario",
     "rich_text_EfRmnd",
     "17390274436b1772f5",
     "1739086907fed11ae7"
