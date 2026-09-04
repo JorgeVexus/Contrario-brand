@@ -196,6 +196,7 @@
       "blocks": {
         "testimonial_znin3q": {
           "type": "testimonial",
+          "disabled": true,
           "settings": {
             "rating": 5,
             "quote": "\"I recently got this awesome middle finger print blouse for my girlfriend, and she couldn’t stop smiling! The moment she unwrapped it, her ayes lit up with joy.\"",
@@ -209,6 +210,7 @@
         },
         "testimonial_k3Fz6R": {
           "type": "testimonial",
+          "disabled": true,
           "settings": {
             "rating": 5,
             "quote": "\"I bought this printed blouse kinda cautiously, but now I’m totally blown away. The material quality is top-notch, super soft to the touch, and feels really comfy when I put it on.\"",
@@ -222,6 +224,7 @@
         },
         "testimonial_PBT4tx": {
           "type": "testimonial",
+          "disabled": true,
           "settings": {
             "rating": 5,
             "quote": "\"What I appreciate most about this blouse is its adaptability. It pairs perfectly with jeans for a relaxed look or with tailored pants for a formal event. Moreover, I always receive numerous compliments when I wear it, which makes me feel fantastic.\"",
