@@ -176,6 +176,7 @@
         "filter_current_product": true,
         "show_write_review_button": true,
         "write_review_button_label": "WRITE A REVIEW",
+        "judgeme_public_token": "",
         "card_style": "clean",
         "border_radius": 0,
         "columns_desktop": 3,
@@ -210,50 +211,6 @@
         "padding_bottom": 28
       }
     },
-    "testimonials_contrario": {
-      "type": "testimonials-contrario",
-      "blocks": {
-        "testimonial_ash_tee": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "What I appreciate most about this blouse is its adaptability. It pairs perfectly with jeans for a relaxed look or with tailored pants for a formal event. Moreover, I always receive numerous compliments when I wear it, which makes me feel fantastic.",
-            "author_name": "Wendy",
-            "author_info": "VERIFIED BUYER",
-            "verified": true,
-            "product": "",
-            "product_name": "Ash Tee",
-            "product_link": "shopify://products/ash-tee"
-          }
-        }
-      },
-      "block_order": [
-        "testimonial_ash_tee"
-      ],
-      "settings": {
-        "subtitle": "VERIFIED REVIEWS",
-        "title": "CUSTOMER REVIEWS",
-        "heading_alignment": "left",
-        "filter_current_product": true,
-        "show_write_review_button": true,
-        "write_review_button_label": "WRITE A REVIEW",
-        "judgeme_public_token": "0bAfNHnpbeSdGq2XlrWZNa3Ehj4",
-        "card_style": "clean",
-        "border_radius": 0,
-        "columns_desktop": 3,
-        "enable_carousel": true,
-        "autorotate": false,
-        "autorotate_speed": 5,
-        "show_stars": true,
-        "show_quotes": true,
-        "show_verified_badge": true,
-        "background_color": "#ffffff",
-        "title_color": "#121212",
-        "accent_color": "#f59e0b",
-        "padding_top": 60,
-        "padding_bottom": 60
-      }
-    },
     "rich_text_EfRmnd": {
       "type": "rich-text",
       "blocks": {
@@ -268,6 +225,7 @@
       "block_order": [
         "heading_hDKPrU"
       ],
+      "disabled": true,
       "custom_css": [
         ".rich-text {background-color: #ebebeb !important;}"
       ],
@@ -316,26 +274,6 @@
       "settings": {
         "include_margins": true
       }
-    },
-    "1788377420e6cdc75f": {
-      "type": "apps",
-      "blocks": {
-        "judge_me_reviews_review_widget_7pppbE": {
-          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {
-            "review_data": "sample_data",
-            "max_width": 1200,
-            "show_shop_reviews": false,
-            "empty_state": "empty_widget"
-          }
-        }
-      },
-      "block_order": [
-        "judge_me_reviews_review_widget_7pppbE"
-      ],
-      "settings": {
-        "include_margins": true
-      }
     }
   },
   "order": [
@@ -344,10 +282,8 @@
     "1788375116a4cabd0d",
     "testimonials_contrario_N4DwXm",
     "related-products",
-    "testimonials_contrario",
     "rich_text_EfRmnd",
     "17390274436b1772f5",
-    "1739086907fed11ae7",
-    "1788377420e6cdc75f"
+    "1739086907fed11ae7"
   ]
 }
