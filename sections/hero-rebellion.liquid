@@ -24,7 +24,54 @@
   class="hero-rebellion hero-rebellion--height-{{ section.settings.desktop_height }} hero-rebellion--align-{{ section.settings.content_alignment | default: 'bottom' }} hero-rebellion--align-h-{{ section.settings.content_alignment_horizontal | default: 'center' }} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
 >
   <div class="hero-rebellion__media">
-    {%- if desktop_image != blank -%}
+    {%- if section.settings.video != blank -%}
+      {%- if section.settings.video_mobile != blank -%}
+        {{
+          section.settings.video
+          | video_tag:
+            image_size: '2048x',
+            autoplay: true,
+            loop: true,
+            muted: true,
+            controls: false,
+            playsinline: true,
+            class: 'hero-rebellion__video hero-rebellion__video--desktop'
+        }}
+        {{
+          section.settings.video_mobile
+          | video_tag:
+            image_size: '1080x',
+            autoplay: true,
+            loop: true,
+            muted: true,
+            controls: false,
+            playsinline: true,
+            class: 'hero-rebellion__video hero-rebellion__video--mobile'
+        }}
+      {%- else -%}
+        {{
+          section.settings.video
+          | video_tag:
+            image_size: '2048x',
+            autoplay: true,
+            loop: true,
+            muted: true,
+            controls: false,
+            playsinline: true,
+            class: 'hero-rebellion__video'
+        }}
+      {%- endif -%}
+    {%- elsif section.settings.video_url != blank -%}
+      <video
+        src="{{ section.settings.video_url }}"
+        autoplay
+        loop
+        muted
+        playsinline
+        class="hero-rebellion__video"
+        {% if desktop_image != blank %}poster="{{ desktop_image | image_url: width: 2048 }}"{% endif %}
+      ></video>
+    {%- elsif desktop_image != blank -%}
       <picture>
         {%- if section.settings.image_mobile != blank -%}
           <source
@@ -98,17 +145,32 @@
   "settings": [
     {
       "type": "header",
-      "content": "Image Settings"
+      "content": "Media Settings"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Background Video"
+    },
+    {
+      "type": "video",
+      "id": "video_mobile",
+      "label": "Mobile Background Video"
+    },
+    {
+      "type": "url",
+      "id": "video_url",
+      "label": "External / MP4 Video URL"
     },
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Desktop Image"
+      "label": "Desktop Image (or Poster)"
     },
     {
       "type": "image_picker",
       "id": "image_mobile",
-      "label": "Mobile Image"
+      "label": "Mobile Image (or Poster)"
     },
     {
       "type": "range",
@@ -117,7 +179,7 @@
       "max": 100,
       "step": 5,
       "unit": "%",
-      "label": "Image Opacity",
+      "label": "Media Opacity",
       "default": 80
     },
     {
