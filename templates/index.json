@@ -1,13 +1,24 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero_rebellion_figma": {
       "type": "hero-rebellion",
       "settings": {
+        "video": "shopify://files/videos/WhatsApp Video 2026-09-04 at 6.52.28 AM.mp4",
+        "video_url": "",
         "image": "shopify://shop_images/hf_20260811_222327_a678e1ef-d2c1-4c6f-8192-348f6064fd40.png",
         "image_mobile": "shopify://shop_images/hf_20260806_032039_f11b0dda-83a0-4f63-b3e8-9fbba9a56abb.png",
         "image_opacity": 80,
         "show_gradient": true,
-        "desktop_height": "full",
+        "desktop_height": "large",
         "content_alignment": "center",
         "content_alignment_horizontal": "left",
         "heading": "WEAR THE REBELLION",
@@ -191,6 +202,7 @@
             "author_name": "Erick",
             "author_info": "VERIFIED BUYER",
             "verified": true,
+            "product": "",
             "product_name": "",
             "product_link": ""
           }
@@ -203,6 +215,7 @@
             "author_name": "Yerlin",
             "author_info": "VERIFIED BUYER",
             "verified": true,
+            "product": "",
             "product_name": "",
             "product_link": ""
           }
@@ -215,6 +228,7 @@
             "author_name": "Wendy",
             "author_info": "VERIFIED BUYER",
             "verified": true,
+            "product": "",
             "product_name": "Ash Tee",
             "product_link": "shopify://products/ash-tee"
           }
@@ -230,6 +244,7 @@
         "subtitle": "VERIFIED REVIEWS",
         "title": "WHAT THEY SAY",
         "heading_alignment": "center",
+        "filter_current_product": true,
         "show_write_review_button": true,
         "write_review_button_label": "WRITE A REVIEW",
         "judgeme_public_token": "0bAfNHnpbeSdGq2XlrWZNa3Ehj4",
