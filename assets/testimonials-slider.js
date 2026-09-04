@@ -12,10 +12,18 @@ if (!customElements.get('testimonials-slider')) {
       this.autoRotate = this.dataset.autorotate === 'true';
       this.autoRotateSpeed = (parseInt(this.dataset.speed, 10) || 5) * 1000;
       this.timer = null;
+      this.productMap = {};
     }
 
     connectedCallback() {
       if (!this.track) return;
+
+      const mapEl = this.section?.querySelector('[data-tc-products]');
+      if (mapEl) {
+        try {
+          this.productMap = JSON.parse(mapEl.textContent || '{}');
+        } catch (_) {}
+      }
 
       // Inject any locally submitted reviews by the current user
       this.injectLocalReviews();
@@ -53,7 +61,91 @@ if (!customElements.get('testimonials-slider')) {
       this.cards = Array.from(this.track.querySelectorAll('.tc-card'));
     }
 
-    createReviewCard({ rating = 5, quote = '', author = 'MEMBER', verified = true, productTitle = '', isUserSubmission = false }) {
+    decodeHtml(html) {
+      if (!html) return '';
+      const txt = document.createElement('textarea');
+      txt.innerHTML = html;
+      return txt.value;
+    }
+
+    normalizeString(str) {
+      return (str || '')
+        .toString()
+        .trim()
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/&amp;/g, '')
+        .replace(/&/g, '')
+        .replace(/[^a-z0-9]/g, '');
+    }
+
+    getProductUrl(productTitle = '', rawUrl = '') {
+      if (rawUrl && typeof rawUrl === 'string' && rawUrl.trim() !== '') {
+        return rawUrl.trim();
+      }
+      if (!productTitle || typeof productTitle !== 'string') return '';
+      const decoded = this.decodeHtml(productTitle).trim();
+      if (!decoded) return '';
+
+      const lower = decoded.toLowerCase();
+      if (lower === 'contrario brand' || lower === 'general store review') {
+        return '/collections/all';
+      }
+
+      // 1. Direct match in product map
+      if (this.productMap && this.productMap[decoded]) {
+        return this.productMap[decoded];
+      }
+
+      // 2. Normalized match in product map
+      if (this.productMap) {
+        const norm = this.normalizeString(decoded);
+        for (const [title, url] of Object.entries(this.productMap)) {
+          if (this.normalizeString(title) === norm) {
+            return url;
+          }
+        }
+      }
+
+      // 3. Fallback handle slug generator
+      const slug = decoded
+        .toLowerCase()
+        .replace(/&/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+      return slug ? `/products/${slug}` : '';
+    }
+
+    isMatchForCurrentProduct({ productId = '', productTitle = '', productUrl = '' }) {
+      if (!this.section) return false;
+      const currentProdId = this.section.dataset.currentProductId;
+      const currentProdTitle = this.section.dataset.currentProductTitle || '';
+      const currentProdHandle = this.section.dataset.currentProductHandle || '';
+
+      // 1. Check product ID
+      if (productId && currentProdId && String(productId) === String(currentProdId)) {
+        return true;
+      }
+
+      // 2. Check title normalized
+      const normReviewTitle = this.normalizeString(this.decodeHtml(productTitle));
+      const normCurrentTitle = this.normalizeString(currentProdTitle);
+      if (normReviewTitle && normCurrentTitle && normReviewTitle === normCurrentTitle) {
+        return true;
+      }
+
+      // 3. Check resolved URL / handle
+      const resolvedUrl = (productUrl || this.getProductUrl(productTitle) || '').toLowerCase();
+      const cleanHandle = currentProdHandle.toLowerCase();
+      if (cleanHandle && (resolvedUrl.includes('/products/' + cleanHandle) || resolvedUrl.endsWith('/' + cleanHandle))) {
+        return true;
+      }
+
+      return false;
+    }
+
+    createReviewCard({ rating = 5, quote = '', author = 'MEMBER', verified = true, productTitle = '', productUrl = '', isUserSubmission = false }) {
       const card = document.createElement('div');
       card.className = 'tc-card tc-card--clean' + (isUserSubmission ? ' tc-card--user-submission' : '');
       if (author) card.dataset.author = author.trim().toLowerCase();
@@ -70,8 +162,27 @@ if (!customElements.get('testimonials-slider')) {
 
       const safeQuote = this.escapeHtml(quote);
       const safeAuthor = this.escapeHtml(author);
-      const safeProduct = this.escapeHtml(productTitle);
+      const cleanProductTitle = this.decodeHtml(productTitle).trim();
+      const safeProduct = this.escapeHtml(cleanProductTitle);
+      const resolvedProductUrl = this.getProductUrl(cleanProductTitle, productUrl);
       const initial = safeAuthor.charAt(0).toUpperCase() || 'M';
+
+      let productTagHtml = '';
+      if (safeProduct) {
+        if (resolvedProductUrl) {
+          productTagHtml = `
+            <a href="${resolvedProductUrl}" class="tc-product-tag" title="View ${safeProduct}">
+              <span>🏷️ ${safeProduct}</span>
+            </a>
+          `;
+        } else {
+          productTagHtml = `
+            <span class="tc-product-tag">
+              <span>🏷️ ${safeProduct}</span>
+            </span>
+          `;
+        }
+      }
 
       card.innerHTML = `
         <div class="tc-card__header">
@@ -83,7 +194,7 @@ if (!customElements.get('testimonials-slider')) {
         <div class="tc-card__body">
           ${isUserSubmission ? '<span class="tc-user-badge">YOUR REVIEW (PENDING APPROVAL)</span>' : ''}
           <p class="tc-text">“${safeQuote}”</p>
-          ${safeProduct ? `<span class="tc-product-tag"><span>🏷️ ${safeProduct}</span></span>` : ''}
+          ${productTagHtml}
         </div>
         <div class="tc-card__footer">
           <div class="tc-avatar"><span>${initial}</span></div>
@@ -111,17 +222,18 @@ if (!customElements.get('testimonials-slider')) {
         if (!Array.isArray(reviews) || reviews.length === 0) return;
 
         const isProductPage = this.section?.dataset.isProductPage === 'true';
-        const currentProdId = this.section?.dataset.currentProductId;
-        const currentProdTitle = this.section?.dataset.currentProductTitle;
-
+        const filterCurrentProduct = this.section?.dataset.filterCurrentProduct === 'true';
         const emptyState = this.track.querySelector('.tc-empty-state');
         let injectedCount = 0;
 
         reviews.reverse().forEach((item) => {
-          if (isProductPage && currentProdId) {
-            const matchesId = item.productId && String(item.productId) === String(currentProdId);
-            const matchesTitle = item.productTitle && currentProdTitle && item.productTitle.trim().toLowerCase() === currentProdTitle.trim().toLowerCase();
-            if (!matchesId && !matchesTitle) return;
+          if (isProductPage && filterCurrentProduct) {
+            const isMatch = this.isMatchForCurrentProduct({
+              productId: item.productId,
+              productTitle: item.productTitle,
+              productUrl: item.productUrl
+            });
+            if (!isMatch) return;
           }
 
           const card = this.createReviewCard({
@@ -130,6 +242,7 @@ if (!customElements.get('testimonials-slider')) {
             author: item.author || 'You',
             verified: true,
             productTitle: item.productTitle,
+            productUrl: item.productUrl || this.getProductUrl(item.productTitle),
             isUserSubmission: true
           });
 
@@ -183,13 +296,15 @@ if (!customElements.get('testimonials-slider')) {
       if (!shopDomain || !judgemeToken) return;
 
       const isProductPage = this.section?.dataset.isProductPage === 'true';
+      const filterCurrentProduct = this.section?.dataset.filterCurrentProduct === 'true';
       const currentProdHandle = this.section?.dataset.currentProductHandle;
       const emptyState = this.track.querySelector('.tc-empty-state');
       const loadedAuthors = [];
+      const seenReviewIds = new Set();
 
       try {
-        // Strategy 1: If on product page, query Judge.me product review widget API
-        if (isProductPage && currentProdHandle) {
+        // Strategy 1: If on product page with filter, query Judge.me product review widget
+        if (isProductPage && filterCurrentProduct && currentProdHandle) {
           const widgetUrl = `https://judge.me/api/v1/widgets/product_review?api_token=${encodeURIComponent(judgemeToken)}&shop_domain=${encodeURIComponent(shopDomain)}&handle=${encodeURIComponent(currentProdHandle)}`;
           const widgetRes = await fetch(widgetUrl);
           if (widgetRes.ok) {
@@ -200,15 +315,19 @@ if (!customElements.get('testimonials-slider')) {
               const reviewItems = doc.querySelectorAll('.jdgm-rev');
 
               if (reviewItems && reviewItems.length > 0) {
-                if (emptyState) emptyState.style.display = 'none';
-
                 reviewItems.forEach((revEl) => {
+                  const reviewId = revEl.getAttribute('data-review-id');
+                  if (reviewId && seenReviewIds.has(reviewId)) return;
+
                   const rating = parseInt(revEl.querySelector('.jdgm-rev__rating')?.getAttribute('data-score') || '5', 10);
                   const author = revEl.querySelector('.jdgm-rev__author')?.textContent?.trim() || 'Customer';
                   const title = revEl.querySelector('.jdgm-rev__title')?.textContent?.trim() || '';
                   const body = revEl.querySelector('.jdgm-rev__body')?.textContent?.trim() || '';
                   const verified = !revEl.classList.contains('jdgm--unverified');
+                  const productTitle = revEl.getAttribute('data-product-title') || this.section?.dataset.currentProductTitle || '';
+                  const productUrl = revEl.getAttribute('data-product-url') || '';
 
+                  if (reviewId) seenReviewIds.add(reviewId);
                   loadedAuthors.push(author.toLowerCase());
 
                   const card = this.createReviewCard({
@@ -216,23 +335,20 @@ if (!customElements.get('testimonials-slider')) {
                     quote: body || title || '',
                     author,
                     verified,
-                    productTitle: this.section?.dataset.currentProductTitle || '',
+                    productTitle,
+                    productUrl,
                     isUserSubmission: false
                   });
                   this.grid.appendChild(card);
                 });
-
-                this.deduplicateLocalReviews(loadedAuthors);
-                this.updateCards();
-                this.createDots();
-                this.updateState();
-                return;
               }
             }
           }
         }
 
-        // Strategy 2: Query Judge.me featured_carousel widget (loads all approved reviews including store reviews)
+        // Strategy 2: Query Judge.me featured_carousel widget
+        // If on product page with filterCurrentProduct: ONLY keep reviews belonging to this product!
+        // If not filtering by product: show all reviews.
         const carouselUrl = `https://judge.me/api/v1/widgets/featured_carousel?api_token=${encodeURIComponent(judgemeToken)}&shop_domain=${encodeURIComponent(shopDomain)}`;
         const carouselRes = await fetch(carouselUrl);
         if (carouselRes.ok) {
@@ -243,16 +359,32 @@ if (!customElements.get('testimonials-slider')) {
             const items = doc.querySelectorAll('.jdgm-carousel-item');
 
             if (items && items.length > 0) {
-              if (emptyState) emptyState.style.display = 'none';
-
               items.forEach((itemEl) => {
+                const reviewId = itemEl.getAttribute('data-review-id');
+                if (reviewId && seenReviewIds.has(reviewId)) return;
+
+                const prodImg = itemEl.querySelector('.jdgm-carousel-item__product-image');
+                const rawProductTitle = prodImg ? prodImg.getAttribute('alt') : (itemEl.classList.contains('jdgm--shop-review') ? 'CONTRARIO BRAND' : '');
+                const productTitle = this.decodeHtml(rawProductTitle || '');
+                const productLinkEl = itemEl.querySelector('a');
+                const productUrl = productLinkEl ? productLinkEl.getAttribute('href') : '';
+
+                if (isProductPage && filterCurrentProduct) {
+                  const isMatch = this.isMatchForCurrentProduct({
+                    productTitle,
+                    productUrl
+                  });
+                  if (!isMatch) {
+                    return; // Skip review from different product!
+                  }
+                }
+
                 const starsCount = itemEl.querySelectorAll('.jdgm-star.jdgm--on').length || 5;
                 const author = itemEl.querySelector('.jdgm-carousel-item__reviewer-name')?.textContent?.trim() || 'Customer';
                 const title = itemEl.querySelector('.jdgm-carousel-item__review-title')?.textContent?.trim() || '';
                 const body = itemEl.querySelector('.jdgm-carousel-item__review-body')?.textContent?.trim() || '';
-                const prodImg = itemEl.querySelector('.jdgm-carousel-item__product-image');
-                const productTitle = prodImg ? prodImg.getAttribute('alt') : (itemEl.classList.contains('jdgm--shop-review') ? 'CONTRARIO BRAND' : '');
 
+                if (reviewId) seenReviewIds.add(reviewId);
                 loadedAuthors.push(author.toLowerCase());
 
                 const card = this.createReviewCard({
@@ -261,18 +393,26 @@ if (!customElements.get('testimonials-slider')) {
                   author,
                   verified: true,
                   productTitle,
+                  productUrl,
                   isUserSubmission: false
                 });
                 this.grid.appendChild(card);
               });
-
-              this.deduplicateLocalReviews(loadedAuthors);
-              this.updateCards();
-              this.createDots();
-              this.updateState();
             }
           }
         }
+
+        this.deduplicateLocalReviews(loadedAuthors);
+        this.updateCards();
+
+        if (this.cards.length > 0) {
+          if (emptyState) emptyState.style.display = 'none';
+        } else {
+          if (emptyState) emptyState.style.display = 'flex';
+        }
+
+        this.createDots();
+        this.updateState();
       } catch (err) {
         console.warn('Judge.me reviews fetch error:', err);
       }
@@ -573,12 +713,18 @@ document.addEventListener('DOMContentLoaded', () => {
           form.style.display = 'none';
 
           // 4. Save review in localStorage
+          const isProductPage = section?.dataset.isProductPage === 'true';
+          const filterCurrentProduct = section?.dataset.filterCurrentProduct === 'true';
+          const slider = section?.querySelector('testimonials-slider');
+          const resolvedProductUrl = isProductPage ? window.location.pathname : (slider ? slider.getProductUrl(productTitle) : '');
+
           const newReview = {
             author,
             quote,
             rating,
             productTitle: productTitle || '',
             productId: productId || '',
+            productUrl: resolvedProductUrl,
             createdAt: Date.now(),
           };
 
@@ -591,20 +737,30 @@ document.addEventListener('DOMContentLoaded', () => {
           localStorage.setItem('contrario_user_reviews', JSON.stringify(list));
 
           // 5. Update slider immediately
-          const slider = section?.querySelector('testimonials-slider');
           if (slider) {
-            const newCard = slider.createReviewCard({
-              rating,
-              quote,
-              author: author || 'You',
-              verified: true,
-              productTitle: productTitle || '',
-              isUserSubmission: true
+            const isMatch = !isProductPage || !filterCurrentProduct || slider.isMatchForCurrentProduct({
+              productId,
+              productTitle,
+              productUrl: resolvedProductUrl
             });
-            slider.grid.prepend(newCard);
-            slider.updateCards();
-            slider.createDots();
-            slider.updateState();
+
+            if (isMatch) {
+              const newCard = slider.createReviewCard({
+                rating,
+                quote,
+                author: author || 'You',
+                verified: true,
+                productTitle: productTitle || '',
+                productUrl: resolvedProductUrl,
+                isUserSubmission: true
+              });
+              slider.grid.prepend(newCard);
+              const emptyState = slider.track.querySelector('.tc-empty-state');
+              if (emptyState) emptyState.style.display = 'none';
+              slider.updateCards();
+              slider.createDots();
+              slider.updateState();
+            }
           }
 
           // Auto-close modal after 3 seconds without altering page URL
