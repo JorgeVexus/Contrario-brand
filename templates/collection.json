@@ -19,7 +19,7 @@
             "image_height": 650,
             "image_height_mobile": 500,
             "image_fit": "cover",
-            "image_position": "bottom",
+            "image_position": "top",
             "border_radius": 0,
             "show_overlay": true,
             "overlay_color": "#000000",
