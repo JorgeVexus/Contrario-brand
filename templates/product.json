@@ -44,6 +44,7 @@
             "show_dynamic_checkout": true,
             "show_direct_buy_now": true,
             "buy_now_label": "Buy it now",
+            "show_apple_pay_alongside": true,
             "show_gift_card_recipient": true
           }
         },

@@ -28,6 +28,7 @@ if (!customElements.get('product-form')) {
         if (document.querySelector('cart-drawer') && this.submitButton) this.submitButton.setAttribute('aria-haspopup', 'dialog');
 
         this.hideErrors = this.dataset.hideErrors === 'true';
+        this.initApplePaySlot();
       }
 
       onSubmitHandler(evt) {
@@ -161,13 +162,33 @@ if (!customElements.get('product-form')) {
         }
       }
 
+      initApplePaySlot() {
+        const applePayContainer = this.querySelector('.product-form__apple-pay-container');
+        const buyNowWrapper = this.querySelector('.product-form__buy-now-wrapper');
+        if (!applePayContainer || !buyNowWrapper) return;
+
+        try {
+          if (window.ApplePaySession && window.ApplePaySession.canMakePayments && window.ApplePaySession.canMakePayments()) {
+            applePayContainer.style.removeProperty('display');
+            buyNowWrapper.classList.add('apple-pay-active');
+          }
+        } catch (err) {
+          console.debug('Apple Pay check:', err);
+        }
+      }
+
       toggleSubmitButton(disable = true, text) {
+        const applePayContainer = this.querySelector('.product-form__apple-pay-container');
         if (disable) {
           this.submitButton?.setAttribute('disabled', 'disabled');
           if (text && this.submitButtonText) this.submitButtonText.textContent = text;
           if (this.buyNowButton) {
             this.buyNowButton.setAttribute('disabled', 'disabled');
             if (text && this.buyNowButtonText) this.buyNowButtonText.textContent = text;
+          }
+          if (applePayContainer) {
+            applePayContainer.style.pointerEvents = 'none';
+            applePayContainer.style.opacity = '0.5';
           }
         } else {
           this.submitButton?.removeAttribute('disabled');
@@ -177,6 +198,10 @@ if (!customElements.get('product-form')) {
             if (this.buyNowButtonText) {
               this.buyNowButtonText.textContent = this.buyNowButton.dataset.defaultText || 'Buy it now';
             }
+          }
+          if (applePayContainer) {
+            applePayContainer.style.pointerEvents = '';
+            applePayContainer.style.opacity = '';
           }
         }
       }
