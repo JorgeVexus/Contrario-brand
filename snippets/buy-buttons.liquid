@@ -18,9 +18,28 @@
         assign gift_card_recipient_feature_active = true
       endif
 
+      assign show_direct_buy_now = false
+      if block.settings.show_direct_buy_now
+        assign show_direct_buy_now = true
+      endif
+
       assign show_dynamic_checkout = false
-      if block.settings.show_dynamic_checkout and gift_card_recipient_feature_active == false
+      if block.settings.show_dynamic_checkout and show_direct_buy_now == false and gift_card_recipient_feature_active == false
         assign show_dynamic_checkout = true
+      endif
+
+      assign has_second_button = false
+      if show_dynamic_checkout or show_direct_buy_now
+        assign has_second_button = true
+      endif
+
+      assign default_buy_now_text = 'Buy it now'
+      if request.locale.iso_code == 'es'
+        assign default_buy_now_text = 'Comprar ahora'
+      endif
+      assign buy_now_text = block.settings.buy_now_label
+      if buy_now_text == blank
+        assign buy_now_text = default_buy_now_text
       endif
     -%}
 
@@ -74,7 +93,7 @@
             id="ProductSubmitButton-{{ section_id }}"
             type="submit"
             name="add"
-            class="product-form__submit button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
+            class="product-form__submit button button--full-width {% if has_second_button %}button--secondary{% else %}button--primary{% endif %}"
             {% if product.selected_or_first_available_variant.available == false
               or quantity_rule_soldout
               or product.selected_or_first_available_variant == null
@@ -93,7 +112,33 @@
             </span>
             {%- render 'loading-spinner' -%}
           </button>
-          {%- if show_dynamic_checkout -%}
+          {%- if show_direct_buy_now -%}
+            <button
+              id="BuyNowButton-{{ section_id }}"
+              type="submit"
+              name="buy-now"
+              data-action="buy-now"
+              data-default-text="{{ buy_now_text | escape }}"
+              class="product-form__submit product-form__buy-now button button--full-width button--primary"
+              {% if product.selected_or_first_available_variant.available == false
+                or quantity_rule_soldout
+                or product.selected_or_first_available_variant == null
+              %}
+                disabled
+              {% endif %}
+            >
+              <span>
+                {%- if product.selected_or_first_available_variant == null -%}
+                  {{ 'products.product.unavailable' | t }}
+                {%- elsif product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
+                  {{ 'products.product.sold_out' | t }}
+                {%- else -%}
+                  {{ buy_now_text }}
+                {%- endif -%}
+              </span>
+              {%- render 'loading-spinner' -%}
+            </button>
+          {%- elsif show_dynamic_checkout -%}
             {{ form | payment_button }}
           {%- endif -%}
         </div>

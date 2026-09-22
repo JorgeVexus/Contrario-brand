@@ -194,7 +194,9 @@ product-info {
 }
 
 .product-form__submit[aria-disabled='true'] + .shopify-payment-button .shopify-payment-button__button[disabled],
-.product-form__submit[disabled] + .shopify-payment-button .shopify-payment-button__button[disabled] {
+.product-form__submit[disabled] + .shopify-payment-button .shopify-payment-button__button[disabled],
+.product-form__buy-now[aria-disabled='true'],
+.product-form__buy-now[disabled] {
   cursor: not-allowed;
   opacity: 0.5;
 }

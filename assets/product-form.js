@@ -9,30 +9,54 @@ if (!customElements.get('product-form')) {
         this.variantIdInput.disabled = false;
         this.form.addEventListener('submit', this.onSubmitHandler.bind(this));
         this.cart = document.querySelector('cart-notification') || document.querySelector('cart-drawer');
-        this.submitButton = this.querySelector('[type="submit"]');
-        this.submitButtonText = this.submitButton.querySelector('span');
+        this.submitButton = this.querySelector('[name="add"]') || this.querySelector('[type="submit"]');
+        this.submitButtonText = this.submitButton?.querySelector('span');
+        this.buyNowButton = this.querySelector('[data-action="buy-now"]');
+        this.buyNowButtonText = this.buyNowButton?.querySelector('span');
 
-        if (document.querySelector('cart-drawer')) this.submitButton.setAttribute('aria-haspopup', 'dialog');
+        if (this.submitButton) {
+          this.submitButton.addEventListener('click', () => {
+            this._clickedSubmitter = this.submitButton;
+          });
+        }
+        if (this.buyNowButton) {
+          this.buyNowButton.addEventListener('click', () => {
+            this._clickedSubmitter = this.buyNowButton;
+          });
+        }
+
+        if (document.querySelector('cart-drawer') && this.submitButton) this.submitButton.setAttribute('aria-haspopup', 'dialog');
 
         this.hideErrors = this.dataset.hideErrors === 'true';
       }
 
       onSubmitHandler(evt) {
         evt.preventDefault();
-        if (this.submitButton.getAttribute('aria-disabled') === 'true') return;
+        const submitter = evt.submitter || this._clickedSubmitter || this.submitButton;
+        const isBuyNow = (submitter && (submitter.dataset.action === 'buy-now' || submitter.name === 'buy-now')) || false;
+        const activeBtn = submitter || this.submitButton;
+
+        if (activeBtn && (activeBtn.getAttribute('aria-disabled') === 'true' || activeBtn.disabled)) return;
 
         this.handleErrorMessage();
 
-        this.submitButton.setAttribute('aria-disabled', true);
-        this.submitButton.classList.add('loading');
-        this.querySelector('.loading__spinner').classList.remove('hidden');
+        if (activeBtn) {
+          activeBtn.setAttribute('aria-disabled', true);
+          activeBtn.classList.add('loading');
+          activeBtn.querySelector('.loading__spinner')?.classList.remove('hidden');
+        }
 
         const config = fetchConfig('javascript');
         config.headers['X-Requested-With'] = 'XMLHttpRequest';
         delete config.headers['Content-Type'];
 
         const formData = new FormData(this.form);
-        if (this.cart) {
+        if (!formData.has('quantity')) {
+          const externalQty = document.querySelector(`input[name="quantity"][form="${this.form.id}"]`);
+          if (externalQty) formData.append('quantity', externalQty.value);
+        }
+
+        if (!isBuyNow && this.cart) {
           formData.append(
             'sections',
             this.cart.getSectionsToRender().map((section) => section.id)
@@ -54,14 +78,25 @@ if (!customElements.get('product-form')) {
               });
               this.handleErrorMessage(response.description);
 
-              const soldOutMessage = this.submitButton.querySelector('.sold-out-message');
-              if (!soldOutMessage) return;
-              this.submitButton.setAttribute('aria-disabled', true);
-              this.submitButtonText.classList.add('hidden');
-              soldOutMessage.classList.remove('hidden');
+              if (activeBtn) {
+                const soldOutMessage = activeBtn.querySelector('.sold-out-message');
+                if (soldOutMessage) {
+                  activeBtn.setAttribute('aria-disabled', true);
+                  const span = activeBtn.querySelector('span');
+                  span?.classList.add('hidden');
+                  soldOutMessage.classList.remove('hidden');
+                }
+              }
               this.error = true;
               return;
-            } else if (!this.cart) {
+            }
+
+            if (isBuyNow) {
+              window.location.href = window.routes?.cart_checkout_url || '/checkout';
+              return;
+            }
+
+            if (!this.cart) {
               window.location = window.routes.cart_url;
               return;
             }
@@ -100,10 +135,12 @@ if (!customElements.get('product-form')) {
             console.error(e);
           })
           .finally(() => {
-            this.submitButton.classList.remove('loading');
+            if (activeBtn) {
+              activeBtn.classList.remove('loading');
+              if (!this.error) activeBtn.removeAttribute('aria-disabled');
+              activeBtn.querySelector('.loading__spinner')?.classList.add('hidden');
+            }
             if (this.cart && this.cart.classList.contains('is-empty')) this.cart.classList.remove('is-empty');
-            if (!this.error) this.submitButton.removeAttribute('aria-disabled');
-            this.querySelector('.loading__spinner').classList.add('hidden');
 
             CartPerformance.measureFromEvent("add:user-action", evt);
           });
@@ -126,11 +163,21 @@ if (!customElements.get('product-form')) {
 
       toggleSubmitButton(disable = true, text) {
         if (disable) {
-          this.submitButton.setAttribute('disabled', 'disabled');
-          if (text) this.submitButtonText.textContent = text;
+          this.submitButton?.setAttribute('disabled', 'disabled');
+          if (text && this.submitButtonText) this.submitButtonText.textContent = text;
+          if (this.buyNowButton) {
+            this.buyNowButton.setAttribute('disabled', 'disabled');
+            if (text && this.buyNowButtonText) this.buyNowButtonText.textContent = text;
+          }
         } else {
-          this.submitButton.removeAttribute('disabled');
-          this.submitButtonText.textContent = window.variantStrings.addToCart;
+          this.submitButton?.removeAttribute('disabled');
+          if (this.submitButtonText) this.submitButtonText.textContent = window.variantStrings.addToCart;
+          if (this.buyNowButton) {
+            this.buyNowButton.removeAttribute('disabled');
+            if (this.buyNowButtonText) {
+              this.buyNowButtonText.textContent = this.buyNowButton.dataset.defaultText || 'Buy it now';
+            }
+          }
         }
       }
 
