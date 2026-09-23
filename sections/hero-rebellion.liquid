@@ -9,11 +9,36 @@
     assign fetch_priority = 'high'
     assign image_loading = 'eager'
   endif
+
+  assign focal_y = '12%'
+  case section.settings.focal_point_preset
+    when 'top'
+      assign focal_y = '0%'
+    when 'upper'
+      assign focal_y = '12%'
+    when 'center'
+      assign focal_y = '50%'
+    when 'bottom'
+      assign focal_y = '100%'
+    when 'custom'
+      if section.settings.focal_point_y != blank
+        assign focal_y = section.settings.focal_point_y | append: '%'
+      else
+        assign focal_y = '12%'
+      endif
+    else
+      if section.settings.focal_point_y != blank
+        assign focal_y = section.settings.focal_point_y | append: '%'
+      else
+        assign focal_y = '12%'
+      endif
+  endcase
 -%}
 
 {%- style -%}
   #HeroRebellion-{{ section.id }} {
     --hero-rebellion-image-opacity: {{ section.settings.image_opacity | divided_by: 100.0 }};
+    --hero-rebellion-focal-y: {{ focal_y }};
     padding-top: {{ section.settings.padding_top }}px;
     padding-bottom: {{ section.settings.padding_bottom }}px;
   }
@@ -25,41 +50,111 @@
 >
   <div class="hero-rebellion__media">
     {%- if section.settings.video != blank -%}
+      {%- liquid
+        assign desktop_video = section.settings.video
+        assign desktop_mp4_sources = desktop_video.sources | where: 'format', 'mp4' | sort: 'width' | reverse
+        assign desktop_other_sources = desktop_video.sources | where: 'format', 'm3u8'
+        assign desktop_poster = desktop_image | default: desktop_video.preview_image
+      -%}
       {%- if section.settings.video_mobile != blank -%}
-        {{
-          section.settings.video
-          | video_tag:
-            image_size: '2048x',
-            autoplay: true,
-            loop: true,
-            muted: true,
-            controls: false,
-            playsinline: true,
-            class: 'hero-rebellion__video hero-rebellion__video--desktop'
-        }}
-        {{
-          section.settings.video_mobile
-          | video_tag:
-            image_size: '1080x',
-            autoplay: true,
-            loop: true,
-            muted: true,
-            controls: false,
-            playsinline: true,
-            class: 'hero-rebellion__video hero-rebellion__video--mobile'
-        }}
+        {%- liquid
+          assign mobile_video = section.settings.video_mobile
+          assign mobile_mp4_sources = mobile_video.sources | where: 'format', 'mp4' | sort: 'width' | reverse
+          assign mobile_other_sources = mobile_video.sources | where: 'format', 'm3u8'
+          assign mobile_poster = mobile_image | default: mobile_video.preview_image
+        -%}
+        {%- if desktop_mp4_sources.size > 0 -%}
+          <video
+            autoplay
+            loop
+            muted
+            playsinline
+            preload="auto"
+            class="hero-rebellion__video hero-rebellion__video--desktop"
+            {% if desktop_poster != blank %}poster="{{ desktop_poster | image_url: width: 2048 }}"{% endif %}
+          >
+            {%- for source in desktop_mp4_sources -%}
+              <source src="{{ source.url }}" type="{{ source.mime_type }}">
+            {%- endfor -%}
+            {%- for source in desktop_other_sources -%}
+              <source src="{{ source.url }}" type="{{ source.mime_type }}">
+            {%- endfor -%}
+          </video>
+        {%- else -%}
+          {{
+            desktop_video
+            | video_tag:
+              image_size: '2048x',
+              autoplay: true,
+              loop: true,
+              muted: true,
+              controls: false,
+              playsinline: true,
+              class: 'hero-rebellion__video hero-rebellion__video--desktop'
+          }}
+        {%- endif -%}
+
+        {%- if mobile_mp4_sources.size > 0 -%}
+          <video
+            autoplay
+            loop
+            muted
+            playsinline
+            preload="auto"
+            class="hero-rebellion__video hero-rebellion__video--mobile"
+            {% if mobile_poster != blank %}poster="{{ mobile_poster | image_url: width: 1080 }}"{% endif %}
+          >
+            {%- for source in mobile_mp4_sources -%}
+              <source src="{{ source.url }}" type="{{ source.mime_type }}">
+            {%- endfor -%}
+            {%- for source in mobile_other_sources -%}
+              <source src="{{ source.url }}" type="{{ source.mime_type }}">
+            {%- endfor -%}
+          </video>
+        {%- else -%}
+          {{
+            mobile_video
+            | video_tag:
+              image_size: '1080x',
+              autoplay: true,
+              loop: true,
+              muted: true,
+              controls: false,
+              playsinline: true,
+              class: 'hero-rebellion__video hero-rebellion__video--mobile'
+          }}
+        {%- endif -%}
       {%- else -%}
-        {{
-          section.settings.video
-          | video_tag:
-            image_size: '2048x',
-            autoplay: true,
-            loop: true,
-            muted: true,
-            controls: false,
-            playsinline: true,
-            class: 'hero-rebellion__video'
-        }}
+        {%- if desktop_mp4_sources.size > 0 -%}
+          <video
+            autoplay
+            loop
+            muted
+            playsinline
+            preload="auto"
+            class="hero-rebellion__video"
+            {% if desktop_poster != blank %}poster="{{ desktop_poster | image_url: width: 2048 }}"{% endif %}
+          >
+            {%- for source in desktop_mp4_sources -%}
+              <source src="{{ source.url }}" type="{{ source.mime_type }}">
+            {%- endfor -%}
+            {%- for source in desktop_other_sources -%}
+              <source src="{{ source.url }}" type="{{ source.mime_type }}">
+            {%- endfor -%}
+          </video>
+        {%- else -%}
+          {{
+            desktop_video
+            | video_tag:
+              image_size: '2048x',
+              autoplay: true,
+              loop: true,
+              muted: true,
+              controls: false,
+              playsinline: true,
+              class: 'hero-rebellion__video'
+          }}
+        {%- endif -%}
       {%- endif -%}
     {%- elsif section.settings.video_url != blank -%}
       <video
@@ -68,6 +163,7 @@
         loop
         muted
         playsinline
+        preload="auto"
         class="hero-rebellion__video"
         {% if desktop_image != blank %}poster="{{ desktop_image | image_url: width: 2048 }}"{% endif %}
       ></video>
@@ -187,6 +283,44 @@
       "id": "show_gradient",
       "label": "Show Bottom Dark Gradient",
       "default": true
+    },
+    {
+      "type": "select",
+      "id": "focal_point_preset",
+      "label": "Framing / Focal Point",
+      "options": [
+        {
+          "value": "upper",
+          "label": "Upper / Protect Head (Recommended)"
+        },
+        {
+          "value": "top",
+          "label": "Top (0%)"
+        },
+        {
+          "value": "center",
+          "label": "Center (50%)"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom (100%)"
+        },
+        {
+          "value": "custom",
+          "label": "Custom (Use Slider Below)"
+        }
+      ],
+      "default": "upper"
+    },
+    {
+      "type": "range",
+      "id": "focal_point_y",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "%",
+      "label": "Custom Vertical Position",
+      "default": 12
     },
     {
       "type": "select",

@@ -517,6 +517,7 @@
   font-family: 'JetBrains Mono', monospace;
   font-size: 14px;
   font-weight: 700;
+  appearance: textfield;
   -moz-appearance: textfield;
   outline: none;
 }

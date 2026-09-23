@@ -46,6 +46,7 @@
   width: 100%;
   height: 100%;
   z-index: 1;
+  overflow: hidden;
 }
 
 .hero-rebellion__image,
@@ -54,9 +55,13 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: 50% var(--hero-rebellion-focal-y, 12%);
   opacity: var(--hero-rebellion-image-opacity, 0.8);
   display: block;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .hero-rebellion__video--mobile {

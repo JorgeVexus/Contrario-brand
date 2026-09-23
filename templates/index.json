@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "hero_rebellion_figma": {
@@ -18,6 +9,8 @@
         "image_mobile": "shopify://shop_images/CONTRARIO_MARKETING_Gemini_3_Nano_Banana_Pro__2026-09-04_03-09-10.png",
         "image_opacity": 100,
         "show_gradient": true,
+        "focal_point_preset": "upper",
+        "focal_point_y": 12,
         "desktop_height": "large",
         "content_alignment": "center",
         "content_alignment_horizontal": "left",
