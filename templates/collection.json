@@ -16,9 +16,9 @@
           "type": "ai_gen_block_9367062",
           "settings": {
             "image": "shopify://shop_images/playground-1790305018322.jpg",
-            "image_height": 600,
+            "image_height": 500,
             "image_height_mobile": 400,
-            "image_fit": "fill",
+            "image_fit": "cover",
             "image_position": "top",
             "border_radius": 0,
             "show_overlay": true,
