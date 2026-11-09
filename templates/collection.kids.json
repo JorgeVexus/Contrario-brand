@@ -17,7 +17,7 @@
           "settings": {
             "image": "shopify://shop_images/Contrario_Kids_hero_banner_797e36b3-5c77-40a2-9693-2bc574ca3e81.jpg",
             "image_height": 800,
-            "image_height_mobile": 250,
+            "image_height_mobile": 200,
             "image_fit": "contain",
             "image_position": "top",
             "border_radius": 0,
